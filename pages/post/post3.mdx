@@ -1,0 +1,20 @@
+---
+title: My Third MDX Article
+date: 2022-09-28
+---
+
+import Article from "@/components/Article";
+
+## Sub-title 1
+
+lorem ipsum
+
+## Sub-title 2
+
+export default function MDX({ children }) {
+  return (
+    <Article title={title} date={date}>
+      {children}
+    </Article>
+  );
+}
