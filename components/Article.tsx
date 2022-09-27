@@ -13,8 +13,8 @@ export default function Article({ title, date, children }: Props) {
       <h1>{title}</h1>
       <p>{date}</p>
       <article className="prose">{children}</article>
-      <Link href={"/"}>
-        <a>Back to Home</a>
+      <Link href={"/posts"}>
+        <a>Back to List</a>
       </Link>
     </>
   );
