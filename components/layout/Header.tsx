@@ -1,15 +1,11 @@
 import Link from "next/link";
 import SocialLinks from "./SocialLinks";
 
-type Props = {
-  onClick: () => void;
-};
-
-export default function Header({ onClick }: Props) {
+export default function Header() {
   return (
-    <header className="h-[var(--header-height)] pt-8 text-2xl font-extralight flex justify-between items-center">
+    <header className="h-[var(--header-height)] pt-4 text-2xl font-extralight flex flex-shrink-0 justify-between items-center">
       <Link href={"/"}>
-        <a onClick={onClick}>@Sook</a>
+        <a>@Sook</a>
       </Link>
       <SocialLinks />
     </header>

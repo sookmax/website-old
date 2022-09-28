@@ -9,3 +9,7 @@
     --footer-height: 100px;
   }
 }
+
+#__next {
+  height: 100%;
+}

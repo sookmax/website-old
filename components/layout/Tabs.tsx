@@ -4,16 +4,15 @@ import { classNames } from "@/utils/class-names";
 import { tabs } from "./constants";
 
 type Props = {
-  currentTabId: number;
-  setCurrentTabId: React.Dispatch<React.SetStateAction<number>>;
+  currentTabId: number | undefined;
 };
 
-export default function Tabs({ currentTabId, setCurrentTabId }: Props) {
+export default function Tabs({ currentTabId }: Props) {
   return (
-    <nav className="h-[var(--nav-height)] flex space-x-4 items-end">
-      {tabs.map((tab) => {
+    <nav className="h-[var(--nav-height)] flex flex-shrink-0 space-x-4 items-end">
+      {Object.entries(tabs).map(([href, tab]) => {
         return (
-          <Link key={tab.id} href={tab.href}>
+          <Link key={tab.id} href={href}>
             <a
               className={classNames(
                 "border-b-2 font-bold",
@@ -21,7 +20,6 @@ export default function Tabs({ currentTabId, setCurrentTabId }: Props) {
                   ? "border-sky-600"
                   : "border-transparent  hover:border-gray-300"
               )}
-              onClick={() => setCurrentTabId(tab.id)}
             >
               {tab.label}
             </a>
