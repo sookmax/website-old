@@ -8,7 +8,7 @@ export default function Home() {
         <Intro />
       </section>
       <section className="space-y-4">
-        <header>My Paths</header>
+        <header className="text-sm font-light text-gray-600">Timeline</header>
         <Timeline />
       </section>
     </div>

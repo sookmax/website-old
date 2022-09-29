@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+const ICON_SIZE = 20;
+
 export default function SocialLinks() {
   return (
     <span className="flex space-x-2">
@@ -12,8 +14,8 @@ export default function SocialLinks() {
         <Image
           src="/GitHub-Mark-120px-plus.png"
           alt="github-link"
-          width={24}
-          height={24}
+          width={ICON_SIZE}
+          height={ICON_SIZE}
         />
       </a>
       <a
@@ -25,8 +27,8 @@ export default function SocialLinks() {
         <Image
           src="/In-White-128.png"
           alt="linkedin-link"
-          width={24}
-          height={24}
+          width={ICON_SIZE}
+          height={ICON_SIZE}
           style={{ filter: "invert(100%)" }}
         />
       </a>

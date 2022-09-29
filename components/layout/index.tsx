@@ -17,7 +17,7 @@ export default function Layout({ children }: Props) {
   const layoutTitle = getLayoutTitle(router.pathname);
 
   return (
-    <div className="m-auto flex h-full max-w-2xl flex-col">
+    <div className="m-auto flex h-full max-w-2xl flex-col px-12">
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
       <Header />
       <Tabs currentTabId={currentTabId} />

@@ -26,7 +26,7 @@ export default function Article({ title, date, children }: Props) {
             <span>
               <ArrowLeftCircleSVG />
             </span>
-            <span>Back to List</span>
+            <span>Back to list</span>
           </span>
         </a>
       </Link>

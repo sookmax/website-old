@@ -62,15 +62,15 @@ timeline.reverse();
 
 export default function Timeline() {
   return (
-    <ul className="space-y-5">
+    <ul className="space-y-3">
       {timeline.map((item) => (
         <li key={item.id}>
           <div className="relative">
             {item.id !== 1 ? (
-              <span className="absolute top-4 left-4 h-full w-0.5 bg-gray-200" />
+              <span className="absolute top-4 left-4 h-full w-0.5 bg-gray-300" />
             ) : null}
             <div className="relative flex w-full items-center space-x-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-500 ring-8 ring-white">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-500 ring-2 ring-white">
                 {item.icon}
               </span>
               <span className="flex flex-col">
@@ -79,7 +79,7 @@ export default function Timeline() {
                   {item.description}
                 </span>
               </span>
-              <span className="flex-grow text-end text-sm font-extralight text-gray-500">
+              <span className="flex-grow text-end text-xs font-extralight text-gray-500">
                 {item.startYear}-{item.endYear} {item.country}
               </span>
             </div>
