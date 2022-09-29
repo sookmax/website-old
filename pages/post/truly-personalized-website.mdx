@@ -6,47 +6,55 @@ date: 2022-09-26
 import Article from "@/components/Article";
 
 Even long before I became a web developer, I'd always wanted to have my personal website.
-To me, there was always something magical about public websites in a sense that
+
+To me, there was always something magical about websites in a sense that
 they can be accessed from anywhere at anytime with any device supporting a web browser.
 
-Unfortunately back then, I virtually had no idea how internet worked&mdash;other than well,
-typing a domain name in the address bar. Even when I finally started to slowly understand
-how things work on the internet, stuff like styling a website to my taste, adding interactivity and animations to it, hosting it somewhere
-with a custom domain name, configuring SSL, etc. still was a big hurdle.
+A personal website is also very different from social media platforms in that
+its contents are, in general, _minimally_ exposed&mdash;they don't show up in someone else's feed
+just because you write them.
 
-So inevitably I fell into this bad cycle of looking for one of those "battery-included" solutions for creating a website, playing and tinkering with the framework for some time,
-and eventually abandoning the project due to the limited degrees of freedom in terms of customization.
-They just didn't feel like _my own website_.
+This feature of being minimally exposed while publically accessible makes a personalized website very attractive&mdash;I can
+write my own thoughts and opinions without feeling as self-conscious as I would when posting something on social media.
 
-This was clearly not working.
+As much as I'd like to go ahead and set up a personal website already, my journey of doing so has not always been satisfactory&mdash;most of the time, I've felt frustrated
+when the solution or the framework that I went with to make my website didn't allow me to make changes to the contents, the style or the layout of the website with complete freedom.
 
-The only way to have a complete control over a website was to dive into lower levels of abstractions,
-and gather tools and ingredients of my own choice, and come up with my own recipe.
+There always seemed to be some kind of restrictions.
 
-After some time passed while I was busy learning `React.js`, I accidentally stumbled upon `Next.js` website.
-At first sight, I didn't really grasp what it was for, so I decided to give it a shot and followed their tutorial.
+I mean, how can you call something your own if you don't have a full control over it?
+
+What I wanted was my _own_ website.
+
+Then, I came to the conclusion that the only legitimate way to make my dream come true was to dive further down into lower levels of abstractions,
+and gather tools and ingredients of my own choice, and come up with my own recipe to build a website.
+
+After some time passed while I was busy learning `React.js` for the first time, I accidentally stumbled upon `Next.js` website.
+At first sight, I didn't really grasp what it existed for, so I decided to give it a shot and followed their tutorial.
 
 And there, I found a glimpse of hope that showed me how it was possible to write a text content in a `markdown` and
-load it as a React Component. It was an eye-opening experience for me since
-it had always been unclear how markdown files were eventually transformed into html document at the end of the process&mdash;later
-I learned the transformations were actually carried by `unified` processor and its wonderful plugin ecosystems such as `remark`, `rehype` and powerful `MDX`.
+load it as a React Component.
+
+It was an eye-opening experience for me since
+it had always been unclear how markdown files were eventually transformed into html document at the end of the build process of aforementioned solutions&mdash;later
+I learned the transformations were actually carried by `unified` processor and its wonderful plugin ecosystems such as `remark`, `rehype` and `MDX`.
 
 In a similar time period, I also discovered this incredible open source project
-called `tailwindcss`. It's not "battery-included" at all, but provides a lot of useful utility classes that are
-essentially as low level as each individual CSS property. `tailwindcss` empowers you to create your own "battery" with a superior DX compared to
-writing plain CSS.
+called `tailwindcss`. It does not give you any ready-made widgets and components per se, but it provides a lot of useful utility classes that are
+essentially as low level as each individual CSS property. `tailwindcss` empowers you to create your own said widgets and components with a superior DX
+compared to writing plain CSS&mdash;I actually learned a lot more about CSS while using `tailwindcss`.
 
-Okay! so it seems like I've found all the right ingredients to create a truly personalized website:
+So it seems like _finally_ I've found all the right ingredients to create a truly personalized website:
 
 - `React.js` for creating a dynamic and interactive web page.
 - `Next.js / Vercel` for all the web optimizations, efficient deployment and web infrastructure.
-- `tailwindcss` for superior styling experience.
-- `MDX` for superior content writing.
+- `tailwindcss` for styling.
+- `MDX` for content writing.
 
 It actually took me quite a while to put them all together, but it was all worthwhile since
 now I have a full control over my own website.
 
-I feel like I own a small corner of this vast surface of the internet. How cool is that?
+Now I'm a happy man.
 
 export default function MDX({ children }) {
   return (
