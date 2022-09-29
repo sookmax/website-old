@@ -8,6 +8,7 @@ const nextConfig = {
   swcMinify: true,
   // Append the default value with md extensions
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  trailingSlash: true,
 };
 
 const withMDX = createMDX({

@@ -23,19 +23,11 @@ export default function Document() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta
-          property="og:url"
-          content="https://tailwindcss.com/docs/customizing-colors"
-        ></meta>
         <meta property="og:type" content="website"></meta>
         <meta property="og:title" content="Sook's website" />
         <meta
           property="og:description"
           content="Hello, I'm Sook. Thanks for visiting my website!"
-        />
-        <meta
-          property="og:image"
-          content="https://www.sook.dev/ready_player_me_avatar.png"
         />
       </Head>
       <body className="h-full flex flex-col">
