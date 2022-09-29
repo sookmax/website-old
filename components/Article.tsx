@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import Link from "next/link";
 import ArrowLeftCircleSVG from "./icons/ArrowLeftCircleSVG";
 
@@ -11,6 +12,9 @@ type Props = {
 export default function Article({ title, date, children }: Props) {
   return (
     <div className="space-y-12">
+      <Head>
+        <title>{title}</title>
+      </Head>
       <header className="flex flex-col justify-between items-start space-y-2">
         <h1 className="text-4xl">{title}</h1>
         <p className="text-sm text-gray-400">{date}</p>
