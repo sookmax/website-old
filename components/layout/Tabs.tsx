@@ -9,7 +9,7 @@ type Props = {
 
 export default function Tabs({ currentTabId }: Props) {
   return (
-    <nav className="h-[var(--nav-height)] flex flex-shrink-0 space-x-4 items-end">
+    <nav className="flex h-[var(--nav-height)] flex-shrink-0 items-end space-x-4">
       {Object.entries(tabs).map(([href, tab]) => {
         return (
           <Link key={tab.id} href={href}>

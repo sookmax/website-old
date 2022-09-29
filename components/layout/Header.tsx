@@ -3,7 +3,7 @@ import SocialLinks from "./SocialLinks";
 
 export default function Header() {
   return (
-    <header className="h-[var(--header-height)] pt-4 text-2xl font-extralight flex flex-shrink-0 justify-between items-center">
+    <header className="flex h-[var(--header-height)] flex-shrink-0 items-center justify-between pt-4 text-2xl font-extralight">
       <Link href={"/"}>
         <a>@Sook</a>
       </Link>

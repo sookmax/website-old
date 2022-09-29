@@ -30,7 +30,7 @@ export default function Document() {
           content="Hello, I'm Sook. Thanks for visiting my website!"
         />
       </Head>
-      <body className="h-full flex flex-col">
+      <body className="flex h-full flex-col">
         <Main />
         <NextScript />
       </body>

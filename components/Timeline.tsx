@@ -69,12 +69,12 @@ export default function Timeline() {
             {item.id !== 1 ? (
               <span className="absolute top-4 left-4 h-full w-0.5 bg-gray-200" />
             ) : null}
-            <div className="relative flex items-center w-full space-x-4">
-              <span className="h-8 w-8 flex items-center justify-center bg-white rounded-full ring-8 ring-white text-gray-500">
+            <div className="relative flex w-full items-center space-x-4">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-500 ring-8 ring-white">
                 {item.icon}
               </span>
               <span className="flex flex-col">
-                <span className="font-extralight text-sm">{item.title}</span>
+                <span className="text-sm font-extralight">{item.title}</span>
                 <span className="text-xs text-gray-400">
                   {item.description}
                 </span>

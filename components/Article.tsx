@@ -15,14 +15,14 @@ export default function Article({ title, date, children }: Props) {
       <Head>
         <title>{title}</title>
       </Head>
-      <header className="flex flex-col justify-between items-start space-y-2">
+      <header className="flex flex-col items-start justify-between space-y-2">
         <h1 className="text-4xl">{title}</h1>
         <p className="text-sm text-gray-400">{date}</p>
       </header>
       <article className="prose">{children}</article>
       <Link href={"/posts"}>
         <a className="block">
-          <span className="flex items-center space-x-1 text-gray-400 font-light text-sm">
+          <span className="flex items-center space-x-1 text-sm font-light text-gray-400">
             <span>
               <ArrowLeftCircleSVG />
             </span>

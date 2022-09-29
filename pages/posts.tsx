@@ -18,7 +18,7 @@ export default function Posts({ postMetaList }: Props) {
         <li key={mData.slug}>
           <Link href={`/post/${mData.slug}`}>
             <a className="space-x-6">
-              <span className="font-extralight text-sm">{mData.date}</span>
+              <span className="text-sm font-extralight">{mData.date}</span>
               <span className="font-bold">{mData.title}</span>
             </a>
           </Link>
