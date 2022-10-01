@@ -7,10 +7,17 @@ type Props = {
   title: string;
   date: string;
   readTime: number;
+  lastModified: string;
   children: React.ReactNode;
 };
 
-export default function Article({ title, date, readTime, children }: Props) {
+export default function Article({
+  title,
+  date,
+  readTime,
+  lastModified,
+  children,
+}: Props) {
   const readTimeText =
     readTime > 0 ? `${readTime} min read` : `less than 1 min read`;
 
@@ -21,9 +28,13 @@ export default function Article({ title, date, readTime, children }: Props) {
       </Head>
       <header className="flex flex-col items-start justify-between space-y-2">
         <h1 className="w-full text-2xl sm:text-4xl">{title}</h1>
-        <p className="flex w-full justify-between">
-          <span className="text-sm text-gray-400">{readTimeText}</span>
-          <span className="text-sm text-gray-400">{date}</span>
+        <p className="flex w-full flex-col justify-between text-xs text-gray-400 sm:flex-row sm:text-sm">
+          <span className="flex items-center space-x-1">
+            <span>{readTimeText}</span>
+            <span>·</span>
+            <span>{date}</span>
+          </span>
+          <span>Last modified: {lastModified}</span>
         </p>
       </header>
       <article className="prose">{children}</article>

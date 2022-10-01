@@ -44,11 +44,7 @@ export default function Posts({ postMetaList }: Props) {
 export const getStaticProps: GetStaticProps<Props> = () => {
   return {
     props: {
-      postMetaList: getAllPostMetadata().map((mData) => ({
-        slug: mData.slug,
-        title: mData.title,
-        date: mData.date.toLocaleDateString(),
-      })),
+      postMetaList: getAllPostMetadata(),
     },
   };
 };

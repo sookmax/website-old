@@ -3,6 +3,11 @@ import path from "path";
 import matter from "gray-matter";
 
 const DIR_POSTS = path.join(process.cwd(), "pages", "post");
+const DATE_FORMAT: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+};
 
 export function getAllPostMetadata() {
   const slugs = getSlugs();
@@ -25,7 +30,11 @@ export function getAllPostMetadata() {
     }
   });
 
-  return metadata;
+  return metadata.map((mData) => ({
+    slug: mData.slug,
+    title: mData.title,
+    date: mData.date.toLocaleDateString(undefined, DATE_FORMAT),
+  }));
 }
 
 function getSlugs() {
@@ -79,4 +88,14 @@ function getAbsolutePaths() {
     .readdirSync(DIR_POSTS)
     .filter((fName) => !fName.startsWith("_"))
     .map((fName) => path.join(DIR_POSTS, fName));
+}
+
+export function getLastModifiedDate(slug: string) {
+  const path = getAbsolutePath(slug);
+  return fs.statSync(path).mtime.toLocaleDateString(undefined, DATE_FORMAT);
+}
+
+export function getDate(slug: string) {
+  const path = getAbsolutePath(slug);
+  return getMatterResult(path).date.toLocaleDateString(undefined, DATE_FORMAT);
 }

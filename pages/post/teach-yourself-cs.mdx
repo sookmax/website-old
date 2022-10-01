@@ -7,11 +7,21 @@ date: 2022-10-01
 
 import Article from "@/components/Article";
 import { GetStaticProps } from "next";
-import { getSlugFromTitle, getReadTime } from "@/server-scripts/post";
+import {
+  getSlugFromTitle,
+  getReadTime,
+  getDate,
+  getLastModifiedDate,
+} from "@/server-scripts/post";
 
-export default function MDX({ readTime, children }) {
+export default function MDX({ date, readTime, lastModified, children }) {
   return (
-    <Article title={title} date={date} readTime={readTime}>
+    <Article
+      title={title}
+      date={date}
+      readTime={readTime}
+      lastModified={lastModified}
+    >
       {children}
     </Article>
   );
@@ -20,7 +30,13 @@ export default function MDX({ readTime, children }) {
 export const getStaticProps = (context) => {
   const slug = getSlugFromTitle(title);
   if (slug) {
-    return { props: { readTime: getReadTime(slug) } };
+    return {
+      props: {
+        date: getDate(slug),
+        readTime: getReadTime(slug),
+        lastModified: getLastModifiedDate(slug),
+      },
+    };
   }
   return { props: { readTime: 0 } };
 };
