@@ -20,9 +20,7 @@ export default function Article({ title, date, readTime, children }: Props) {
         <title>{title}</title>
       </Head>
       <header className="flex flex-col items-start justify-between space-y-2">
-        <h1 className="w-full border-b-2 border-sky-600 pb-2 text-2xl sm:text-4xl">
-          {title}
-        </h1>
+        <h1 className="w-full text-2xl sm:text-4xl">{title}</h1>
         <p className="flex w-full justify-between">
           <span className="text-sm text-gray-400">{readTimeText}</span>
           <span className="text-sm text-gray-400">{date}</span>

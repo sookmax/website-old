@@ -13,5 +13,12 @@ export const tabs: Tabs = {
 };
 
 export function getTabIdByPath(path: string) {
+  if (isArticlePath(path)) {
+    return tabs["/posts"]?.id;
+  }
   return tabs[path]?.id;
+}
+
+export function isArticlePath(path: string) {
+  return /\/post\//.test(path);
 }
