@@ -64,7 +64,7 @@ function getMatterResult(path: string) {
 }
 
 const excludeRegex = /import[\s\S]*$/;
-const wordsPerMinute = 200;
+const wordsPerMinute = 150;
 
 export function getReadTime(slug: string) {
   const path = getAbsolutePath(slug);
