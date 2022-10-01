@@ -1,9 +1,7 @@
 ---
-title: (truly) Personalized website
+title: Truly personalized website
 date: 2022-09-26
 ---
-
-import Article from "@/components/Article";
 
 Even long before I became a web developer, I'd always wanted to have my personal website.
 
@@ -56,10 +54,30 @@ now I have a full control over my own website.
 
 Now I'm a happy man.
 
-export default function MDX({ children }) {
+---
+
+Credits for design inspiration
+
+- [houzhi.im](https://huozhi.im/)
+- [Guillermo Rauch's blog](https://rauchg.com/)
+- [Jared Palmer](https://jaredpalmer.com/)
+
+import Article from "@/components/Article";
+import { GetStaticProps } from "next";
+import { getSlugFromTitle, getReadTime } from "@/server-scripts/post";
+
+export default function MDX({ readTime, children }) {
   return (
-    <Article title={title} date={date}>
+    <Article title={title} date={date} readTime={readTime}>
       {children}
     </Article>
   );
 }
+
+export const getStaticProps = (context) => {
+  const slug = getSlugFromTitle(title);
+  if (slug) {
+    return { props: { readTime: getReadTime(slug) } };
+  }
+  return { props: { readTime: 0 } };
+};

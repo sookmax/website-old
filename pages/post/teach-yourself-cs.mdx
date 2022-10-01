@@ -1,20 +1,26 @@
 ---
 title: Teach yourself CS
-date: 2022-09-28
+date: 2022-10-01
 ---
 
+## Start writing here
+
 import Article from "@/components/Article";
+import { GetStaticProps } from "next";
+import { getSlugFromTitle, getReadTime } from "@/server-scripts/post";
 
-## Sub-title 1
-
-lorem ipsum
-
-## Sub-title 2
-
-export default function MDX({ children }) {
+export default function MDX({ readTime, children }) {
   return (
-    <Article title={title} date={date}>
+    <Article title={title} date={date} readTime={readTime}>
       {children}
     </Article>
   );
 }
+
+export const getStaticProps = (context) => {
+  const slug = getSlugFromTitle(title);
+  if (slug) {
+    return { props: { readTime: getReadTime(slug) } };
+  }
+  return { props: { readTime: 0 } };
+};
