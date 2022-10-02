@@ -23,7 +23,7 @@ export default function Layout({ children }: Props) {
   }, []);
 
   return (
-    <div className="max-w-2xl">
+    <div className="m-auto max-w-2xl">
       {/* {userAgent ? <div>{userAgent}</div> : null} */}
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
       {isArticlePath(router.pathname) ? (
