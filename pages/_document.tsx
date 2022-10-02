@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="h-full">
+    <Html className="h-full w-full">
       <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <link

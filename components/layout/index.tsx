@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Tabs from "./Tabs";
@@ -16,14 +16,25 @@ export default function Layout({ children }: Props) {
   const currentTabId = getTabIdByPath(router.pathname);
   const layoutTitle = getLayoutTitle(router.pathname);
 
+  const [userAgent, setUserAgent] = useState("");
+
+  useEffect(() => {
+    setUserAgent(window.navigator.userAgent);
+  }, []);
+
   return (
-    <div className="m-auto flex h-full max-w-2xl flex-col px-12">
+    <div className="max-w-2xl">
+      {/* {userAgent ? <div>{userAgent}</div> : null} */}
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
-      {isArticlePath(router.pathname) ? <ReadProgressBar /> : null}
-      <Header />
-      <Tabs currentTabId={currentTabId} />
-      <main className="my-10 flex-grow">{children}</main>
-      <Footer />
+      {isArticlePath(router.pathname) ? (
+        <ReadProgressBar userAgent={userAgent} />
+      ) : null}
+      <div className="mx-12 flex flex-col">
+        <Header />
+        <Tabs currentTabId={currentTabId} />
+        <main className="my-10 flex-grow">{children}</main>
+        <Footer />
+      </div>
     </div>
   );
 }
