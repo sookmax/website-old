@@ -3,11 +3,12 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 import { getAllPostMetadata } from "@/server-scripts/post";
 import { classNames } from "@/utils/class-names";
+import { getDateString } from "@/utils/date";
 
 interface PostData {
   slug: string;
   title: string;
-  date: string;
+  date: number;
 }
 interface Props {
   postMetaList: PostData[];
@@ -32,7 +33,9 @@ export default function Posts({ postMetaList }: Props) {
               >
                 {mData.title}
               </span>
-              <span className="text-xs font-extralight">{mData.date}</span>
+              <span className="text-xs font-extralight">
+                {getDateString(mData.date)}
+              </span>
             </a>
           </Link>
         </li>

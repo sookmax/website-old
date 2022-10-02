@@ -3,13 +3,6 @@ import path from "path";
 import matter from "gray-matter";
 
 const DIR_POSTS = path.join(process.cwd(), "pages", "post");
-const DATE_FORMAT: Intl.DateTimeFormatOptions = {
-  year: "numeric",
-  month: "short",
-  day: "numeric",
-  // https://stackoverflow.com/a/44096051
-  timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-};
 
 export function getAllPostMetadata() {
   const slugs = getSlugs();
@@ -20,7 +13,7 @@ export function getAllPostMetadata() {
     metadata.push({
       slug: slugs[i],
       title: frontMatters[i].title,
-      date: frontMatters[i].date,
+      date: Number(frontMatters[i].date),
     });
   }
 
@@ -35,7 +28,8 @@ export function getAllPostMetadata() {
   return metadata.map((mData) => ({
     slug: mData.slug,
     title: mData.title,
-    date: mData.date.toLocaleDateString(undefined, DATE_FORMAT),
+    // date: mData.date.toLocaleDateString(undefined, DATE_FORMAT),
+    date: Number(mData.date),
   }));
 }
 
@@ -64,7 +58,7 @@ function getMatterResult(path: string) {
 }
 
 const excludeRegex = /import[\s\S]*$/;
-const wordsPerMinute = 150;
+const wordsPerMinute = 180;
 
 export function getReadTime(slug: string) {
   const path = getAbsolutePath(slug);
@@ -94,10 +88,12 @@ function getAbsolutePaths() {
 
 export function getLastModifiedDate(slug: string) {
   const path = getAbsolutePath(slug);
-  return fs.statSync(path).mtime.toLocaleDateString(undefined, DATE_FORMAT);
+  // return fs.statSync(path).mtime.toLocaleDateString(undefined, DATE_FORMAT);
+  return Number(fs.statSync(path).mtime);
 }
 
 export function getDate(slug: string) {
   const path = getAbsolutePath(slug);
-  return getMatterResult(path).date.toLocaleDateString(undefined, DATE_FORMAT);
+  // return getMatterResult(path).date.toLocaleDateString(undefined, DATE_FORMAT);
+  return Number(getMatterResult(path).date);
 }

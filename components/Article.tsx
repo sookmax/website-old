@@ -2,12 +2,13 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import ArrowLeftCircleSVG from "./icons/ArrowLeftCircleSVG";
+import { getDateString } from "@/utils/date";
 
 type Props = {
   title: string;
-  date: string;
+  date: number;
   readTime: number;
-  lastModified: string;
+  lastModified: number;
   children: React.ReactNode;
 };
 
@@ -32,9 +33,9 @@ export default function Article({
           <span className="flex items-center space-x-1">
             <span>{readTimeText}</span>
             <span>·</span>
-            <span>{date}</span>
+            <span>{getDateString(date)}</span>
           </span>
-          <span>Last modified: {lastModified}</span>
+          <span>Last modified: {getDateString(lastModified)}</span>
         </p>
       </header>
       <article className="prose">{children}</article>
