@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import ReadProgressBar from "./ReadProgressBar";
 import { getTabIdByPath, isArticlePath } from "./constants";
+import { isLinkedInApp } from "@/utils/edge-cases";
 
 type Props = {
   children: React.ReactNode;
@@ -15,27 +16,32 @@ export default function Layout({ children }: Props) {
   const router = useRouter();
   const currentTabId = getTabIdByPath(router.pathname);
   const layoutTitle = getLayoutTitle(router.pathname);
+  const articlePath = isArticlePath(router.pathname);
 
-  const [userAgent, setUserAgent] = useState("");
+  const [stickyTop, setStickyTop] = useState(true);
 
   useEffect(() => {
-    setUserAgent(window.navigator.userAgent);
+    if (isLinkedInApp(window.navigator.userAgent)) {
+      setStickyTop(false);
+    }
+    return () => setStickyTop(true);
   }, []);
 
   return (
-    <div className="m-auto max-w-2xl">
-      {/* {userAgent ? <div>{userAgent}</div> : null} */}
+    <>
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
-      {isArticlePath(router.pathname) ? (
-        <ReadProgressBar userAgent={userAgent} />
-      ) : null}
-      <div className="mx-12 flex flex-col">
-        <Header />
-        <Tabs currentTabId={currentTabId} />
-        <main className="my-10 flex-grow">{children}</main>
-        <Footer />
+      <div className="flex w-full flex-col items-center">
+        {/* {userAgent ? <div>{userAgent}</div> : null} */}
+        {articlePath && stickyTop && <ReadProgressBar stickyTop={stickyTop} />}
+        <div className="flex w-full max-w-2xl flex-col px-6">
+          <Header />
+          <Tabs currentTabId={currentTabId} />
+          <main className="my-10 flex-grow">{children}</main>
+          <Footer />
+        </div>
+        {articlePath && !stickyTop && <ReadProgressBar stickyTop={stickyTop} />}
       </div>
-    </div>
+    </>
   );
 }
 

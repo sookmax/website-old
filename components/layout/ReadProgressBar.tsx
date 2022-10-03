@@ -1,11 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { classNames } from "@/utils/class-names";
-import { useState, useEffect } from "react";
 
 type Props = {
-  userAgent: string;
+  stickyTop: boolean;
 };
 
-export default function ReadProgressBar({ userAgent }: Props) {
+export default function ReadProgressBar({ stickyTop }: Props) {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -32,16 +32,14 @@ export default function ReadProgressBar({ userAgent }: Props) {
 
   return (
     <div
+      id="read-progress-bar"
       className={classNames(
-        "fixed left-0 z-10 h-1 w-screen bg-gray-200 dark:bg-gray-700",
-        isLinkedInApp(userAgent) ? "bottom-0" : "top-0"
+        "sticky left-0 z-10 h-1 w-full bg-gray-200 dark:bg-gray-700",
+        stickyTop ? "top-0" : "bottom-0"
       )}
+      style={{ position: "-webkit-sticky" }}
     >
       <div className="h-1 bg-sky-600" style={{ width: `${progress}%` }}></div>
     </div>
   );
-}
-
-function isLinkedInApp(userAgent: string) {
-  return /LinkedInApp/.test(userAgent);
 }

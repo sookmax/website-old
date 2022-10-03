@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="h-full w-full">
+    <Html className="w-full">
       <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <link
@@ -30,7 +30,7 @@ export default function Document() {
           content="Hello, I'm Sook. Thanks for visiting my website!"
         />
       </Head>
-      <body className="flex h-full flex-col">
+      <body className="flex flex-col">
         <Main />
         <NextScript />
       </body>
