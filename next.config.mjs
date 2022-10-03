@@ -9,6 +9,9 @@ const nextConfig = {
   // Append the default value with md extensions
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   trailingSlash: true,
+  eslint: {
+    dirs: ["pages", "components", "server-scripts", "utils"],
+  },
 };
 
 const withMDX = createMDX({

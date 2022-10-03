@@ -1,42 +1,23 @@
 ---
 title: Template
-date: 9999-99-99
+date: 9999-12-31
 ---
 
 ## Start writing here
 
 import Article from "@/components/Article";
-import { GetStaticProps } from "next";
-import {
-  getSlugFromTitle,
-  getReadTime,
-  getDate,
-  getLastModifiedDate,
-} from "@/server-scripts/post";
+import { getArticleProps } from "@/server-scripts/post";
 
-export default function MDX({ date, readTime, lastModified, children }) {
+export default function MDX({ children, ...rest }) {
   return (
-    <Article
-      title={title}
-      date={date}
-      readTime={readTime}
-      lastModified={lastModified}
-    >
+    <Article title={title} {...rest}>
       {children}
     </Article>
   );
 }
 
 export const getStaticProps = (context) => {
-  const slug = getSlugFromTitle(title);
-  if (slug) {
-    return {
-      props: {
-        date: getDate(slug),
-        readTime: getReadTime(slug),
-        lastModified: getLastModifiedDate(slug),
-      },
-    };
-  }
-  return { props: { readTime: 0 } };
+  return {
+    props: getArticleProps(title),
+  };
 };

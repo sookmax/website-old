@@ -3,20 +3,25 @@ import Head from "next/head";
 import Link from "next/link";
 import ArrowLeftCircleSVG from "./icons/ArrowLeftCircleSVG";
 import { getDateString } from "@/utils/date";
+import InformationCircleSVG from "./icons/InformationCircleSVG";
 
 type Props = {
   title: string;
-  date: number;
+  dateEpoch: number;
+  lastModifiedEpoch: number;
   readTime: number;
-  lastModified: number;
+  wordsCount: number;
+  wordsPerMinute: number;
   children: React.ReactNode;
 };
 
 export default function Article({
   title,
-  date,
+  dateEpoch,
+  lastModifiedEpoch,
   readTime,
-  lastModified,
+  wordsCount,
+  wordsPerMinute,
   children,
 }: Props) {
   const readTimeText =
@@ -32,10 +37,13 @@ export default function Article({
         <p className="flex w-full flex-col justify-between text-xs text-gray-400 sm:flex-row sm:text-sm">
           <span className="flex items-center space-x-1">
             <span>{readTimeText}</span>
+            <span title={`${wordsCount} / ${wordsPerMinute}`}>
+              <InformationCircleSVG />
+            </span>
             <span>·</span>
-            <span>{getDateString(date)}</span>
+            <span>{getDateString(dateEpoch)}</span>
           </span>
-          <span>Last modified: {getDateString(lastModified)}</span>
+          <span>Last modified: {getDateString(lastModifiedEpoch)}</span>
         </p>
       </header>
       <article className="prose">{children}</article>
