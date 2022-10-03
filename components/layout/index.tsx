@@ -18,13 +18,11 @@ export default function Layout({ children }: Props) {
   const layoutTitle = getLayoutTitle(router.pathname);
   const articlePath = isArticlePath(router.pathname);
 
-  const [stickyTop, setStickyTop] = useState(true);
+  const [userAgent, setUserAgent] = useState("");
 
   useEffect(() => {
-    if (isLinkedInApp(window.navigator.userAgent)) {
-      setStickyTop(false);
-    }
-    return () => setStickyTop(true);
+    setUserAgent(window.navigator.userAgent);
+    return () => setUserAgent("");
   }, []);
 
   return (
@@ -32,14 +30,13 @@ export default function Layout({ children }: Props) {
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
       <div className="flex w-full flex-col items-center">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
-        {articlePath && stickyTop && <ReadProgressBar stickyTop={stickyTop} />}
+        {articlePath && !isLinkedInApp(userAgent) && <ReadProgressBar />}
         <div className="flex w-full max-w-2xl flex-col px-6">
           <Header />
           <Tabs currentTabId={currentTabId} />
           <main className="my-10 flex-grow">{children}</main>
           <Footer />
         </div>
-        {articlePath && !stickyTop && <ReadProgressBar stickyTop={stickyTop} />}
       </div>
     </>
   );

@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { classNames } from "@/utils/class-names";
 
-type Props = {
-  stickyTop: boolean;
-};
-
-export default function ReadProgressBar({ stickyTop }: Props) {
+export default function ReadProgressBar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -33,10 +28,7 @@ export default function ReadProgressBar({ stickyTop }: Props) {
   return (
     <div
       id="read-progress-bar"
-      className={classNames(
-        "sticky left-0 z-10 h-1 w-full bg-gray-200 dark:bg-gray-700",
-        stickyTop ? "top-0" : "bottom-0"
-      )}
+      className="sticky left-0 top-0 z-10 h-1 w-full bg-gray-200 dark:bg-gray-700"
       style={{ position: "-webkit-sticky" }}
     >
       <div className="h-1 bg-sky-600" style={{ width: `${progress}%` }}></div>
