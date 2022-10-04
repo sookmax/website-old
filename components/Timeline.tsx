@@ -1,12 +1,11 @@
-import AcademicCapSVG from "./icons/AcademicCapSVG";
-import BriefcaseSVG from "./icons/BriefcaseSVG";
+import { AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/24/outline";
 
 const timeline = [
   {
     id: 1,
     startYear: 2011,
     endYear: 2015,
-    icon: <AcademicCapSVG />,
+    icon: <AcademicCapIcon />,
     title: "College",
     description: "Statistics, B.S.",
     country: "🇺🇸",
@@ -14,46 +13,19 @@ const timeline = [
   {
     id: 2,
     startYear: 2015,
-    endYear: 2016,
-    icon: <BriefcaseSVG />,
-    title: "Data Analyst",
-    description: "R",
-    country: "🇰🇷",
-  },
-  {
-    id: 3,
-    startYear: 2016,
-    endYear: 2017,
-    icon: <BriefcaseSVG />,
+    endYear: 2019,
+    icon: <BriefcaseIcon />,
     title: "Data Analyst",
     description: "R, Python",
     country: "🇰🇷",
   },
   {
-    id: 4,
-    startYear: 2017,
-    endYear: 2020,
-    icon: <BriefcaseSVG />,
-    title: "Data Analyst / SWE",
-    description: "R, Python, React.js",
-    country: "🇰🇷",
-  },
-  {
-    id: 5,
-    startYear: 2020,
-    endYear: 2021,
-    icon: <BriefcaseSVG />,
+    id: 3,
+    startYear: 2019,
+    endYear: "current",
+    icon: <BriefcaseIcon />,
     title: "Frontend Dev",
-    description: "React.js, node.js",
-    country: "🇰🇷",
-  },
-  {
-    id: 6,
-    startYear: 2021,
-    endYear: 2022,
-    icon: <BriefcaseSVG />,
-    title: "Frontend Dev",
-    description: "three.js, vue.js",
+    description: "React, Vue, three",
     country: "🇰🇷",
   },
 ];
@@ -67,10 +39,10 @@ export default function Timeline() {
         <li key={item.id}>
           <div className="relative">
             {item.id !== 1 ? (
-              <span className="absolute top-4 left-4 h-full w-0.5 bg-gray-300" />
+              <span className="absolute top-4 left-3 h-full w-0.5 bg-gray-300" />
             ) : null}
             <div className="relative flex w-full items-center space-x-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-500 ring-2 ring-white">
+              <span className="h-6 w-6 rounded-full bg-white text-gray-400 ring-4 ring-white">
                 {item.icon}
               </span>
               <span className="flex flex-col">
