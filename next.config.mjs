@@ -12,6 +12,9 @@ const nextConfig = {
   eslint: {
     dirs: ["pages", "components", "server-scripts", "utils"],
   },
+  experimental: {
+    browsersListForSwc: true,
+  },
 };
 
 const withMDX = createMDX({
