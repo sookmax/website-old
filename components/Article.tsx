@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import {
-  ArrowLeftCircleIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { getDateString } from "@/utils/date";
 import Tooltip from "./Tooltip";
+import { GlobalContext } from "@/pages/_app";
 
 type Props = {
   title: string;
@@ -27,6 +25,8 @@ export default function Article({
   wordsPerMinute,
   children,
 }: Props) {
+  const { screenWidth } = useContext(GlobalContext);
+
   const readTimeText =
     readTime > 0 ? `${readTime} min read` : `less than 1 min read`;
 
@@ -40,13 +40,14 @@ export default function Article({
         <p className="flex w-full flex-col justify-between text-xs text-gray-500 sm:flex-row sm:text-sm">
           <span className="flex items-center space-x-2">
             <Tooltip
-              content={`Total word count: ${wordsCount} / Words per min: ${wordsPerMinute}`}
+              direction={screenWidth && screenWidth < 640 ? "right" : "bottom"}
             >
-              <span className="flex cursor-pointer items-center space-x-1">
+              <span className="flex flex-col whitespace-nowrap">
+                <span>{`Total word count: ${wordsCount}`}</span>
+                <span>{`Words per min: ${wordsPerMinute}`}</span>
+              </span>
+              <span className="flex items-center space-x-1 underline decoration-dotted">
                 <span>{readTimeText}</span>
-                <span className="h-3 w-3 text-gray-400">
-                  <InformationCircleIcon />
-                </span>
               </span>
             </Tooltip>
             <span>·</span>
