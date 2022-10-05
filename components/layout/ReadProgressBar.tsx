@@ -31,7 +31,10 @@ export default function ReadProgressBar() {
       className="sticky left-0 top-0 z-10 h-1 w-full bg-gray-200 dark:bg-gray-700"
       style={{ position: "-webkit-sticky" }}
     >
-      <div className="h-1 bg-sky-600" style={{ width: `${progress}%` }}></div>
+      <div
+        className="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+        style={{ width: `${progress}%` }}
+      ></div>
     </div>
   );
 }

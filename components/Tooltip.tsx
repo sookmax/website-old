@@ -67,10 +67,10 @@ function TooltipContent({ parentElRef, direction, children }: Props2) {
       return (
         <span
           ref={rootElRef}
-          className="absolute left-1/2 bottom-full -translate-y-2  -translate-x-1/2 rounded-lg bg-gray-400 px-3 py-1 text-xs text-white"
+          className="absolute left-1/2 bottom-full -translate-y-2  -translate-x-1/2 rounded-lg bg-gray-300 px-3 py-1 text-xs text-white"
           style={inlineStyle}
         >
-          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-400" />
+          <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-300" />
           {children}
         </span>
       );
