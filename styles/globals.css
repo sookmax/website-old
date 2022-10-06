@@ -9,6 +9,10 @@
     --footer-height: 100px;
     --footer-height-m: 65px;
   }
+
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
 }
 
 #__next {
