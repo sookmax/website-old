@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -33,6 +34,38 @@ export default function Document() {
       <body className="flex flex-col">
         <Main />
         <NextScript />
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`
+            (function() {
+              function setTheme(theme) {
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark');
+                } else if (theme === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  throw '[THEME NOT FOUND]: ' + theme;
+                }
+              }
+
+              var darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+            
+              darkQuery.addEventListener('change', function(e) {
+                if (e.matches) {
+                  setTheme('dark');
+                } else {
+                  setTheme('light');
+                }
+                localStorage.removeItem('theme');
+              })
+              
+              if (localStorage.theme === 'dark' || (!('theme' in localStorage) && darkQuery.matches)) {
+                setTheme('dark');
+              } else {
+                setTheme('light');
+              }
+            })();
+          `}
+        </Script>
       </body>
     </Html>
   );

@@ -62,7 +62,7 @@ export default function Article({
           </span>
         </p>
       </header>
-      <article className="prose">{children}</article>
+      <article className="prose dark:prose-invert">{children}</article>
       <Link href={"/posts"}>
         <a
           className="block"

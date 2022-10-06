@@ -16,10 +16,10 @@ export default function Tabs({ currentTabId }: Props) {
             <Link key={tab.id} href={href}>
               <a
                 className={classNames(
-                  "border-b-2 font-semibold text-gray-700",
+                  "border-b-2 font-semibold text-gray-700 dark:text-gray-100",
                   tab.id === currentTabId
-                    ? "border-gray-300"
-                    : "border-transparent  hover:border-gray-200"
+                    ? "border-gray-300 dark:border-gray-200"
+                    : "border-transparent  hover:border-gray-200 hover:dark:border-gray-500"
                 )}
               >
                 {tab.label}

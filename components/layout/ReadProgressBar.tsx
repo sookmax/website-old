@@ -72,7 +72,7 @@ export default function ReadProgressBar({ mainEl }: Props) {
           className="sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
         >
           <div
-            className="h-1 bg-gray-300"
+            className="h-1 bg-gray-300 dark:bg-gray-600"
             style={{ width: `${remainingProgress}%` }}
           ></div>
         </div>

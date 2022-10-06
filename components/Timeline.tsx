@@ -39,10 +39,10 @@ export default function Timeline() {
         <li key={item.id}>
           <div className="relative">
             {item.id !== 1 ? (
-              <span className="absolute top-4 left-3 h-full w-0.5 bg-gray-300" />
+              <span className="absolute top-4 left-3 h-full w-0.5 bg-gray-300 dark:bg-gray-600" />
             ) : null}
             <div className="relative flex w-full items-center space-x-4">
-              <span className="h-6 w-6 rounded-full bg-white text-gray-400 ring-4 ring-white">
+              <span className="h-6 w-6 rounded-full bg-white text-gray-400 ring-4 ring-white dark:bg-gray-600 dark:text-gray-300 dark:ring-gray-600">
                 {item.icon}
               </span>
               <span className="flex flex-col">

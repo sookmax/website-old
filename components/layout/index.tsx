@@ -22,7 +22,7 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
-      <div className="flex w-full flex-col items-center">
+      <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
         {articlePath && <ReadProgressBar mainEl={mainEl} />}
         <div className="flex w-full max-w-2xl flex-col px-6">
