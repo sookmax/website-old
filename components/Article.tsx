@@ -31,8 +31,6 @@ export default function Article({
 
   const { screenWidth } = useContext(GlobalContext);
 
-  const [hovered, setHovered] = useState(false);
-
   return (
     <div className="space-y-12">
       <Head>
@@ -64,25 +62,20 @@ export default function Article({
       </header>
       <article className="prose dark:prose-invert">{children}</article>
       <Link href={"/posts"}>
-        <a
-          className="block"
-          onPointerEnter={() => setHovered(true)}
-          onPointerLeave={() => setHovered(false)}
-        >
-          <span className="flex items-center space-x-1 font-light text-gray-400">
+        <a className="block ">
+          <span className="flex items-center space-x-1">
             <span
               className={classNames(
-                "h-5 w-5",
-                hovered ? "text-purple-500" : null
+                "h-5 w-5 text-purple-500 dark:text-purple-400"
               )}
             >
               <ArrowLeftCircleIcon />
             </span>
             <span
               className={classNames(
-                hovered
-                  ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-                  : null
+                "bg-gradient-to-r bg-clip-text text-transparent",
+                "from-indigo-500 via-purple-500 to-pink-500",
+                "dark:from-indigo-400 dark:via-purple-400 dark:to-pink-500"
               )}
             >
               Back to list

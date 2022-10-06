@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ChevronUpIcon } from "@heroicons/react/24/outline";
 import { GlobalContext } from "@/pages/_app";
 import { isLinkedInApp } from "@/utils/edge-cases";
+import { classNames } from "@/utils/class-names";
 
 type Props = {
   mainEl: React.RefObject<HTMLElement>;
@@ -69,7 +70,11 @@ export default function ReadProgressBar({ mainEl }: Props) {
       {!isLinkedInApp(userAgent) && (
         <div
           id="read-progress-bar"
-          className="sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+          className={classNames(
+            "sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r",
+            "from-indigo-500 via-purple-500 to-pink-500",
+            "dark:from-indigo-500 dark:via-purple-400 dark:to-pink-500"
+          )}
         >
           <div
             className="h-1 bg-gray-300 dark:bg-gray-600"
