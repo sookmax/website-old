@@ -51,7 +51,7 @@ export default function Timeline() {
                   {item.description}
                 </span>
               </span>
-              <span className="flex-grow text-end text-xs font-extralight text-gray-500">
+              <span className="flex-grow text-end text-xs font-extralight text-gray-600 dark:text-gray-300">
                 {item.startYear}-{item.endYear} {item.country}
               </span>
             </div>

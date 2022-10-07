@@ -22,17 +22,19 @@ export default function Layout({ children }: Props) {
   return (
     <>
       <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
-      <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
+      <div className=" flex min-h-full w-full flex-col dark:bg-slate-800 dark:text-gray-100">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
         {articlePath && <ReadProgressBar mainEl={mainEl} />}
-        <div className="flex w-full max-w-2xl flex-col px-6">
-          <Header />
-          <Tabs currentTabId={currentTabId} />
-          <main ref={mainEl} className="my-10 flex-grow">
-            {children}
-          </main>
-          <Footer />
+        <div className="flex flex-grow justify-center">
+          <div className="flex w-full max-w-2xl flex-col px-6">
+            <Header />
+            <Tabs currentTabId={currentTabId} />
+            <main ref={mainEl} className="my-10 flex-grow">
+              {children}
+            </main>
+          </div>
         </div>
+        <Footer />
       </div>
     </>
   );

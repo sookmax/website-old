@@ -9,7 +9,7 @@ export default function Home() {
       </section>
       <section className="space-y-4">
         <header className="text-sm font-light text-gray-600 dark:text-gray-200">
-          Timeline
+          Brief history
         </header>
         <Timeline />
       </section>

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { getDateString } from "@/utils/date";
-import Tooltip from "./Tooltip";
+import Tooltip from "@/components/tooltip";
 import { GlobalContext } from "@/pages/_app";
 import { classNames } from "@/utils/class-names";
 
@@ -38,12 +38,13 @@ export default function Article({
       </Head>
       <header className="flex flex-col items-start justify-between space-y-2">
         <h1 className="w-full text-2xl sm:text-4xl">{title}</h1>
-        <p className="flex w-full flex-col justify-between text-xs text-gray-500 sm:flex-row sm:text-sm">
+        <p className="flex w-full flex-col justify-between text-xs text-gray-500 dark:text-gray-400 sm:flex-row sm:text-sm">
           <span className="flex items-center space-x-2">
             <Tooltip
               direction={screenWidth && screenWidth < 640 ? "right" : "bottom"}
+              timeout={2000}
             >
-              <span className="flex flex-col whitespace-nowrap">
+              <span className="flex flex-col whitespace-nowrap px-2 py-1">
                 <span>{`Total word count: ${wordsCount}`}</span>
                 <span>{`Words per min: ${wordsPerMinute}`}</span>
               </span>
@@ -63,23 +64,11 @@ export default function Article({
       <article className="prose dark:prose-invert">{children}</article>
       <Link href={"/posts"}>
         <a className="block ">
-          <span className="flex items-center space-x-1">
-            <span
-              className={classNames(
-                "h-5 w-5 text-purple-500 dark:text-purple-400"
-              )}
-            >
+          <span className="flex items-center space-x-1 text-gray-500 dark:text-gray-300">
+            <span className={classNames("h-5 w-5")}>
               <ArrowLeftCircleIcon />
             </span>
-            <span
-              className={classNames(
-                "bg-gradient-to-r bg-clip-text text-transparent",
-                "from-indigo-500 via-purple-500 to-pink-500",
-                "dark:from-indigo-400 dark:via-purple-400 dark:to-pink-500"
-              )}
-            >
-              Back to list
-            </span>
+            <span>Back to list</span>
           </span>
         </a>
       </Link>

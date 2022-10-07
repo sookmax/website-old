@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SocialLinks from "./SocialLinks";
+import ThemeToggler from "./ThemeToggler";
 
 export default function Header() {
   return (
@@ -7,7 +7,7 @@ export default function Header() {
       <Link href={"/"}>
         <a>SOOK.DEV</a>
       </Link>
-      <SocialLinks />
+      <ThemeToggler />
     </header>
   );
 }

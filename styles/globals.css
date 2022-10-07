@@ -6,8 +6,8 @@
   :root {
     --header-height: 100px;
     --nav-height: 50px;
-    --footer-height: 100px;
-    --footer-height-m: 65px;
+    --footer-height: 120px;
+    --footer-height-m: 100px;
   }
 
   * {

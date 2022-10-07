@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ChevronUpIcon } from "@heroicons/react/24/outline";
 import { GlobalContext } from "@/pages/_app";
 import { isLinkedInApp } from "@/utils/edge-cases";
 import { classNames } from "@/utils/class-names";
+import ExpandLessIcon from "../icons/ExpandLessIcon";
 
 type Props = {
   mainEl: React.RefObject<HTMLElement>;
@@ -18,8 +18,6 @@ export default function ReadProgressBar({ mainEl }: Props) {
     if (!mainEl.current) return;
 
     let frameRequested = false;
-    let prevScrollTop = getScrollTop();
-    let timeoutId: NodeJS.Timeout | undefined;
 
     const maxScrollTop = getMaxScrollTop(mainEl.current);
 
@@ -33,24 +31,10 @@ export default function ReadProgressBar({ mainEl }: Props) {
 
           setProgress(progress);
 
-          if (progress < 100) {
-            if (currScrollTop < prevScrollTop) {
-              if (currScrollTop < 50) {
-                setShowButton(false);
-              } else {
-                setShowButton(true);
-                clearTimeout(timeoutId);
-                timeoutId = undefined;
-              }
-            } else {
-              if (!timeoutId) {
-                timeoutId = setTimeout(() => {
-                  setShowButton(false);
-                  timeoutId = undefined;
-                }, 1000);
-              }
-            }
-            prevScrollTop = currScrollTop;
+          if (currScrollTop < 50 || progress >= 100) {
+            setShowButton(false);
+          } else {
+            setShowButton(true);
           }
 
           frameRequested = false;
@@ -72,22 +56,27 @@ export default function ReadProgressBar({ mainEl }: Props) {
           id="read-progress-bar"
           className={classNames(
             "sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r",
-            "from-indigo-500 via-purple-500 to-pink-500",
+            "from-indigo-400 via-purple-400 to-pink-400",
             "dark:from-indigo-500 dark:via-purple-400 dark:to-pink-500"
           )}
         >
           <div
-            className="h-1 bg-gray-300 dark:bg-gray-600"
+            className="h-1 bg-gray-100 dark:bg-gray-600"
             style={{ width: `${remainingProgress}%` }}
           ></div>
         </div>
       )}
       {showButton && (
         <button
-          className="fixed bottom-8 right-8 h-12 w-12 rounded-full bg-black p-2 text-white"
+          className={classNames(
+            "fixed bottom-8 right-8 h-12 w-12 rounded-full",
+            "opacity-50",
+            "bg-gray-400 text-white",
+            "text-gray-700 dark:bg-gray-300"
+          )}
           onClick={handleBackToTop}
         >
-          <ChevronUpIcon />
+          <ExpandLessIcon />
         </button>
       )}
     </>
