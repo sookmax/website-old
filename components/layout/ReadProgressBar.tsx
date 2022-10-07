@@ -70,13 +70,16 @@ export default function ReadProgressBar({ mainEl }: Props) {
         <button
           className={classNames(
             "fixed bottom-8 right-8 h-12 w-12 rounded-full",
+            "flex items-center justify-center",
             "opacity-50",
             "bg-gray-400 text-white",
             "text-gray-700 dark:bg-gray-300"
           )}
           onClick={handleBackToTop}
         >
-          <ExpandLessIcon />
+          <span className="flex h-7 w-7">
+            <ExpandLessIcon />
+          </span>
         </button>
       )}
     </>
