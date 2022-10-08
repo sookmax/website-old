@@ -25,9 +25,12 @@ export default function Posts({ postMetaList }: Props) {
             <a className="flex w-full flex-col items-start space-y-1 sm:flex-row sm:justify-between sm:space-y-0">
               <span
                 className={classNames(
-                  mData.slug === hoveredPost
-                    ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-                    : null
+                  mData.slug === hoveredPost &&
+                    classNames(
+                      "bg-gradient-to-r bg-clip-text text-transparent",
+                      "from-indigo-600 via-purple-600 to-pink-600",
+                      "dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300"
+                    )
                 )}
               >
                 {mData.title}

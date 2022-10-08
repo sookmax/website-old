@@ -1,3 +1,4 @@
+import Divider from "@/components/Divider";
 import Intro from "@/components/intro.mdx";
 import Timeline from "@/components/Timeline";
 
@@ -8,9 +9,7 @@ export default function Home() {
         <Intro />
       </section>
       <section className="space-y-4">
-        <header className="text-sm font-light text-gray-600 dark:text-gray-200">
-          Brief history
-        </header>
+        <Divider>Brief history</Divider>
         <Timeline />
       </section>
     </div>

@@ -42,7 +42,6 @@ export default function Article({
           <span className="flex items-center space-x-2">
             <Tooltip
               direction={screenWidth && screenWidth < 640 ? "right" : "bottom"}
-              timeout={2000}
             >
               <span className="flex flex-col whitespace-nowrap px-2 py-1">
                 <span>{`Total word count: ${wordsCount}`}</span>
@@ -63,13 +62,11 @@ export default function Article({
       </header>
       <article className="prose dark:prose-invert">{children}</article>
       <Link href={"/posts"}>
-        <a className="block ">
-          <span className="flex items-center space-x-1 text-gray-500 dark:text-gray-300">
-            <span className={classNames("h-5 w-5")}>
-              <ArrowLeftCircleIcon />
-            </span>
-            <span>Back to list</span>
+        <a className="inline-flex items-center space-x-1 text-gray-500 dark:text-gray-300">
+          <span className={classNames("h-5 w-5")}>
+            <ArrowLeftCircleIcon />
           </span>
+          <span>Back to list</span>
         </a>
       </Link>
     </div>

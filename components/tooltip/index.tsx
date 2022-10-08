@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ContentBox from "./ContentBox";
 import { classNames } from "@/utils/class-names";
 
@@ -6,47 +6,60 @@ type Props = {
   direction?: "top" | "bottom" | "left" | "right";
   children: [React.ReactNode, React.ReactNode];
   className?: string;
-  timeout?: number;
 };
-
-let timeoutId: NodeJS.Timeout | undefined;
 
 export default function Tooltip({
   children,
   className,
   direction = "bottom",
-  timeout = 0,
 }: Props) {
   const [content, target] = children;
-  const rootElRef = useRef<HTMLElement>(null);
+
+  const rootEl = useRef<HTMLElement>(null);
+  const contentBoxEl = useRef<HTMLElement>(null);
+
   const [show, setShow] = useState(false);
 
   const onClick = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
     setShow((value) => !value);
-
-    if (!show) {
-      if (timeout) {
-        timeoutId = setTimeout(() => setShow(false), timeout);
-      }
-    }
   };
 
+  useEffect(() => {
+    // inspired by https://github.com/mui/material-ui/tree/master/packages/mui-base/src/ClickAwayListener
+    const handleClickAway = (e: MouseEvent | TouchEvent) => {
+      if (rootEl.current && contentBoxEl.current) {
+        if (
+          e.composedPath().indexOf(rootEl.current) === -1 &&
+          e.composedPath().indexOf(contentBoxEl.current) === -1
+        ) {
+          setShow(false);
+        }
+      }
+    };
+
+    document.addEventListener("click", handleClickAway);
+    document.addEventListener("touchend", handleClickAway);
+
+    return () => {
+      document.removeEventListener("click", handleClickAway);
+      document.removeEventListener("touchend", handleClickAway);
+    };
+  }, []);
+
   return (
-    <span
-      ref={rootElRef}
-      className={classNames("relative", className)}
-      onClick={onClick}
-    >
+    <span ref={rootEl} className={classNames("relative", className)}>
       {show ? (
-        <ContentBox parentElRef={rootElRef} direction={direction}>
+        <ContentBox
+          parentElRef={rootEl}
+          ref={contentBoxEl}
+          direction={direction}
+        >
           {content}
         </ContentBox>
       ) : null}
-      {target}
+      <span className="cursor-pointer" onClick={onClick}>
+        {target}
+      </span>
     </span>
   );
 }

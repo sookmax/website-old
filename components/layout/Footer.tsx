@@ -7,6 +7,7 @@ import CopyIcon from "../icons/CopyIcon";
 import { useState } from "react";
 import CheckIcon from "../icons/CheckIcon";
 import ErrorIcon from "../icons/ErrorIcon";
+import MailIcon from "../icons/MailIcon";
 
 const EMAIL_ADDR = "sukkyu.chung@gmail.com";
 
@@ -35,7 +36,6 @@ export default function Footer() {
     <footer
       className={classNames(
         "h-[var(--footer-height-m)]",
-        "mb-4",
         "flex flex-shrink-0 flex-col justify-end text-xs",
         "sm:h-[var(--footer-height)] sm:space-y-0 sm:text-sm"
       )}
@@ -68,8 +68,9 @@ export default function Footer() {
             <span
               className={classNames(
                 "flex items-center space-x-1 py-2 px-2",
-                copyState === "sucessful" && "text-emerald-200",
-                copyState === "failed" && "text-red-700"
+                copyState === "sucessful" &&
+                  "text-emerald-600 dark:text-emerald-400",
+                copyState === "failed" && "text-red-600 dark:text-red-400"
               )}
               onClick={onCopyClick}
             >
@@ -79,7 +80,7 @@ export default function Footer() {
               </button>
             </span>
             <span className="flex h-7 w-7">
-              <EnvelopeIcon />
+              <MailIcon />
             </span>
           </Tooltip>
         </span>
