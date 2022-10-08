@@ -34,10 +34,9 @@ export default function Footer() {
   return (
     <footer
       className={classNames(
-        "h-[var(--footer-height-m)] bg-gradient-to-b",
-        "from-white via-gray-50 to-gray-100",
-        "dark:from-slate-800 dark:via-slate-800 dark:to-slate-700",
-        "flex flex-shrink-0 flex-col justify-end p-6 text-xs",
+        "h-[var(--footer-height-m)]",
+        "mb-4",
+        "flex flex-shrink-0 flex-col justify-end text-xs",
         "sm:h-[var(--footer-height)] sm:space-y-0 sm:text-sm"
       )}
     >

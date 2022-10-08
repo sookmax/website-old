@@ -12,6 +12,17 @@ export default function ThemeToggler() {
     return () => observer.disconnect();
   }, []);
 
+  let icon: React.ReactElement | null = null;
+
+  switch (theme) {
+    case "light":
+      icon = <MoonIcon />;
+      break;
+    case "dark":
+      icon = <SunIcon />;
+      break;
+  }
+
   const onThemeChange = () => {
     toggleTheme();
   };
@@ -21,7 +32,7 @@ export default function ThemeToggler() {
       className="h-6 w-6 text-gray-500 dark:text-gray-400"
       onClick={onThemeChange}
     >
-      {theme === "light" ? <MoonIcon /> : <SunIcon />}
+      {icon}
     </button>
   );
 }
