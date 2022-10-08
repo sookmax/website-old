@@ -1,7 +1,6 @@
 import { classNames } from "@/utils/class-names";
 import GithubIcon from "../icons/GithubIcon";
 import { LinkedInIcon } from "../icons/LinkedInIcon";
-import { EnvelopeIcon } from "@heroicons/react/24/outline";
 import Tooltip from "@/components/tooltip";
 import CopyIcon from "../icons/CopyIcon";
 import { useState } from "react";

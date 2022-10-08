@@ -1,10 +1,5 @@
 import { classNames } from "@/utils/class-names";
-import React, {
-  useRef,
-  useState,
-  useLayoutEffect,
-  MouseEventHandler,
-} from "react";
+import React, { useState, useLayoutEffect } from "react";
 
 type Props = {
   parentElRef: React.RefObject<HTMLElement>;
