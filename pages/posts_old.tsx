@@ -1,26 +1,25 @@
 import { useState } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
+import { getAllPostMetadata } from "@/server-scripts/post_old";
 import { classNames } from "@/utils/class-names";
 import { getDateString } from "@/utils/date";
-import { getAllPostMeta } from "@/server-scripts/post";
 
-type PostMeta = {
+interface PostData {
   slug: string;
   title: string;
   date: number;
-};
+}
+interface Props {
+  postMetaList: PostData[];
+}
 
-type Props = {
-  postMetaArray: PostMeta[];
-};
-
-export default function Posts({ postMetaArray }: Props) {
+export default function Posts({ postMetaList }: Props) {
   const [hoveredPost, setHoveredPost] = useState<string | undefined>();
 
   return (
     <ul className="space-y-4" onMouseLeave={() => setHoveredPost(undefined)}>
-      {postMetaArray.map((mData) => (
+      {postMetaList.map((mData) => (
         <li key={mData.slug} onMouseOver={() => setHoveredPost(mData.slug)}>
           <Link href={`/post/${mData.slug}`}>
             <a className="flex w-full flex-col items-start space-y-1 sm:flex-row sm:justify-between sm:space-y-0">
@@ -50,7 +49,7 @@ export default function Posts({ postMetaArray }: Props) {
 export const getStaticProps: GetStaticProps<Props> = () => {
   return {
     props: {
-      postMetaArray: getAllPostMeta(),
+      postMetaList: getAllPostMetadata(),
     },
   };
 };

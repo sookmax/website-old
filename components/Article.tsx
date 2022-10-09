@@ -9,8 +9,8 @@ import { classNames } from "@/utils/class-names";
 
 type Props = {
   title: string;
-  dateEpoch: number;
-  lastModifiedEpoch: number;
+  date: number;
+  lastModified: number | null;
   readTime: number;
   wordsCount: number;
   wordsPerMinute: number;
@@ -19,8 +19,8 @@ type Props = {
 
 export default function Article({
   title,
-  dateEpoch,
-  lastModifiedEpoch,
+  date,
+  lastModified,
   readTime,
   wordsCount,
   wordsPerMinute,
@@ -52,12 +52,14 @@ export default function Article({
               </span>
             </Tooltip>
             <span>·</span>
-            <span>{getDateString(dateEpoch)}</span>
+            <span>{getDateString(date)}</span>
           </span>
-          <span className="space-x-1">
-            <span>Last modified:</span>
-            <span>{getDateString(lastModifiedEpoch)}</span>
-          </span>
+          {lastModified && (
+            <span className="space-x-1">
+              <span>Last modified:</span>
+              <span>{getDateString(lastModified)}</span>
+            </span>
+          )}
         </p>
       </header>
       <article className="prose dark:prose-invert">{children}</article>

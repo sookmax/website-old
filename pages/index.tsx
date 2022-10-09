@@ -1,5 +1,5 @@
 import Divider from "@/components/Divider";
-import Intro from "@/components/intro.mdx";
+import Intro from "@/mdx/intro.mdx";
 import Timeline from "@/components/Timeline";
 
 export default function Home() {
