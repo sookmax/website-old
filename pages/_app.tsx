@@ -1,9 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import type { AppProps } from "next/app";
-import { MDXProvider } from "@mdx-js/react";
 import Layout from "@/components/layout";
 import "@/styles/globals.css";
-import Atag from "@/components/Atag";
 
 type GlobalState = {
   screenWidth: number | null;
@@ -13,10 +11,6 @@ type GlobalState = {
 const initialGlobalState: GlobalState = { screenWidth: null, userAgent: null };
 
 export const GlobalContext = React.createContext(initialGlobalState);
-
-const components = {
-  a: Atag,
-};
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [globalState, dispatch] = useReducer(globalReducer, initialGlobalState);
@@ -29,11 +23,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <GlobalContext.Provider value={globalState}>
-      <MDXProvider components={components}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </MDXProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </GlobalContext.Provider>
   );
 }

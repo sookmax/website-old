@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 
 const POST_DIR = path.join(process.cwd(), "mdx", "posts");
+const SLUG_EXCLUDES = /^_.*$/;
 const WORDS_PER_MINUTE = 200;
 
 export function getPostData(slug: string) {
@@ -30,15 +31,17 @@ export function getAllSlugs() {
     .map((fileName) => fileName.replace(/\.mdx?/, ""));
 }
 
-export function getAllPostMeta() {
-  const metadata = getAllSlugs().map((slug) => {
-    const { data } = getMatterData(slug);
-    return {
-      slug,
-      title: data.title as string,
-      date: Number(data.date),
-    };
-  });
+export function getAllPostMeta(excludes = SLUG_EXCLUDES) {
+  const metadata = getAllSlugs()
+    .filter((slug) => !excludes.test(slug))
+    .map((slug) => {
+      const { data } = getMatterData(slug);
+      return {
+        slug,
+        title: data.title as string,
+        date: Number(data.date),
+      };
+    });
 
   metadata.sort((a, b) => {
     if (a.date < b.date) {

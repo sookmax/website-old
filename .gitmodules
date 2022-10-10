@@ -1,0 +1,3 @@
+[submodule "lib/next-remote-watch"]
+	path = lib/next-remote-watch
+	url = https://github.com/sookmax/next-remote-watch.git

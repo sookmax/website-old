@@ -12,11 +12,11 @@ npx create-next-app@latest --typescript
   - `npm install prettier -D --save-exact`
 - add `baseUrl` and `paths` to `compilerOptions` of `tsconfig.json`
   - https://nextjs.org/docs/advanced-features/module-path-aliases
-- configure `MDX` support
+- configure `MDX` support (need all these to import `.mdx` files and to use `<MDXProvider/>`)
   - `npm install @next/mdx @mdx-js/loader @mdx-js/react`
   - edit `next.config.js` accordingly
     - https://nextjs.org/docs/advanced-features/using-mdx
-  - add `frontmatter plugins` for `MDX`
+  - ~~add `frontmatter plugins` for `MDX`~~ (no longer used in favor of `next-mdx-remote`)
     - `npm install remark-frontmatter remark-mdx-frontmatter`
     - `next.config.js` -> `next.config.mjs`
       - https://github.com/vercel/next.js/discussions/36310#discussioncomment-2602491

@@ -1,6 +1,4 @@
 import createMDX from "@next/mdx";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,7 +8,7 @@ const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   trailingSlash: true,
   eslint: {
-    dirs: ["pages", "components", "server-scripts", "utils"],
+    dirs: ["pages", "components", "server-scripts", "utils", "mdx"],
   },
   experimental: {
     browsersListForSwc: true,
@@ -20,10 +18,10 @@ const nextConfig = {
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+    remarkPlugins: [],
     rehypePlugins: [],
     // If you use `MDXProvider`, uncomment the following line.
-    // providerImportSource: "@mdx-js/react",
+    // providerImportSource: "@mdx-js/react", // default is this anyway
   },
 });
 
