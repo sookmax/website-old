@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { getDateString } from "@/utils/date";
 import Tooltip from "@/components/tooltip";
-import { GlobalContext } from "@/pages/_app";
+import { GlobalContext } from "@/utils/globalState";
 import { classNames } from "@/utils/class-names";
 
 type Props = {
@@ -29,7 +29,9 @@ export default function Article({
   const readTimeText =
     readTime > 0 ? `${readTime} min read` : `less than 1 min read`;
 
-  const { screenWidth } = useContext(GlobalContext);
+  const {
+    state: { screenWidth },
+  } = useContext(GlobalContext);
 
   return (
     <div className="space-y-12">

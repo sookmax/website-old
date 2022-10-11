@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { GlobalContext } from "@/pages/_app";
+import { GlobalContext } from "@/utils/globalState";
 import { isLinkedInApp } from "@/utils/edge-cases";
 import { classNames } from "@/utils/class-names";
 import ExpandLessIcon from "../icons/ExpandLessIcon";
@@ -9,7 +9,9 @@ type Props = {
 };
 
 export default function ReadProgressBar({ mainEl }: Props) {
-  const { userAgent } = useContext(GlobalContext);
+  const {
+    state: { userAgent },
+  } = useContext(GlobalContext);
 
   const [progress, setProgress] = useState(0);
   const [showButton, setShowButton] = useState(false);

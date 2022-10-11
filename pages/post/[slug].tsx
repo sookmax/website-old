@@ -1,9 +1,12 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeHighlight from "rehype-highlight";
 import { getAllSlugs, getPostData } from "@/server-scripts/post";
 import Article from "@/components/Article";
-import Atag from "@/components/Atag";
 
 type Props = {
   title: string;
@@ -20,9 +23,7 @@ type Query = {
 };
 
 // https://github.com/vercel/next.js/tree/canary/examples/with-mdx-remote#conditional-custom-components
-const components = {
-  a: Atag,
-};
+const components = {};
 
 export default function Post({ mdxSource, ...articleProps }: Props) {
   return (
@@ -52,7 +53,12 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
     params.slug
   );
 
-  const mdxSource = await serialize(matter.content);
+  const mdxSource = await serialize(matter.content, {
+    mdxOptions: {
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeHighlight],
+    },
+  });
 
   return {
     props: {

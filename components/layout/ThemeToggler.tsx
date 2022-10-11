@@ -1,16 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { getTheme, addThemeChangeListener, toggleTheme } from "@/utils/theme";
+import { useContext } from "react";
+import { GlobalContext } from "@/utils/globalState";
 
 export default function ThemeToggler() {
-  const [theme, setTheme] = useState<"light" | "dark">();
+  const {
+    state: { theme },
+    dispatch,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
-    setTheme(getTheme());
-    const observer = addThemeChangeListener(() => setTheme(getTheme()));
+    dispatch({ type: "SET_THEME", payload: getTheme() });
+    const observer = addThemeChangeListener(() =>
+      dispatch({ type: "SET_THEME", payload: getTheme() })
+    );
 
     return () => observer.disconnect();
-  }, []);
+  }, [dispatch]);
 
   let icon: React.ReactElement | null = null;
 

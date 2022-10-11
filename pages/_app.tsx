@@ -1,19 +1,20 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useMemo } from "react";
 import type { AppProps } from "next/app";
+import { MDXProvider } from "@mdx-js/react";
+import {
+  GlobalContext,
+  globalReducer,
+  initialGlobalState,
+} from "@/utils/globalState";
 import Layout from "@/components/layout";
+import MDXComponents from "@/components/mdx";
 import "@/styles/globals.css";
-
-type GlobalState = {
-  screenWidth: number | null;
-  userAgent: string | null;
-};
-
-const initialGlobalState: GlobalState = { screenWidth: null, userAgent: null };
-
-export const GlobalContext = React.createContext(initialGlobalState);
+import "@/styles/hljs-edge-dark.css";
+import "@/styles/hljs-edge-light.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [globalState, dispatch] = useReducer(globalReducer, initialGlobalState);
+  const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
+  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
   useEffect(() => {
     dispatch({ type: "SET_SCREEN_WIDTH", payload: window.innerWidth });
@@ -22,38 +23,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <GlobalContext.Provider value={globalState}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </GlobalContext.Provider>
+    <MDXProvider components={MDXComponents}>
+      <GlobalContext.Provider value={contextValue}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </GlobalContext.Provider>
+    </MDXProvider>
   );
-}
-
-function globalReducer(state: GlobalState, action: Actions): GlobalState {
-  switch (action.type) {
-    case "SET_SCREEN_WIDTH":
-      return { ...state, screenWidth: action.payload };
-    case "SET_USER_AGENT":
-      return { ...state, userAgent: action.payload };
-    case "RESET_STATE":
-      return { ...initialGlobalState };
-    default:
-      return state;
-  }
-}
-
-type Actions = SetScreenWidthAction | SetUserAgent | ResetState;
-interface SetScreenWidthAction {
-  type: "SET_SCREEN_WIDTH";
-  payload: number;
-}
-
-interface SetUserAgent {
-  type: "SET_USER_AGENT";
-  payload: string;
-}
-
-interface ResetState {
-  type: "RESET_STATE";
 }

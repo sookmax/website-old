@@ -18,8 +18,29 @@
   body {
     height: 100%;
   }
+
+  /* https://stackoverflow.com/a/51588820 */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 #__next {
   height: 100%;
+}
+
+/* overrides for GFM */
+.prose h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  display: inline-block;
+}
+
+.prose :where(ul):where([class="contains-task-list"]) {
+  list-style-type: none;
+  padding-left: 0px;
 }

@@ -12,6 +12,14 @@ module.exports = {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            "--tw-prose-pre-bg": "#fafafa",
+            "--tw-prose-invert-pre-bg": "#262729",
+          },
+        },
+      }),
     },
   },
   plugins: [require("@tailwindcss/typography")],
