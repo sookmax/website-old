@@ -1,7 +1,2 @@
-import CustomLink from "./CustomLink";
-
-const MDXComponents = {
-  a: CustomLink,
-};
-
-export default MDXComponents;
+export { default as A } from "./A";
+export { default as Pre } from "./Pre";

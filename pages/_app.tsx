@@ -7,10 +7,8 @@ import {
   initialGlobalState,
 } from "@/utils/globalState";
 import Layout from "@/components/layout";
-import MDXComponents from "@/components/mdx";
+import { A, Pre } from "@/components/mdx";
 import "@/styles/globals.css";
-import "@/styles/hljs-edge-dark.css";
-import "@/styles/hljs-edge-light.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
@@ -22,8 +20,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     return () => dispatch({ type: "RESET_STATE" });
   }, []);
 
+  const components = {
+    a: A,
+    pre: Pre(state.theme),
+  };
+
   return (
-    <MDXProvider components={MDXComponents}>
+    <MDXProvider components={components}>
       <GlobalContext.Provider value={contextValue}>
         <Layout>
           <Component {...pageProps} />

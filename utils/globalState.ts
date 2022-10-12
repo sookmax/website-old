@@ -1,6 +1,6 @@
 import React from "react";
 
-type GlobalState = {
+export type GlobalState = {
   screenWidth: number | null;
   userAgent: string | null;
   theme?: "light" | "dark";

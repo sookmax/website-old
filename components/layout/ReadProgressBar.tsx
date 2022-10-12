@@ -33,11 +33,17 @@ export default function ReadProgressBar({ mainEl }: Props) {
 
           setProgress(progress);
 
-          if (currScrollTop < 50 || progress >= 100) {
-            setShowButton(false);
-          } else {
+          if (currScrollTop > 50) {
             setShowButton(true);
+          } else {
+            setShowButton(false);
           }
+
+          // if (currScrollTop < 50 || progress >= 100) {
+          //   setShowButton(false);
+          // } else {
+          //   setShowButton(true);
+          // }
 
           frameRequested = false;
         });
@@ -73,9 +79,10 @@ export default function ReadProgressBar({ mainEl }: Props) {
           className={classNames(
             "fixed bottom-8 right-8 h-12 w-12 rounded-full",
             "flex items-center justify-center",
-            "opacity-50",
+            "opacity-40",
+            "z-10",
             "bg-gray-400 text-white",
-            "text-gray-700 dark:bg-gray-300"
+            "text-gray-800 dark:bg-gray-300"
           )}
           onClick={handleBackToTop}
         >

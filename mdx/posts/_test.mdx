@@ -46,7 +46,14 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 
 ## code block
 
-```ts
+```css
+.hello {
+  color: "red";
+}
+```
+
+```typescript title="myTypeScript.ts" showLineNumbers
+// this is comment
 class MyClass {
   public static myValue: string;
   constructor(init: string) {
@@ -59,6 +66,30 @@ module MyModule {
     myProperty: any;
   }
 }
-declare magicNumber number;
-myArray.forEach(() => { }); //
+
+declare var magicNumber: number;
+
+myArray.forEach(() => {});
+```
+
+```json title="eslint.json"
+{
+  "extends": ["next/core-web-vitals", "plugin:mdx/recommended"],
+  // optional, if you want to lint code blocks at the same time
+  "settings": {
+    "mdx/code-blocks": true,
+    // optional, if you want to disable language mapper, set it to `false`
+    // if you want to override the default language mapper inside, you can provide your own
+    "mdx/language-mapper": {}
+  },
+  "overrides": [
+    {
+      "files": ["*.mdx"],
+      "rules": {
+        "no-unused-expressions": "off",
+        "react/jsx-no-undef": "off"
+      }
+    }
+  ]
+}
 ```

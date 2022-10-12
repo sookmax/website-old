@@ -2,34 +2,13 @@ import { classNames } from "@/utils/class-names";
 import GithubIcon from "../icons/GithubIcon";
 import { LinkedInIcon } from "../icons/LinkedInIcon";
 import Tooltip from "@/components/tooltip";
-import CopyIcon from "../icons/CopyIcon";
-import { useState } from "react";
-import CheckIcon from "../icons/CheckIcon";
-import ErrorIcon from "../icons/ErrorIcon";
 import MailIcon from "../icons/MailIcon";
+import useClipboardCopy from "@/utils/useClipboardCopy";
 
 const EMAIL_ADDR = "sukkyu.chung@gmail.com";
 
-type CopyState = "idle" | "sucessful" | "failed";
-
 export default function Footer() {
-  const [copyState, setCopyState] = useState<CopyState>("idle");
-
-  const onCopyClick = async () => {
-    if (copyState === "failed") return;
-
-    try {
-      await window.navigator.clipboard.writeText(EMAIL_ADDR);
-      setCopyState("sucessful");
-    } catch (e) {
-      console.error(e);
-      setCopyState("failed");
-    } finally {
-      setTimeout(() => {
-        setCopyState("idle");
-      }, 1000);
-    }
-  };
+  const [copyState, copyIcon, onCopyClick] = useClipboardCopy();
 
   return (
     <footer
@@ -71,11 +50,11 @@ export default function Footer() {
                   "text-emerald-600 dark:text-emerald-400",
                 copyState === "failed" && "text-red-600 dark:text-red-400"
               )}
-              onClick={onCopyClick}
+              onClick={() => onCopyClick(EMAIL_ADDR)}
             >
               <span>{EMAIL_ADDR}</span>
               <button>
-                <span className="flex h-4 w-4">{getCopyIcon(copyState)}</span>
+                <span className="flex h-4 w-4">{copyIcon}</span>
               </button>
             </span>
             <span className="flex h-7 w-7">
@@ -89,15 +68,4 @@ export default function Footer() {
       </span>
     </footer>
   );
-}
-
-function getCopyIcon(state: CopyState) {
-  switch (state) {
-    case "idle":
-      return <CopyIcon />;
-    case "sucessful":
-      return <CheckIcon />;
-    case "failed":
-      return <ErrorIcon />;
-  }
 }

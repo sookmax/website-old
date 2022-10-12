@@ -9,7 +9,7 @@ type Props = {
 };
 
 // ref: https://github.com/leerob/leerob.io/blob/main/components/MDXComponents.tsx
-export default function CustomLink({ href, children, ...rest }: Props) {
+export default function A({ href, children, ...rest }: Props) {
   if (!href) throw "No 'href' attribute found.";
 
   if (href.startsWith("/")) {

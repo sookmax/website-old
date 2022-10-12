@@ -2,9 +2,9 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
+import remarkMdxCodeMeta from "remark-mdx-code-meta";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeHighlight from "rehype-highlight";
 import { getAllSlugs, getPostData } from "@/server-scripts/post";
 import Article from "@/components/Article";
 
@@ -55,8 +55,8 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
 
   const mdxSource = await serialize(matter.content, {
     mdxOptions: {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, rehypeHighlight],
+      remarkPlugins: [remarkGfm, remarkMdxCodeMeta],
+      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     },
   });
 
