@@ -8,7 +8,7 @@ interface Tabs {
 }
 
 export const tabs: Tabs = {
-  "/": { id: 0, label: "About" },
+  // "/": { id: 0, label: "About" },
   "/posts": { id: 1, label: "Posts" },
 };
 

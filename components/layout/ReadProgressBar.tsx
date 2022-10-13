@@ -82,11 +82,11 @@ export default function ReadProgressBar({ mainEl }: Props) {
             "opacity-40",
             "z-10",
             "bg-gray-400 text-white",
-            "text-gray-800 dark:bg-gray-300"
+            "text-black dark:bg-gray-300"
           )}
           onClick={handleBackToTop}
         >
-          <span className="flex h-7 w-7">
+          <span className="flex h-7 w-7 opacity-100">
             <ExpandLessIcon />
           </span>
         </button>

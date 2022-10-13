@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --header-height: 100px;
+    --header-height: 70px;
     --nav-height: 50px;
     --footer-height: 60px;
     --footer-height-m: 60px;

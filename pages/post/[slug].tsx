@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import { GetStaticProps, GetStaticPaths } from "next";
+import Head from "next/head";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
@@ -27,9 +29,14 @@ const components = {};
 
 export default function Post({ mdxSource, ...articleProps }: Props) {
   return (
-    <Article {...articleProps}>
-      <MDXRemote {...mdxSource} components={components} />
-    </Article>
+    <>
+      <Head>
+        <title>{articleProps.title}</title>
+      </Head>
+      <Article {...articleProps}>
+        <MDXRemote {...mdxSource} components={components} />
+      </Article>
+    </>
   );
 }
 

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import Head from "next/head";
 import Link from "next/link";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { getDateString } from "@/utils/date";
@@ -17,15 +16,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function Article({
-  title,
-  date,
-  lastModified,
-  readTime,
-  wordsCount,
-  wordsPerMinute,
-  children,
-}: Props) {
+const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
+  { title, date, lastModified, readTime, wordsCount, wordsPerMinute, children },
+  ref
+) {
   const readTimeText =
     readTime > 0 ? `${readTime} min read` : `less than 1 min read`;
 
@@ -34,10 +28,7 @@ export default function Article({
   } = useContext(GlobalContext);
 
   return (
-    <div className="space-y-12">
-      <Head>
-        <title>{title}</title>
-      </Head>
+    <div ref={ref} className="space-y-12">
       <header className="flex flex-col items-start justify-between space-y-2">
         <h1 className="w-full text-2xl sm:text-4xl">{title}</h1>
         <p className="flex w-full flex-col justify-between text-xs text-gray-500 dark:text-gray-400 sm:flex-row sm:text-sm">
@@ -75,4 +66,6 @@ export default function Article({
       </Link>
     </div>
   );
-}
+});
+
+export default Article;
