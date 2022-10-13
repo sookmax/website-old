@@ -6,6 +6,8 @@ import Highlight, {
   PrismTheme,
   Language,
 } from "prism-react-renderer";
+import CodeButtonGroup from "./CodeButtonGroup";
+import useCodeWordWrap from "./useCodeWordWrap";
 
 const codeThemeLight: PrismTheme = {
   plain: {
@@ -243,6 +245,8 @@ export default function Pre(theme: GlobalState["theme"]) {
     const codeString = props.children.props.children as string;
 
     const [copyState, copyIcon, onCopyClick] = useClipboardCopy();
+    const [codeContainerRef, showWordWrap, wordWrapIcon, toggleWordWrap] =
+      useCodeWordWrap();
 
     const handleCopy = () => {
       onCopyClick(codeString);
@@ -259,19 +263,29 @@ export default function Pre(theme: GlobalState["theme"]) {
           <pre
             className={classNames(
               "code-block-container flex flex-col p-0",
-              copyState === "idle" && "[&:hover_button]:opacity-50",
+              "[&:hover_button]:opacity-50",
               (copyState === "sucessful" || copyState === "failed") &&
-                "[&:hover_button]:opacity-100"
+                "[&:hover_.copy-button]:opacity-100"
             )}
             style={style}
           >
             {title && (
-              <div className="code-title border-b-2 p-3 text-[color:var(--tw-prose-body)] dark:border-gray-600">
+              <header className="relative border-b-2 p-3 text-[color:var(--tw-prose-body)] dark:border-gray-600">
                 {title}
-              </div>
+                <CodeButtonGroup
+                  showWordWrap={showWordWrap}
+                  wordWrapIcon={wordWrapIcon}
+                  toggleWordWrap={toggleWordWrap}
+                  copyState={copyState}
+                  copyIcon={copyIcon}
+                  handleCopy={handleCopy}
+                  centerVertical
+                />
+              </header>
             )}
             <div className={classNames("relative overflow-hidden")}>
               <div
+                ref={codeContainerRef}
                 className={classNames(className, "relative overflow-auto p-3")}
               >
                 {tokens.map((line, i) => {
@@ -282,7 +296,7 @@ export default function Pre(theme: GlobalState["theme"]) {
                       className="table-row"
                     >
                       {showLineNumbers && (
-                        <span className="line-number table-cell select-none pr-4 text-right text-xs opacity-50">
+                        <span className="line-number table-cell select-none whitespace-nowrap pr-4 text-right text-xs opacity-50">
                           {i + 1}
                         </span>
                       )}
@@ -295,21 +309,16 @@ export default function Pre(theme: GlobalState["theme"]) {
                   );
                 })}
               </div>
-              <div className="copy-button absolute top-0 right-0 flex">
-                <button
-                  className={classNames(
-                    "transition-opacity duration-300 ease-in-out",
-                    "h-10 w-10 p-2 text-gray-400 opacity-0",
-                    "hover:!opacity-100 focus-visible:opacity-100",
-                    copyState === "sucessful" &&
-                      "text-emerald-600 dark:text-emerald-400",
-                    copyState === "failed" && "text-rose-600 dark:text-rose-400"
-                  )}
-                  onClick={handleCopy}
-                >
-                  {copyIcon}
-                </button>
-              </div>
+              {!title && (
+                <CodeButtonGroup
+                  showWordWrap={showWordWrap}
+                  wordWrapIcon={wordWrapIcon}
+                  toggleWordWrap={toggleWordWrap}
+                  copyState={copyState}
+                  copyIcon={copyIcon}
+                  handleCopy={handleCopy}
+                />
+              )}
             </div>
           </pre>
         )}

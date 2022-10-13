@@ -5,6 +5,8 @@ import { useState } from "react";
 
 type CopyState = "idle" | "sucessful" | "failed";
 
+export type ClipboardCopy = ReturnType<typeof useClipboardCopy>;
+
 export default function useClipboardCopy() {
   const [state, setState] = useState<CopyState>("idle");
 
