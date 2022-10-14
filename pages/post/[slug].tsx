@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
 import { serialize } from "next-mdx-remote/serialize";
