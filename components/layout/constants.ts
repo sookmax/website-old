@@ -8,8 +8,8 @@ interface Tabs {
 }
 
 export const tabs: Tabs = {
-  // "/": { id: 0, label: "About" },
-  "/posts": { id: 1, label: "Posts" },
+  "/": { id: 0, label: "About" },
+  "/posts": { id: 1, label: "Writing" },
 };
 
 export function getTabIdByPath(path: string) {

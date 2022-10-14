@@ -36,6 +36,10 @@ export default function Document() {
         <NextScript />
         <Script id="theme-script" strategy="beforeInteractive">
           {`
+          // [Refs]
+          // - https://blog.maximeheckel.com/posts/switching-off-the-lights-part-2-fixing-dark-mode-flashing-on-servered-rendered-website/
+          // - https://github.com/vercel/next.js/discussions/12533
+          // - https://github.com/gaearon/overreacted.io/blob/master/src/html.js
             (function() {
               function setTheme(theme) {
                 if (theme === 'dark') {

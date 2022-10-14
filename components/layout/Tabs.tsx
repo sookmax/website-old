@@ -16,9 +16,9 @@ export default function Tabs({ currentTabId }: Props) {
             <Link key={tab.id} href={href}>
               <a
                 className={classNames(
-                  "border-b-2 text-gray-700 dark:text-gray-100",
+                  "border-b-4 p-1 text-gray-700 dark:text-gray-100",
                   tab.id === currentTabId
-                    ? "border-gray-300 dark:border-gray-200"
+                    ? "border-yellow-400"
                     : "border-transparent  hover:border-gray-200 hover:dark:border-gray-500"
                 )}
               >
