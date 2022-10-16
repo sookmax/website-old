@@ -11,7 +11,11 @@ type Props = {
   children: React.ReactNode;
 };
 
+const defaultOGImageUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/og/`;
+
 export default function Layout({ children }: Props) {
+  // `router.pathname`: no trailing slash & verbatim dynamic route (e.g. /post/[slug])
+  // `router.asPath`: contains trailing slash & dynamic route is resolved (e.g. /post/actual-post-slug/)
   const router = useRouter();
   const currentTabId = getTabIdByPath(router.pathname);
   const layoutTitle = getLayoutTitle(router.pathname);
@@ -19,9 +23,27 @@ export default function Layout({ children }: Props) {
 
   const mainEl = useRef<HTMLElement>(null);
 
+  const fullUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}${router.asPath}`;
+
   return (
     <>
-      <Head>{layoutTitle ? <title>{layoutTitle}</title> : null}</Head>
+      <Head>
+        {layoutTitle ? <title>{layoutTitle}</title> : null}
+        <meta name="description" content="Hello 👋"></meta>
+
+        <meta property="og:url" content={fullUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Sook's website" />
+        <meta property="og:description" content="Hello 👋" />
+        <meta property="og:image" content={defaultOGImageUrl} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="sook.dev" />
+        <meta property="twitter:url" content={fullUrl} />
+        <meta name="twitter:title" content="Sook's website" />
+        <meta name="twitter:description" content="Hello 👋" />
+        <meta name="twitter:image" content={defaultOGImageUrl} />
+      </Head>
       <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
         {articlePath && <ReadProgressBar mainEl={mainEl} />}
@@ -29,7 +51,7 @@ export default function Layout({ children }: Props) {
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
-          <main ref={mainEl} className="my-10 flex-grow">
+          <main ref={mainEl} className="my-10 flex flex-grow flex-col">
             {children}
           </main>
           <Footer />
@@ -53,7 +75,7 @@ function getLayoutTitle(routerPath: string) {
       title = `Posts | ${titleRoot}`;
       break;
     default:
-      title = null;
+      title = null; // handled in other places
   }
 
   return title;

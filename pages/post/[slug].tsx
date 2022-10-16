@@ -27,10 +27,18 @@ type Query = {
 const components = {};
 
 export default function Post({ mdxSource, ...articleProps }: Props) {
+  const ogImageUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/og/?title=${articleProps.title}`;
+
   return (
     <>
       <Head>
         <title>{articleProps.title}</title>
+        <meta property="og:title" content="Post" />
+        <meta property="og:description" content={articleProps.title} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta name="twitter:title" content="Sook's website" />
+        <meta name="twitter:description" content={articleProps.title} />
+        <meta name="twitter:image" content={ogImageUrl} />
       </Head>
       <Article {...articleProps}>
         <MDXRemote {...mdxSource} components={components} />

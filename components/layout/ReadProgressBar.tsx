@@ -64,8 +64,8 @@ export default function ReadProgressBar({ mainEl }: Props) {
           id="read-progress-bar"
           className={classNames(
             "sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r",
-            "from-indigo-400 via-purple-400 to-pink-400",
-            "dark:from-indigo-500 dark:via-purple-400 dark:to-pink-500"
+            "from-yellow-400 via-emerald-400 to-teal-400",
+            "dark:from-yellow-500 dark:via-emerald-400 dark:to-teal-500"
           )}
         >
           <div

@@ -23,14 +23,14 @@ export default function Posts({ postMetaArray }: Props) {
       {postMetaArray.map((mData) => (
         <li key={mData.slug} onMouseOver={() => setHoveredPost(mData.slug)}>
           <Link href={`/post/${mData.slug}`}>
-            <a className="flex w-full flex-col items-start space-y-1 sm:flex-row sm:justify-between sm:space-y-0">
+            <a className="flex w-full flex-col items-start space-y-1 font-semibold text-gray-700 dark:text-gray-200 sm:flex-row sm:justify-between sm:space-y-0">
               <span
                 className={classNames(
                   mData.slug === hoveredPost &&
                     classNames(
                       "bg-gradient-to-r bg-clip-text text-transparent",
-                      "from-indigo-600 via-purple-600 to-pink-600",
-                      "dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300"
+                      "from-yellow-500 via-emerald-500 to-teal-500",
+                      "dark:from-yellow-400 dark:via-emerald-400 dark:to-teal-400"
                     )
                 )}
               >

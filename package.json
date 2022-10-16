@@ -19,6 +19,7 @@
     "@next/mdx": "^12.3.1",
     "@react-three/drei": "^9.34.4",
     "@react-three/fiber": "^8.8.10",
+    "@vercel/og": "^0.0.19",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
     "maath": "^0.4.2",

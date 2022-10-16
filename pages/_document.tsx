@@ -24,12 +24,6 @@ export default function Document() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <meta property="og:type" content="website"></meta>
-        <meta property="og:title" content="Sook's website" />
-        <meta
-          property="og:description"
-          content="Hello, I'm Sook. Thanks for visiting my website!"
-        />
       </Head>
       <body className="flex flex-col">
         <Main />
