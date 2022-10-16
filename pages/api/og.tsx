@@ -55,19 +55,19 @@ export default async function handler(req: NextRequest) {
             </div>
           </div>
           <img
-            alt="Vercel"
-            height={100}
+            alt="github-avatar"
+            height={90}
+            width={90}
             src={`https://github.com/${process.env.NEXT_PUBLIC_GITHUB_USERNAME}.png`}
             style={{
               position: "absolute",
-              bottom: "0",
+              top: "0",
               right: "0",
               margin: "20px",
               borderRadius: "9999px",
               borderWidth: "2px",
-              borderColor: "#facc15",
+              borderColor: "#374151",
             }}
-            width={100}
           />
         </div>
       ),
