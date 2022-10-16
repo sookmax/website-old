@@ -27,7 +27,9 @@ type Query = {
 const components = {};
 
 export default function Post({ mdxSource, ...articleProps }: Props) {
-  const ogImageUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}/api/og/?title=${articleProps.title}`;
+  const ogImageUrl = `${
+    process.env.NEXT_PUBLIC_DOMAIN_NAME
+  }/api/og/?title=${encodeURIComponent(articleProps.title)}`;
 
   return (
     <>

@@ -14,6 +14,7 @@ export default async function handler(req: NextRequest) {
     const title = hasTitle
       ? searchParams.get("title")?.slice(0, 100)
       : "Hi 👋, I'm Sook.";
+
     return new ImageResponse(
       (
         <div
