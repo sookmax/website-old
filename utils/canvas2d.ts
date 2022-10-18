@@ -4,7 +4,7 @@ const colors = {
   light: {
     fill: {
       default: "#d1d5db",
-      palette: ["#0d9488", "#059669", "#ca8a04"],
+      palette: ["#2dd4bf", "#34d399", "#facc15"],
     },
 
     background: "white",
@@ -44,12 +44,14 @@ export default class Canvas2D {
     margin,
     theme,
     random = false,
+    drawFilter = () => true,
   }: {
     count: number;
     radius: number;
     margin: number;
     theme: "light" | "dark";
     random?: boolean;
+    drawFilter?: (x: number, y: number) => boolean;
   }) {
     const points = random
       ? this._createGrid(count).filter(() => Math.random() > 0.5)
@@ -64,25 +66,29 @@ export default class Canvas2D {
       const x = lerp(margin, this._width - margin, u);
       const y = lerp(margin, this._height - margin, v);
 
-      context.beginPath();
-      context.arc(x, y, this._width * radius, 0, Math.PI * 2, false);
+      if (drawFilter(x, y)) {
+        context.beginPath();
+        context.arc(x, y, this._width * radius, 0, Math.PI * 2, false);
 
-      if (random) {
-        context.fillStyle =
-          Math.random() > 0.9
-            ? colors[theme].fill.palette[0]
-            : Math.random() > 0.9
-            ? colors[theme].fill.palette[1]
-            : Math.random() > 0.9
-            ? colors[theme].fill.palette[2]
-            : colors[theme].fill.default;
-      } else {
-        context.fillStyle = colors[theme].fill.default;
+        if (random) {
+          context.fillStyle =
+            Math.random() > 0.9
+              ? colors[theme].fill.palette[0]
+              : Math.random() > 0.9
+              ? colors[theme].fill.palette[1]
+              : Math.random() > 0.9
+              ? colors[theme].fill.palette[2]
+              : colors[theme].fill.default;
+        } else {
+          context.fillStyle = colors[theme].fill.default;
+        }
+
+        context.fill();
       }
-
-      context.fill();
     });
   }
+
+  public drawCircleGridStroke() {}
 
   private _getContext() {
     const context = this._canvas.getContext("2d");

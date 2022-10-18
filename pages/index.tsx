@@ -15,14 +15,40 @@ export default function Home() {
       const height = rootRef.current.clientHeight;
       const canvas =
         rootRef.current.querySelector<HTMLCanvasElement>("#canvas");
-      if (canvas && theme) {
+      const mainText =
+        rootRef.current.querySelector<HTMLDivElement>("#main-text");
+      if (canvas && mainText && theme) {
+        const {
+          top: textTop,
+          bottom: textBottom,
+          right: textRight,
+          left: textLeft,
+        } = mainText.getBoundingClientRect();
+
+        const { top: canvasTop, left: canvasLeft } =
+          canvas.getBoundingClientRect();
+
+        const yMin = (textTop - canvasTop) * window.devicePixelRatio;
+        const yMax = (textBottom - canvasTop) * window.devicePixelRatio;
+
+        const xMin = (textLeft - canvasLeft) * window.devicePixelRatio;
+        const xMax = (textRight - canvasLeft) * window.devicePixelRatio;
+
+        const drawFilter = (x: number, y: number) => {
+          if (xMin <= x && x <= xMax && y >= yMin && y <= yMax) {
+            return false;
+          }
+          return true;
+        };
+
         canvas2d = new Canvas2D(canvas, width, height);
         canvas2d.drawCircleGrid({
-          count: 40,
-          radius: 0.003,
-          margin: 0.06,
+          count: 15,
+          radius: 0.006,
+          margin: 0.05,
           theme,
           random: true,
+          drawFilter,
         });
       }
     }
@@ -32,18 +58,21 @@ export default function Home() {
 
   return (
     <div ref={rootRef} className="relative flex-grow">
-      <section className="absolute top-1/3 -translate-y-1/2">
-        <div className="mt-12 mb-2 text-7xl font-bold text-gray-700 dark:text-teal-50">
+      <canvas id="canvas"></canvas>
+      <section
+        id="main-text"
+        className="absolute top-1/2 left-0 -translate-y-1/2 p-3"
+      >
+        <div className="text-7xl font-extrabold text-gray-700 dark:text-teal-50 sm:text-8xl">
           Hi,
           <br />
           I Am <br />
           Sook.
         </div>
-        <div className="mt-2 text-gray-600 dark:text-gray-400">
-          A web developer.
+        <div className="px-2 text-end text-sm text-gray-400 sm:text-base">
+          - A web dev
         </div>
       </section>
-      <canvas id="canvas"></canvas>
     </div>
   );
 }

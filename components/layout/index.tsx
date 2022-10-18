@@ -47,7 +47,7 @@ export default function Layout({ children }: Props) {
       <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
         {articlePath && <ReadProgressBar mainEl={mainEl} />}
-        <div className="mb-6 flex w-full max-w-2xl flex-grow flex-col px-6 sm:px-8">
+        <div className="mb-6 flex w-full max-w-2xl flex-grow flex-col px-5">
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
