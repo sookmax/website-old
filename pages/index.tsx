@@ -43,8 +43,8 @@ export default function Home() {
 
         canvas2d = new Canvas2D(canvas, width, height);
         canvas2d.drawCircleGrid({
-          count: 15,
-          radius: 0.006,
+          count: 50,
+          radius: 0.005,
           margin: 0.05,
           theme,
           random: true,
@@ -70,7 +70,7 @@ export default function Home() {
           Sook.
         </div>
         <div className="px-2 text-end text-sm text-gray-400 sm:text-base">
-          - A web dev
+          - A web developer
         </div>
       </section>
     </div>

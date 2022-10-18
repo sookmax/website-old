@@ -54,7 +54,7 @@ export default class Canvas2D {
     drawFilter?: (x: number, y: number) => boolean;
   }) {
     const points = random
-      ? this._createGrid(count).filter(() => Math.random() > 0.5)
+      ? this._createGrid(count).filter(() => Math.random() > 0.63)
       : this._createGrid(count);
     margin = this._width * margin;
 
