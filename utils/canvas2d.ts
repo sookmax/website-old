@@ -27,6 +27,7 @@ export default class Canvas2D {
     margin,
     fillStyle,
     strokeStyle,
+    random = false,
   }: {
     count: number;
     radius: number;
@@ -34,8 +35,11 @@ export default class Canvas2D {
     margin: number;
     fillStyle: string;
     strokeStyle: string;
+    random?: boolean;
   }) {
-    const points = this._createGrid(count);
+    const points = random
+      ? this._createGrid(count).filter(() => Math.random() > 0.5)
+      : this._createGrid(count);
     margin = this._width * margin;
 
     const context = this._getContext();

@@ -13,7 +13,7 @@ export default async function handler(req: NextRequest) {
     const hasTitle = searchParams.has("title");
     const title = hasTitle
       ? searchParams.get("title")?.slice(0, 100)
-      : "Hi 👋, I'm Sook.";
+      : "Hi, I'm Sook.";
 
     return new ImageResponse(
       (
@@ -54,7 +54,7 @@ export default async function handler(req: NextRequest) {
               {title}
             </div>
           </div>
-          <img
+          {/* <img
             alt="github-avatar"
             height={90}
             width={90}
@@ -68,7 +68,7 @@ export default async function handler(req: NextRequest) {
               borderWidth: "2px",
               borderColor: "#374151",
             }}
-          />
+          /> */}
         </div>
       ),
       {

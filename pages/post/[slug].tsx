@@ -38,7 +38,7 @@ export default function Post({ mdxSource, ...articleProps }: Props) {
         <meta property="og:title" content="Post" />
         <meta property="og:description" content={articleProps.title} />
         <meta property="og:image" content={ogImageUrl} />
-        <meta name="twitter:title" content="Sook's website" />
+        <meta name="twitter:title" content="Post" />
         <meta name="twitter:description" content={articleProps.title} />
         <meta name="twitter:image" content={ogImageUrl} />
       </Head>

@@ -51,7 +51,7 @@ export default function Layout({ children }: Props) {
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
-          <main ref={mainEl} className="my-10 flex flex-grow flex-col">
+          <main ref={mainEl} className="mt-10 flex flex-grow flex-col">
             {children}
           </main>
           <Footer />
