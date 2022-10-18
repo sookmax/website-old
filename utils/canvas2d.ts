@@ -1,5 +1,23 @@
 import { lerp } from "canvas-sketch-util/math";
 
+const colors = {
+  light: {
+    fill: {
+      default: "#d1d5db",
+      palette: ["#0d9488", "#059669", "#ca8a04"],
+    },
+
+    background: "white",
+  },
+  dark: {
+    fill: {
+      default: "#4b5563",
+      palette: ["#2dd4bf", "#34d399", "#facc15"],
+    },
+    background: "#1e293b",
+  },
+};
+
 export default class Canvas2D {
   private _canvas: HTMLCanvasElement;
   private _width: number;
@@ -23,20 +41,14 @@ export default class Canvas2D {
   public drawCircleGrid({
     count,
     radius,
-    lineWidth,
     margin,
-    bgStyle,
-    fillStyle,
-    strokeStyle,
+    theme,
     random = false,
   }: {
     count: number;
     radius: number;
     margin: number;
-    bgStyle: string;
-    fillStyle: string;
-    lineWidth?: number;
-    strokeStyle?: string;
+    theme: "light" | "dark";
     random?: boolean;
   }) {
     const points = random
@@ -45,7 +57,7 @@ export default class Canvas2D {
     margin = this._width * margin;
 
     const context = this._getContext();
-    context.fillStyle = bgStyle;
+    context.fillStyle = colors[theme].background;
     context.fillRect(0, 0, this._width, this._height);
 
     points.forEach(([u, v]) => {
@@ -54,14 +66,21 @@ export default class Canvas2D {
 
       context.beginPath();
       context.arc(x, y, this._width * radius, 0, Math.PI * 2, false);
-      context.fillStyle = fillStyle;
-      context.fill();
 
-      if (strokeStyle && lineWidth) {
-        context.strokeStyle = strokeStyle;
-        context.lineWidth = lineWidth;
-        context.stroke();
+      if (random) {
+        context.fillStyle =
+          Math.random() > 0.9
+            ? colors[theme].fill.palette[0]
+            : Math.random() > 0.9
+            ? colors[theme].fill.palette[1]
+            : Math.random() > 0.9
+            ? colors[theme].fill.palette[2]
+            : colors[theme].fill.default;
+      } else {
+        context.fillStyle = colors[theme].fill.default;
       }
+
+      context.fill();
     });
   }
 

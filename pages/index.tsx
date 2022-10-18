@@ -15,16 +15,13 @@ export default function Home() {
       const height = rootRef.current.clientHeight;
       const canvas =
         rootRef.current.querySelector<HTMLCanvasElement>("#canvas");
-      if (canvas) {
+      if (canvas && theme) {
         canvas2d = new Canvas2D(canvas, width, height);
         canvas2d.drawCircleGrid({
           count: 40,
           radius: 0.003,
           margin: 0.06,
-          bgStyle: theme === "light" ? "white" : "#1e293b",
-          fillStyle: theme === "light" ? "#d1d5db" : "#4b5563",
-          // strokeStyle: theme === "light" ? "#d1d5db" : "#4b5563",
-          // lineWidth: 2,
+          theme,
           random: true,
         });
       }
@@ -36,13 +33,13 @@ export default function Home() {
   return (
     <div ref={rootRef} className="relative flex-grow">
       <section className="absolute top-1/3 -translate-y-1/2">
-        <div className="mt-12 text-7xl font-bold text-gray-700 dark:text-gray-200">
+        <div className="mt-12 mb-2 text-7xl font-bold text-gray-700 dark:text-teal-50">
           Hi,
           <br />
           I Am <br />
           Sook.
         </div>
-        <div className="mt-4 text-gray-500 dark:text-gray-400">
+        <div className="mt-2 text-gray-600 dark:text-gray-400">
           A web developer.
         </div>
       </section>
