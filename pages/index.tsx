@@ -21,9 +21,10 @@ export default function Home() {
           count: 40,
           radius: 0.003,
           margin: 0.06,
-          fillStyle: theme === "light" ? "white" : "#1e293b",
-          strokeStyle: theme === "light" ? "#d1d5db" : "#4b5563",
-          lineWidth: 2,
+          bgStyle: theme === "light" ? "white" : "#1e293b",
+          fillStyle: theme === "light" ? "#d1d5db" : "#4b5563",
+          // strokeStyle: theme === "light" ? "#d1d5db" : "#4b5563",
+          // lineWidth: 2,
           random: true,
         });
       }

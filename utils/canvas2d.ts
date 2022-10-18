@@ -25,16 +25,18 @@ export default class Canvas2D {
     radius,
     lineWidth,
     margin,
+    bgStyle,
     fillStyle,
     strokeStyle,
     random = false,
   }: {
     count: number;
     radius: number;
-    lineWidth: number;
     margin: number;
+    bgStyle: string;
     fillStyle: string;
-    strokeStyle: string;
+    lineWidth?: number;
+    strokeStyle?: string;
     random?: boolean;
   }) {
     const points = random
@@ -43,7 +45,7 @@ export default class Canvas2D {
     margin = this._width * margin;
 
     const context = this._getContext();
-    context.fillStyle = fillStyle;
+    context.fillStyle = bgStyle;
     context.fillRect(0, 0, this._width, this._height);
 
     points.forEach(([u, v]) => {
@@ -52,9 +54,14 @@ export default class Canvas2D {
 
       context.beginPath();
       context.arc(x, y, this._width * radius, 0, Math.PI * 2, false);
-      context.strokeStyle = strokeStyle;
-      context.lineWidth = lineWidth;
-      context.stroke();
+      context.fillStyle = fillStyle;
+      context.fill();
+
+      if (strokeStyle && lineWidth) {
+        context.strokeStyle = strokeStyle;
+        context.lineWidth = lineWidth;
+        context.stroke();
+      }
     });
   }
 
