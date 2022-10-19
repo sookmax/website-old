@@ -232,6 +232,12 @@ const codeThemeDark: PrismTheme = {
         color: "rgb(209, 105, 105)",
       },
     },
+    {
+      types: ["module"],
+      style: {
+        color: "#c682c1",
+      },
+    },
   ],
 };
 
