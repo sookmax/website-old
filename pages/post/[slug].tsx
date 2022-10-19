@@ -1,5 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import remarkGfm from "remark-gfm";
@@ -24,7 +25,11 @@ type Query = {
 };
 
 // https://github.com/vercel/next.js/tree/canary/examples/with-mdx-remote#conditional-custom-components
-const components = {};
+const components = {
+  ChartExample: dynamic(
+    () => import("@/components/mdx/infrequent/ChartExample")
+  ),
+};
 
 export default function Post({ mdxSource, ...articleProps }: Props) {
   const ogImageUrl = `${

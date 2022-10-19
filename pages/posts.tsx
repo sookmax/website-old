@@ -26,7 +26,7 @@ export default function Posts({ postMetaArray }: Props) {
             <a className="flex w-full flex-col items-start space-y-1 text-gray-700 dark:text-gray-200 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
               <span
                 className={classNames(
-                  "font-mono text-lg font-semibold sm:text-2xl",
+                  "font-mono text-lg font-semibold sm:text-xl",
                   mData.slug === hoveredPost &&
                     classNames(
                       "bg-gradient-to-r bg-clip-text text-transparent",

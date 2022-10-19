@@ -7,7 +7,7 @@ import {
   initialGlobalState,
 } from "@/utils/globalState";
 import Layout from "@/components/layout";
-import { A, Pre } from "@/components/mdx";
+import { A, Blockquote, Pre } from "@/components/mdx";
 import "@/styles/globals.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -20,10 +20,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     return () => dispatch({ type: "RESET_STATE" });
   }, []);
 
-  const components = {
-    a: A,
-    pre: Pre(state.theme),
-  };
+  const components = useMemo(
+    () => ({
+      a: A,
+      pre: Pre(state.theme),
+      blockquote: Blockquote,
+    }),
+    [state.theme]
+  );
 
   return (
     <MDXProvider components={components}>

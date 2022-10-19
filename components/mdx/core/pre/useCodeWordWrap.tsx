@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import debounce from "lodash/debounce";
-import ExpandIcon from "../icons/ExpandIcon";
-import CompressIcon from "../icons/CompressIcon";
+import ExpandIcon from "../../../icons/ExpandIcon";
+import CompressIcon from "../../../icons/CompressIcon";
 
 export type CodeWordWrap = ReturnType<typeof useCodeWordWrap>;
 
