@@ -17,6 +17,7 @@ module.exports = {
           css: {
             "--tw-prose-pre-bg": "#fafafa",
             "--tw-prose-invert-pre-bg": "#262729",
+            // "--tw-prose-code": "#f43f5e",
           },
         },
       }),
