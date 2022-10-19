@@ -54,7 +54,7 @@ const codeThemeLight: PrismTheme = {
     {
       types: ["attr-name", "variable"],
       style: {
-        color: "rgb(156, 220, 254)",
+        color: "#559ad4",
       },
     },
     {
@@ -114,6 +114,12 @@ const codeThemeLight: PrismTheme = {
       types: ["char"],
       style: {
         color: "rgb(209, 105, 105)",
+      },
+    },
+    {
+      types: ["module"],
+      style: {
+        color: "#ad77a9",
       },
     },
   ],
