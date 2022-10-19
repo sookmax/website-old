@@ -14,8 +14,8 @@ export default function A({ href, children, ...rest }: Props) {
 
   if (href.startsWith("/")) {
     return (
-      <Link href={href}>
-        <a {...rest}>{children}</a>
+      <Link href={href} {...rest}>
+        {children}
       </Link>
     );
   }

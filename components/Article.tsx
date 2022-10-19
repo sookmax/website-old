@@ -58,13 +58,15 @@ const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
         </p>
       </header>
       <article className="prose dark:prose-invert">{children}</article>
-      <Link href={"/posts"}>
-        <a className="inline-flex items-center space-x-1 text-gray-500 dark:text-gray-300">
-          <span className={classNames("h-5 w-5")}>
-            <ArrowLeftCircleIcon />
-          </span>
-          <span>Back to list</span>
-        </a>
+      <Link
+        href={"/posts"}
+        className="inline-flex items-center space-x-1 text-gray-500 dark:text-gray-300">
+
+        <span className={classNames("h-5 w-5")}>
+          <ArrowLeftCircleIcon />
+        </span>
+        <span>Back to list</span>
+
       </Link>
     </div>
   );
