@@ -1,30 +1,35 @@
+export type Theme = "light" | "dark";
+
 export function getTheme() {
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  return (
+    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+  ) as Theme;
 }
 
-export function toggleTheme() {
-  const currentTheme = getTheme();
-
-  switch (currentTheme) {
+export function setTheme(theme: Theme) {
+  switch (theme) {
     case "light":
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
       break;
     case "dark":
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
       break;
   }
 }
 
-export function addThemeChangeListener(listener: (htmlEl: Node) => void) {
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((m) => {
-      if (m.type === "attributes" && m.attributeName === "class") {
-        listener(m.target);
-      }
-    });
-  });
-  observer.observe(document.documentElement, { attributes: true });
-  return observer;
-}
+// export function addThemeChangeListener(listener: (theme: Theme) => void) {
+//   const observer = new MutationObserver((mutations) => {
+//     mutations.forEach((m) => {
+//       if (m.type === "attributes" && m.attributeName === "class") {
+//         const nextTheme = (m.target as HTMLElement).classList.contains("dark")
+//           ? "dark"
+//           : "light";
+//         listener(nextTheme);
+//       }
+//     });
+//   });
+//   observer.observe(document.documentElement, { attributes: true });
+//   return observer;
+// }

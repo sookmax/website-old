@@ -1,0 +1,50 @@
+---
+title: Dark Mode. System Preference. Pre-render.
+date: 2022-10-20 00:00:01
+---
+
+While implementing dark mode feature for this website, I faced some non-trivial challenges, mainly:
+
+- make it reactive to _operating system preference_
+- prevent flash of default theme caused by _Next.js's page pre-rendering_
+
+But, before talking about what I did to solve the issues, I want to briefly go over my setup first.
+
+So supporting dark mode means now there are two different themes&mdash;namely _light_ or _dark_&mdash;and every time user changes their theme, the change should be persistent until they change the theme again, meaning the same user-selected theme should appear when the user visits the website again.
+
+I achieved this persistency through browser's `localStorage` APIs.
+
+Changing themes means changing the styles and I use `tailwindcss` for all the styling for this website.
+
+Enabling / disabling dark mode with `tailwindcss` can be done by adding / removing `dark` class to the top `html` element with a simple config change ([see here](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually)):
+
+```html
+<!-- Dark mode not enabled -->
+<html>
+  <body>
+    <!-- Will be white -->
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+
+<!-- Dark mode enabled -->
+<html class="dark">
+  <body>
+    <!-- Will be black -->
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+```
+
+So whenever dark mode is being enabled or disabled, two side effects must happen:
+
+- update user's preference in `localStorage`
+- add / remove `dark` class in `html`
+
+These side effects are triggered whenever a particular `React` state in my website, called _theme_ changes.
+
+The side effects take care of the persistency of user preference and actual style change, whereas the react state `theme` takes care of other UI changes that are not affected by `tailwindcss`&mdash;something like theme-toggle icon change and syntax-highlighting theme change.

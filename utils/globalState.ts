@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useEffect, useReducer } from "react";
+import { getTheme, setTheme, Theme } from "./theme";
 
 export type GlobalState = {
   screenWidth: number | null;
   userAgent: string | null;
-  theme?: "light" | "dark";
+  theme: Theme | null;
 };
+
+type Actions = SetScreenWidthAction | SetUserAgent | SetTheme | ResetState;
+
+interface SetScreenWidthAction {
+  type: "SET_SCREEN_WIDTH";
+  payload: number | null;
+}
+
+interface SetUserAgent {
+  type: "SET_USER_AGENT";
+  payload: string | null;
+}
+
+interface SetTheme {
+  type: "SET_THEME";
+  payload: Theme | null;
+}
+
+interface ResetState {
+  type: "RESET_STATE";
+}
 
 export const initialGlobalState: GlobalState = {
   screenWidth: null,
   userAgent: null,
+  theme: null,
 };
 
 export const GlobalContext = React.createContext({
@@ -34,23 +57,48 @@ export function globalReducer(
   }
 }
 
-type Actions = SetScreenWidthAction | SetUserAgent | SetTheme | ResetState;
+export function useGlobalState() {
+  const [state, dispatch] = useReducer(globalReducer, initialGlobalState);
 
-interface SetScreenWidthAction {
-  type: "SET_SCREEN_WIDTH";
-  payload: number;
-}
+  useEffect(() => {
+    dispatch({ type: "SET_SCREEN_WIDTH", payload: window.innerWidth });
+    return () => dispatch({ type: "SET_SCREEN_WIDTH", payload: null });
+  }, []);
 
-interface SetUserAgent {
-  type: "SET_USER_AGENT";
-  payload: string;
-}
+  useEffect(() => {
+    dispatch({ type: "SET_USER_AGENT", payload: window.navigator.userAgent });
+    return () => dispatch({ type: "SET_USER_AGENT", payload: null });
+  }, []);
 
-interface SetTheme {
-  type: "SET_THEME";
-  payload: "light" | "dark";
-}
+  useEffect(() => {
+    dispatch({ type: "SET_THEME", payload: getTheme() });
+    return () => {
+      dispatch({ type: "SET_THEME", payload: null });
+    };
+  }, []);
 
-interface ResetState {
-  type: "RESET_STATE";
+  useEffect(() => {
+    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const listener = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        dispatch({ type: "SET_THEME", payload: "dark" });
+      } else {
+        dispatch({ type: "SET_THEME", payload: "light" });
+      }
+    };
+
+    darkQuery.addEventListener("change", listener);
+
+    return () => darkQuery.removeEventListener("change", listener);
+  }, []);
+
+  useEffect(() => {
+    if (state.theme) {
+      // takes care of css class and localStorage.
+      setTheme(state.theme);
+    }
+  }, [state.theme]);
+
+  return [state, dispatch] as [typeof state, typeof dispatch];
 }

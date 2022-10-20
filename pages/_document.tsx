@@ -36,25 +36,19 @@ export default function Document() {
           // - https://github.com/gaearon/overreacted.io/blob/master/src/html.js
             (function() {
               function setTheme(theme) {
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                } else if (theme === 'light') {
-                  document.documentElement.classList.remove('dark');
-                } else {
-                  throw '[THEME NOT FOUND]: ' + theme;
+                switch (theme) {
+                  case "light":
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem("theme", "light");
+                    break;
+                  case "dark":
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem("theme", "dark");
+                    break;
                 }
               }
 
-              var darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
-            
-              darkQuery.addEventListener('change', function(e) {
-                if (e.matches) {
-                  setTheme('dark');
-                } else {
-                  setTheme('light');
-                }
-                localStorage.removeItem('theme');
-              })
+              const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
               
               if (localStorage.theme === 'dark' || (!('theme' in localStorage) && darkQuery.matches)) {
                 setTheme('dark');
