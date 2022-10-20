@@ -242,17 +242,21 @@ const codeThemeDark: PrismTheme = {
 };
 
 export default function Pre(theme: GlobalState["theme"]) {
-  if (!theme)
+  if (!theme) {
     return function Pre(props: any) {
-      return <pre>{props.children}</pre>;
+      return <pre {...props} />;
     };
+  }
 
   return function Pre(props: any) {
     const title = props.title as string | undefined;
     const showLineNumbers = props.showLineNumbers as boolean | undefined;
 
-    const languageRaw = props.children.props.className as string;
-    const language = languageRaw.split("-")[1] as Language;
+    const languageRaw = props.children.props.className as string | undefined;
+
+    const language = (
+      languageRaw ? languageRaw.split("-")[1] : null
+    ) as Language | null;
 
     const codeString = props.children.props.children as string;
 
@@ -269,7 +273,9 @@ export default function Pre(theme: GlobalState["theme"]) {
         {...defaultProps}
         theme={theme === "light" ? codeThemeLight : codeThemeDark}
         code={codeString.trim()}
-        language={language}
+        // https://github.com/facebook/docusaurus
+        // packages/docusaurus-theme-classic/src/theme/CodeBlock/Content/String.tsx
+        language={(language ?? "text") as Language}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre

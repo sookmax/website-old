@@ -1,0 +1,64 @@
+---
+title: MDX with live reload
+date: 2022-10-20
+---
+
+If you set up an `MDX` environment in your `Next.js` project with `next-mdx-remote` ([related post](/post/setup-mdx-with-nextjs)), unfortunately you will immediately notice your browser doesn't refresh when you save your MDX file.
+
+This is because when you use `next-mdx-remote` to load up your MDX files, you don't explicitly import the MDXs anywhere in project so `Next.js` doesn't know something has been updated.
+
+Lucky for us, the same author who created `next-mdx-remote` also made a library called `next-remote-watch` that helps us do the live-reloading as we change our MDX files.
+
+Installation and setup is actually pretty easy:
+
+```
+npm i -D next-remote-watch
+```
+
+This installs the cli, `next-remote-watch` and it's actually a drop-in replacement for your `next dev` command.
+
+The cli takes file paths as its positional arguments so if your MDX files are located in, for example, `./mdx`, you can run the cli like so:
+
+```
+npx next-remote-watch ./mdx
+```
+
+Or you can add an npm script:
+
+```json title="package.json"
+{
+  "scripts": {
+    "dev": "next dev",
+    "dev:watch": "next-remote-watch ./mdx"
+  }
+}
+```
+
+One important caveat is that `next-remote-watch` is said to rely on some undocumented APIs from `Next.js` [(see here)](https://github.com/hashicorp/next-remote-watch#important-warnings-and-caveats), it might break if you update your `Next.js` version in the future&mdash;I've confirmed it works with `next@12.3.1` which is the current latest as of 10/20/2022.
+
+So I recommend not to overwrite your existing `npm dev script` and just create another script like `dev:watch` above. (this is also suggested here: [MDX Remote Example](https://github.com/vercel/next.js/tree/canary/examples/with-mdx-remote#mdx-remote-example)).
+
+Now, if you run `npm run dev:watch` instead of `npm run dev`&mdash;assuming your script is configured like above&mdash;and save one of your MDX files after editing, you'll see your browser will refresh automatically.
+
+And that's how you get auto-refresh feature when you're using `next-mdx-remote`!
+
+---
+
+If you're still here and want to have something faster than a full browser refresh, there's actually a way to do this per [this comment](https://github.com/hashicorp/next-remote-watch/issues/42#issue-1362425425).
+
+I also use this solution for this website as well, and it's been working quite well so far without any major issue.
+
+One hurdle is that this solution requires you to modify the source of `next-remote-watch` itself, so you have to find a way to use this modified version in your project, not through `npm install`.
+
+I personally solved this by forking the `next-remote-watch` repo, and including this fork as a _git submodule_ of my website repo. And then I use `npm workspace` feature to use this modified fork in my website project's npm script.
+
+This way I could pull the updates from the upstream repo (the original) if necessary while enjoying the modification I made to the fork.
+
+Feel free to check out my repo if you're interested: [sookmax/website](https://github.com/sookmax/website).
+
+---
+
+Useful links:
+
+- [MDX Remote Example](https://github.com/vercel/next.js/tree/canary/examples/with-mdx-remote#mdx-remote-example)
+- [Support Fast Refresh](https://github.com/hashicorp/next-remote-watch/issues/42#issue-1362425425)
