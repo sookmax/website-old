@@ -24,10 +24,6 @@ export default function Document() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-      </Head>
-      <body className="flex flex-col">
-        <Main />
-        <NextScript />
         <Script id="theme-script" strategy="beforeInteractive">
           {`
           // [Refs]
@@ -58,6 +54,10 @@ export default function Document() {
             })();
           `}
         </Script>
+      </Head>
+      <body className="flex flex-col">
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );

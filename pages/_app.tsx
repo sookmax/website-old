@@ -5,6 +5,7 @@ import { GlobalContext, useGlobalState } from "@/utils/globalState";
 import Layout from "@/components/layout";
 import { A, Blockquote, Pre } from "@/components/mdx";
 import "@/styles/globals.css";
+import Image from "@/components/mdx/core/Image";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useGlobalState();
@@ -16,6 +17,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       a: A,
       pre: Pre(state.theme),
       blockquote: Blockquote,
+      Image: Image,
     }),
     [state.theme]
   );

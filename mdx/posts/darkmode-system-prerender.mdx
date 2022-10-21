@@ -1,0 +1,196 @@
+---
+title: Dark Mode. System Preference. Pre-render.
+date: 2022-10-20 00:00:01
+---
+
+While implementing dark mode feature for this website, I faced some non-trivial challenges, mainly:
+
+- how to make it _reactive_ to _user's device preference_
+- how to prevent flash of default theme that happens before the client-side javascript runs
+
+But, before diving into any of that, I want to briefly talk about my setup first.
+
+---
+
+So, supporting dark mode means, now there are two different themes&mdash;say, _light_ and _dark_&mdash;and every time a user changes their theme, the change should be saved somewhere so that when the user comes back later, the website should remember what theme the user last selected, and show that theme.
+
+I use browser's `localStorage` APIs to save the user preference.
+
+Also, changing themes means changing the style of the website, which is done by CSS and I use [tailwindcss](https://tailwindcss.com/) for website styling. This is important to mention because toggling dark mode on/off is taken care of by `tailwindcss`.
+
+So, enabling / disabling dark mode in `tailwindcss` is done by adding / removing `dark` class to the top `html` element: ([see here for more info](https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually))
+
+```html
+<!-- Dark mode not enabled -->
+<html>
+  <body>
+    <!-- Will be white -->
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+
+<!-- Dark mode enabled -->
+<html class="dark">
+  <body>
+    <!-- Will be black -->
+    <div class="bg-white dark:bg-black">
+      <!-- ... -->
+    </div>
+  </body>
+</html>
+```
+
+In summary, two side effects must happen whenever dark mode is toggled:
+
+- update user's preference in `localStorage`
+- add / remove `dark` class in `<html>`
+
+These side effects are triggered whenever a react state called _theme_ changes.
+
+The side effects take care of the persistency of user preference and actual style change, whereas the react state _theme_ triggers other UI changes that are not affected by modifying css&mdash;something like icon change and code-block theme change.
+
+---
+
+Now moving on to the first issue:
+
+> how do we adjust the theme accordingly when user's device preference has changed?
+
+This is done through another set of browser feature and API: `prefers-color-scheme` media query and `Window.matchMedia()`.
+
+We can detect the change of the user preference by adding an event listener to the return value of `window.matchMedia()`:
+
+```javascript
+const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+darkQuery.addEventListener("change", (event) => {
+  /**
+   * event.matches
+   *
+   * "A boolean value that is true if the document currently matches the media query list, or false if not."
+   *
+   * ref: https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryListEvent/matches
+   */
+  console.log(event.matches);
+
+  if (event.matches) {
+    // Set react state `theme` to 'dark'.
+    // which will also trigger the side effects after react renders.
+  } else {
+    // Set react state `theme` to 'light'.
+    // which will also trigger the side effects after react renders.
+  }
+});
+```
+
+If you want to see how it's actually done for this website, see here: [globalState.ts](https://github.com/sookmax/website/blob/main/utils/globalState.ts)
+
+---
+
+If configured correctly, it should work like this:
+
+<Image
+  src="/sync_system_theme.gif"
+  alt="syncing system theme"
+  width={1000}
+  height={600}
+  caption="Syncing with the OS preference"
+/>
+
+Now that we solved the syncing, let's look at the second challenge:
+
+> How do we prevent the flash of default theme that happens when the server-generated html arrives, but before the client javascript picks up the value from `localStorage`?
+
+You wouldn't have this issue if you only use client-side rendering with an emtpty html. But it becomes a nuisance if you use a framework that generates pre-rendered html such as `Next.js` ([see here](https://nextjs.org/docs/basic-features/pages#pre-rendering))
+
+What I meant by the flash of default theme is something like this:
+
+<Image
+  src="/default_theme_flash.gif"
+  alt="default theme flash"
+  width={1000}
+  height={600}
+  caption="Flash of default theme"
+/>
+
+---
+
+A way to prevent this is to insert a `<script>` tag **before** any other scripts in the document, and have it check the `localStorage` or the system preference and change the `class` of `html` accordingly.
+
+This is possible because as soon as the browser finds this first `<script>` tag&mdash;which will be located inside `<head>` ahead of any other scripts&mdash;it will execute this script before it moves on to parse the `<body>` tag.
+
+> Scripts without async, defer or type="module" attributes, as well as inline scripts without the type="module" attribute, are fetched and executed immediately, before the browser continues to parse the page.
+>
+> https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#notes
+
+`Next.js` provides `<Script/>` component that takes a prop called **strategy**.
+
+And if **strategy** is set to **"beforeInteractive"**&mdash;which can only be used in `pages/_document.tsx`&mdash;the script is guaranteed to run before any other scripts. (see: [beforeInteractive](https://nextjs.org/docs/basic-features/script#beforeinteractive))
+
+So my `_document.tsx` looks something like this:
+
+```tsx title="_document.tsx"
+import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
+
+export default function Document() {
+  return (
+    <Html className="w-full">
+      <Head>
+        <Script id="theme-script" strategy="beforeInteractive">
+          {`
+            (function() {
+              function setTheme(theme) {
+                switch (theme) {
+                  case "light":
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem("theme", "light");
+                    break;
+                  case "dark":
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem("theme", "dark");
+                    break;
+                }
+              }
+
+              const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+              
+              if (localStorage.theme === 'dark' || (!('theme' in localStorage) && darkQuery.matches)) {
+                setTheme('dark');
+              } else {
+                setTheme('light');
+              }
+            })();
+          `}
+        </Script>
+      </Head>
+      <body className="flex flex-col">
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
+}
+```
+
+By adding or removing **'dark'** class for `<html>`, `tailwindcss` will be able to correctly style the `<body>` according to the theme later when browser starts parsing it.
+
+And yeah, so with this inline script, there will be no flashing anymore!
+
+<Image
+  src="/no_theme_flash.gif"
+  alt="no more theme flash"
+  width={1000}
+  height={600}
+  caption="No more theme flash"
+/>
+
+---
+
+Useful links:
+
+- [prefers-color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme)
+- [Window.matchMedia()](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia)
+- [MediaQueryListEvent.matches](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryListEvent/matches)
+- [question on preventing css flickering when implementing dark mode](https://github.com/vercel/next.js/discussions/12533)
+- [Dan Abramov's solution](https://github.com/gaearon/overreacted.io/blob/master/src/html.js)
