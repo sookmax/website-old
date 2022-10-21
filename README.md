@@ -1,4 +1,14 @@
-# [sook.dev](https://sook.dev)
+This project is a `Next.js` app hosted here: [sook.dev](https://sook.dev)
+
+## Getting Started
+
+```bash
+git submodule update --init
+npm install
+npm run dev
+```
+
+## Additional Information
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -6,7 +16,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 npx create-next-app@latest --typescript
 ```
 
-## Additional configurations
+### Configurations
 
 - install prettier locally
   - `npm install prettier -D --save-exact`
