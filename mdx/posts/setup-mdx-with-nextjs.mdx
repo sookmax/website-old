@@ -5,7 +5,7 @@ date: 2022-10-19
 
 For a personal website like this, I think setting up a comfortable way to write text-based contents is important.
 
-And of course when it comes to writing on the web, `markdown` format gives you far better experience than writing an article in `html tags`.
+And when it comes to writing text on the web, `markdown` gives you far better experience than writing an article in `html tags`.
 
 While writing contents in `markdown` is already good enough for most cases, `MDX` offers something even better _on top of_ what `markdown` is already capable of.
 
@@ -16,29 +16,31 @@ While writing contents in `markdown` is already good enough for most cases, `MDX
 Pay attention to this part of the statement again:  
 "You can import components, such as interactive charts ..."
 
-I'll show you just that!
+I mean.. how cool is that?
 
 <ChartExample />
 
 ---
 
-So I think it's always better to set up `MDX` environment whenever possible, rather than plain `markdown` environment if you're planning to write text-based contents for your website.
+So I think it's always better to go one step further and set up an `MDX` workflow if possible, rather than stopping at plain `markdown` setup if you're planning to write text-based contents for your website.
 
 So how do we set this up in `Next.js` app?
 
 Basic idea is very similar to that of [Next.js official tutorial](https://nextjs.org/learn/basics/create-nextjs-app), in which they show us how to build a blog app with `Next.js`.
 
+So the steps of processing `MDX` are something like this:
+
 - Read the content of `.mdx` file in `getStaticProps()`
 - Serialize the loaded mdx content and return as one of the `props` in `getStaticProps()`
-- Process the `props` passed from `getStaticProps()` in the actual `React Component`.
+- Process the `props` passed from `getStaticProps()` in the actual `React Component` of the page.
 
 The most non-trivial part of this process is to serialize and deserialize the mdx content.
 
-Fortunately, a wonderful library called, [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) handles this seamlessly.
+Fortunately, a wonderful library called, [next-mdx-remote](https://github.com/hashicorp/next-mdx-remote) handles this effortlessly.
 
 Let's examine the example code below:
 
-```jsx title="next-mdx-remote#examples"
+```jsx
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 
@@ -62,15 +64,15 @@ export async function getStaticProps() {
 }
 ```
 
-If we look at `getStaticProps()` first&mdash;place where the serialization of MDX should occur&mdash;we can identify it's handled by `serialize()` function from `next-mdx-remote/serialize`, and the serialized MDX source is returned as one of the `props`.
+If we look at `getStaticProps()` first&mdash;the place where the serialization of MDX should occur&mdash;we can identify it's handled by `serialize()` function from `next-mdx-remote/serialize`, and the serialized MDX source is returned as one of the `props` as `source`.
 
-Next, in the actual React Component of the page `TestPage`, we see that it takes the serialized MDX content passed by `getStaticProps()` and pass it to `MDXRemote` component from `next-mdx-remote`.
+Next, in the actual React Component of the page `<TestPage />`, we see that it takes the serialized MDX content passed by `getStaticProps()` and pass it down to `MDXRemote` component from `next-mdx-remote`.
 
 And that's pretty much it.
 
-The original MDX source `Some **mdx** text, with a component <Test />` will be correctly transformed to React Elements inside `<MDXRemote />` and eventually be rendered as DOM nodes in the browser.
+The original MDX source `Some **mdx** text, with a component <Test />` will be correctly transformed to react elements inside `<MDXRemote />` and eventually be rendered as DOM nodes in the browser.
 
-One caveat when using a custom React Component in your MDX file with this approach is that you cannot use `import/export` statements in your MDX file, but rather you must provide your React Components to `<MDXRemote />`:
+One caveat when using a custom react component like `<Test />` above with this approach is that you cannot use `import/export` statements in your MDX file, but rather you must provide your custom component to `<MDXRemote />` as a prop:
 
 ```jsx
 import { MDXRemote } from "next-mdx-remote";
@@ -88,11 +90,11 @@ export default function TestPage({ source }) {
 }
 ```
 
-This is because `next-mdx-remote` allows you to pull your MDX source not only from your local directory but also from anywhere remote where the contents are saved&mdash;if the content is coming from some remote storage, not from your project's sub-directory, a path-based `import/export` would not really make sense. (see: [import/export](https://github.com/hashicorp/next-mdx-remote#import--export))
+This is because `next-mdx-remote` allows you to pull your MDX source not only from your local directory but also from any remote location where contents are saved&mdash;if the content is coming from some remote storage, not from your project's sub-directory, a path-based `import/export` would not really make sense. (see: [import/export](https://github.com/hashicorp/next-mdx-remote#import--export))
 
 One more thing before wrapping up.
 
-If you use `<MDXProvider />` in your project already, you can also pass your custom Component along with your other Components to it instead:
+If you use `<MDXProvider />` in your project already, you can also pass your custom component along with your other mdx components to it instead:
 
 ```jsx title="my_next_project/pages/_app.jsx"
 import { MDXProvider } from "@mdx-js/react";
