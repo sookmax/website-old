@@ -308,13 +308,13 @@ export default function Pre(theme: GlobalState["theme"]) {
               >
                 {tokens.map((line, i) => {
                   return (
-                    <span
+                    <div
                       key={i}
                       {...getLineProps({ line, key: i })}
                       className="table-row"
                     >
                       {showLineNumbers && (
-                        <span className="line-number table-cell select-none whitespace-nowrap pr-4 text-right text-xs opacity-50">
+                        <span className="table-cell select-none whitespace-nowrap pr-4 text-right text-xs opacity-50">
                           {i + 1}
                         </span>
                       )}
@@ -323,7 +323,7 @@ export default function Pre(theme: GlobalState["theme"]) {
                           <span key={i} {...getTokenProps({ token, key })} />
                         ))}
                       </span>
-                    </span>
+                    </div>
                   );
                 })}
               </div>
