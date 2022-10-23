@@ -62,7 +62,7 @@ export default function Footer() {
             </span>
           </Tooltip>
         </span>
-        <span className="text-gray-400 dark:text-gray-300">
+        <span className="font-['Raleway'] text-gray-400 dark:text-gray-300">
           Sukkyu Chung © 2022
         </span>
       </span>

@@ -12,7 +12,7 @@ export default function Home() {
           I Am <br />
           Sook.
         </div>
-        <div className="mt-2 px-2 text-end text-sm text-gray-400 sm:text-base">
+        <div className="mt-2 px-2 text-end font-['Raleway'] text-sm text-gray-400 sm:text-base">
           - A web developer
         </div>
       </section>

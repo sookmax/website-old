@@ -13,11 +13,11 @@ export default function Document() {
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=block&text=Hi%2CIAmSook.Awebdeveloper"
+          href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=block&text=Hi%2CIAmSook."
           rel="stylesheet"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=block&text=AboutWriting"
+          href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=block&text=AboutWriting-AwebdeveloperSukkyu%20Chung%20%C2%A9%202022"
           rel="stylesheet"
         ></link>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
