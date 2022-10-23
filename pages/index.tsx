@@ -63,13 +63,13 @@ export default function Home() {
         id="main-text"
         className="absolute top-1/2 left-0 -translate-y-1/2 p-3"
       >
-        <div className="text-7xl font-extrabold text-gray-700 dark:text-teal-50 sm:text-8xl">
+        <div className="font-['Oswald'] text-7xl font-extrabold text-gray-700 dark:text-teal-50 sm:text-8xl">
           Hi,
           <br />
           I Am <br />
           Sook.
         </div>
-        <div className="px-2 text-end text-sm text-gray-400 sm:text-base">
+        <div className="mt-2 px-2 text-end text-sm text-gray-400 sm:text-base">
           - A web developer
         </div>
       </section>

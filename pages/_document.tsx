@@ -5,6 +5,16 @@ export default function Document() {
   return (
     <Html className="w-full">
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swa&text=Hi%2C%20I%20Am%20Sook."
+          rel="stylesheet"
+        />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <link
           rel="apple-touch-icon"
