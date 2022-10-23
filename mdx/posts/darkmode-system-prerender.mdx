@@ -12,7 +12,9 @@ But, before diving into any of that, I want to briefly talk about my setup first
 
 ---
 
-So, supporting dark mode means, now there are two different themes&mdash;say, _light_ and _dark_&mdash;and every time a user changes their theme, that change should also be saved somewhere so that when the user comes back later, the website should remember what theme the user has last selected, and show that theme.
+So, supporting dark mode means, now there are two different themes, say _light_ and _dark_.
+
+And every time users change their theme, the change should be saved somewhere as well, so when they come back later, the website would remember what it was, and show it to them.
 
 I use browser's `localStorage` APIs to save the user preference.
 

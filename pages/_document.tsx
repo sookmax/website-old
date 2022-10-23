@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 import { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
@@ -12,9 +13,13 @@ export default function Document() {
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swa&text=Hi%2C%20I%20Am%20Sook."
+          href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=block&text=Hi%2CIAmSook.Awebdeveloper"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=block&text=AboutWriting"
+          rel="stylesheet"
+        ></link>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
         <link
           rel="apple-touch-icon"
