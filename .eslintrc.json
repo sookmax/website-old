@@ -1,5 +1,5 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:mdx/recommended"],
+  "extends": ["next/core-web-vitals", "plugin:mdx/recommended", "prettier"],
   // optional, if you want to lint code blocks at the same time
   "settings": {
     "mdx/code-blocks": true,

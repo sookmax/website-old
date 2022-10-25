@@ -20,6 +20,7 @@ importers:
       cross-env: ^7.0.3
       eslint: 8.24.0
       eslint-config-next: 12.3.1
+      eslint-config-prettier: ^8.3.0
       eslint-plugin-mdx: ^2.0.5
       gray-matter: ^4.0.3
       lodash: ^4.17.21
@@ -69,6 +70,7 @@ importers:
       cross-env: 7.0.3
       eslint: 8.24.0
       eslint-config-next: 12.3.1_7ilbxdl5iguzcjriqqcg2m5cku
+      eslint-config-prettier: 8.5.0_eslint@8.24.0
       eslint-plugin-mdx: 2.0.5_eslint@8.24.0
       next-remote-watch: link:lib/next-remote-watch
       postcss: 8.4.18
@@ -2713,6 +2715,15 @@ packages:
       eslint: '>=7.0.0'
     dependencies:
       eslint: 7.32.0
+    dev: true
+
+  /eslint-config-prettier/8.5.0_eslint@8.24.0:
+    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.24.0
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
