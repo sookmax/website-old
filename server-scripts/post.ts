@@ -39,6 +39,7 @@ export function getAllPostMeta(excludes = SLUG_EXCLUDES) {
       return {
         slug,
         title: data.title as string,
+        description: data.description as string | undefined,
         date: Number(data.date),
       };
     });

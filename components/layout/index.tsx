@@ -29,19 +29,29 @@ export default function Layout({ children }: Props) {
     <>
       <Head>
         {layoutTitle ? <title>{layoutTitle}</title> : null}
-        <meta name="description" content="Hello 👋"></meta>
+        <meta
+          name="description"
+          content="Hi, I'm Sook. A web developer."
+        ></meta>
 
-        <meta property="og:url" content={fullUrl} />
-        <meta property="og:type" content="website" />
         <meta property="og:title" content="Sook's website" />
-        <meta property="og:description" content="Hello 👋" />
+        <meta property="og:type" content="website" />
         <meta property="og:image" content={defaultOGImageUrl} />
+        <meta property="og:url" content={fullUrl} />
+        <meta
+          property="og:description"
+          content="Hi, I'm Sook. A web developer."
+        />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="sook.dev" />
-        <meta property="twitter:url" content={fullUrl} />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@Sukkyu_Chung" />
+        <meta name="twitter:domain" content="sook.dev" />
         <meta name="twitter:title" content="Sook's website" />
-        <meta name="twitter:description" content="Hello 👋" />
+        <meta
+          name="twitter:description"
+          content="Hi, I'm Sook. A web developer."
+        />
+        <meta name="twitter:url" content={fullUrl} />
         <meta name="twitter:image" content={defaultOGImageUrl} />
       </Head>
       <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">

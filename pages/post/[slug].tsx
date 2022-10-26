@@ -12,6 +12,7 @@ import Article from "@/components/Article";
 
 type Props = {
   title: string;
+  description: string | undefined;
   date: number;
   lastModified: number | null;
   readTime: number;
@@ -40,6 +41,7 @@ export default function Post({ mdxSource, ...articleProps }: Props) {
     <>
       <Head>
         <title>{articleProps.title}</title>
+        <meta name="description" content={articleProps.description} />
         <meta property="og:title" content="Post" />
         <meta property="og:description" content={articleProps.title} />
         <meta property="og:image" content={ogImageUrl} />
@@ -84,6 +86,7 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
   return {
     props: {
       title: matter.data.title as string,
+      description: matter.data.description as string | undefined,
       date: Number(matter.data.date),
       lastModified: matter.data.lastModified
         ? Number(matter.data.lastModified)
