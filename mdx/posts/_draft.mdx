@@ -1,0 +1,29 @@
+---
+title: Dev Server. HMR. Bundler. Rust.
+description: JavaScript tooling, why is it so complicated?
+date: 2022-10-27
+---
+
+I still remember how frustrated I was, when I was first learning `React` following their documentation.
+
+However the frustration was not coming from learning react itself, but mainly from wraping my head around how the whole JavaScript toolchain worked.
+
+> <p className="text-lg">You Might Not Need a Toolchain</p>
+>
+> ... If you don't feel comfortable using JavaScript tools yet, consider adding React as a plain \<script\> tag on an HTML page, optionally with JSX.
+>
+> [React docs](https://reactjs.org/docs/create-a-new-react-app.html#you-might-not-need-a-toolchain)
+
+I think that was a fair warning.
+
+I was not aware how complicated it was to set up what I was able to do in the codebase at work&mdash;things like importing another javascript file, importing other assets like css or images, and live browser reloading. As a newcomer to the web development world, I sort of thought they were built-in javascript functionalities or I don't know, I guess I only had this vague idea that importing things that way and live-reloading were handled by the browser and IDE or something.
+
+So I was always puzzled and confused at browser throwing me errors whenever I tried to make a small example with just html, css, and javascript.
+
+Well eventually later I started to realize all those import/export and compilations were powered by something called `webpack` and `babel`.
+
+But still, at that time, I was having a hard time sorting out between what were the things that browsers understood natively and what were handled by javascript tools&mdash;not to mention the fact that all those tools actually ran in a different environment called `Node.js`, the tools that produced code that would eventually be running in the browser..
+
+During that phase of learning, I also started to visit and read `webpack` and `babel`'s documentations, which unfortunately left me even more confused.
+
+So the chances were, If I wanted to create a small example project that supports all the module and asset handlings, I would have to rely on the zero configuration tools like `create-react-app`.

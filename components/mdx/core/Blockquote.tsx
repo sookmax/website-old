@@ -1,7 +1,8 @@
 export default function Blockquote(props: any) {
   const children = props.children.filter(
-    (child: any) => typeof child === "object" && child.type === "p"
+    (child: any) => typeof child !== "string"
   ) as React.ReactElement[];
+
   return (
     <blockquote>
       {children.map((child, idx) => {
