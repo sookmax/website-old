@@ -5,15 +5,8 @@ import { classNames } from "@/utils/class-names";
 import { getDateString } from "@/utils/date";
 import { getAllPostMeta } from "@/server-scripts/post";
 
-type PostMeta = {
-  slug: string;
-  title: string;
-  description: string | undefined;
-  date: number;
-};
-
 type Props = {
-  postMetaArray: PostMeta[];
+  postMetaArray: ReturnType<typeof getAllPostMeta>;
 };
 
 export default function Posts({ postMetaArray }: Props) {

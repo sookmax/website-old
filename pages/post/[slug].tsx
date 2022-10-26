@@ -10,16 +10,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { getAllSlugs, getPostData } from "@/server-scripts/post";
 import Article from "@/components/Article";
 
-type Props = {
-  title: string;
-  description: string | undefined;
-  date: number;
-  lastModified: number | null;
-  readTime: number;
-  wordsCount: number;
-  wordsPerMinute: number;
+interface Props extends Omit<ReturnType<typeof getPostData>, "content"> {
   mdxSource: MDXRemoteSerializeResult;
-};
+}
 
 type Query = {
   slug: string;
@@ -72,11 +65,9 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
     };
   }
 
-  const { readTime, wordsCount, wordsPerMinute, matter } = getPostData(
-    params.slug
-  );
+  const { content, ...props } = getPostData(params.slug);
 
-  const mdxSource = await serialize(matter.content, {
+  const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [remarkGfm, remarkMdxCodeMeta],
       rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
@@ -85,15 +76,7 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
 
   return {
     props: {
-      title: matter.data.title as string,
-      description: matter.data.description as string | undefined,
-      date: Number(matter.data.date),
-      lastModified: matter.data.lastModified
-        ? Number(matter.data.lastModified)
-        : null,
-      readTime,
-      wordsCount,
-      wordsPerMinute,
+      ...props,
       mdxSource,
     },
   };

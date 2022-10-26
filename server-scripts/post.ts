@@ -18,10 +18,16 @@ export function getPostData(slug: string) {
   const readTime = Math.round(wordsCount / WORDS_PER_MINUTE);
 
   return {
-    matter: matterResult,
+    title: matterResult.data.title as string,
+    description: (matterResult.data.description ?? "") as string,
+    date: Number(matterResult.data.date),
+    lastModified: matterResult.data.lastModified
+      ? Number(matterResult.data.lastModified)
+      : null,
     wordsCount,
     wordsPerMinute: WORDS_PER_MINUTE,
     readTime,
+    content: matterResult.content,
   };
 }
 
@@ -39,7 +45,7 @@ export function getAllPostMeta(excludes = SLUG_EXCLUDES) {
       return {
         slug,
         title: data.title as string,
-        description: data.description as string | undefined,
+        description: (data.description ?? "") as string,
         date: Number(data.date),
       };
     });
