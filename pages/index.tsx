@@ -1,7 +1,28 @@
+import CarnivalNightConfetti from "@/utils/CarnivalNightConfetti";
+import { useEffect, useRef } from "react";
+
 export default function Home() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (canvasRef.current && canvasRef.current.parentElement) {
+      const confetti = new CarnivalNightConfetti(canvasRef.current, {
+        canvasInlineStyle: {
+          width: `${canvasRef.current.parentElement.clientWidth}px`,
+          height: `${canvasRef.current.parentElement.clientHeight}px`,
+        },
+        particleSize: 0.04,
+        particleCount: 30,
+        animationDuration: 1.2,
+        velocityFactor: 8,
+      });
+      confetti.start();
+    }
+  }, []);
+
   return (
     <div className="relative flex-grow">
-      <canvas id="canvas"></canvas>
+      <canvas ref={canvasRef} className="h-full w-full"></canvas>
       <section
         id="main-text"
         className="absolute top-1/2 left-0 -translate-y-1/2 p-3"
