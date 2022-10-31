@@ -1,0 +1,39 @@
+---
+title: Revisiting Webpack
+description: JavaScript tooling, treat them as a black box?
+date: 2022-10-31
+---
+
+As someone who was introduced to web development though `React.js` without prior exposure to the web fundamentals&mdash;html, css, javascript&mdash;I was having a hard time understanding why we needed all these complicated javascript tooling at all.
+
+---
+
+At work, everything seemed to be working fine&mdash;things like importing another javascript file and auto-refreshing the browser when the file is saved.
+
+However, as soon as I tried to create a small example with just html, css, and javascript, nothing worked.
+
+MDN document page for javascript modules only increased my confusion because it says in order to use _import/export_ in a javascript file, we needed to have a script tag with **type="module"**, but that was not how I was using modules in the codebase at work!
+
+While trying to reconcile the disparities between the development environment at work and MDN documentation for javascript modules, I learned that something called `Webpack` was handling the _import/export_ in the code base, instead of the browser.
+
+But It was still a mystery to me as to why this `Webpack` thing was handling the modules when the browser was perfectly capable of doing that. Unfortunately, this mystery was not solved immediately, but rather gradually had when my understanding of the history of javascript modules and browser compatibility got better.
+
+And well it turned out `Webpack` was handling a lot more stuff than just module resolution. I slowly learned `Webpack` also took care of importing other types of asset such as images or css and the browser auto-refreshing&mdash;which led me to realize the role of `Webpack` was paramount when setting up a productive development environment.
+
+The only problem was, learning how to configure `Webpack` was very difficult. I tried several times reading and following examples in their documentation but most of the concepts presented there were too advanced for me as a beginner at that time, so I kind of lost interest to learn it. And moreover, when it comes to something like environment setup, you mostly do it once at the beginning and pretty much forget about it afterwards&mdash;and at work everything was already configured so all the more reason to lose motivation to learn `Webpack`.
+
+And as more and more I relied on higher level tools later such as `create-react-app` or `vue-cli` as a convenient way to bootstrap a project, learning how to configure and use bundlers directly became less of a priority.
+
+Over time, I have also used other tools like `Parcel`, `Rollup` and `Vite` at work, but only enough to get by&mdash;once they started working and didn't cause any major issue, I wouldn't touch them again, ever.
+
+But I now at least know how crucial these tools are, in terms of development productivity and build optimization.
+
+And given the importance of their role in web development, I think it's worth taking some time to study these tools a little deeper, at least to be able to comfortably set up my own environment with them.
+
+I've decided to start with `Webpack`.
+
+It seems like `Webpack` has received a fair amount of criticism about its performance degradation as the size of web applications grow&mdash;something I also noticed at my previous job&mdash;and there are newer and faster tools like `Vite` or recently-announced `Turbopack` emerging these days.
+
+Nevertheless, I don't think I can move on without giving `Webpack` my proper respect.
+
+It's time to dive into their documentation yet again.
