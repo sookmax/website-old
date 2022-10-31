@@ -4,7 +4,7 @@ import Script from "next/script";
 
 export default function Document() {
   return (
-    <Html className="w-full">
+    <Html className="w-full" lang="en-US">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
