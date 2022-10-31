@@ -1,3 +1,6 @@
+// These are partial type definitions for 'canvas-sketch-util'
+// Check out the project here: https://github.com/mattdesl/canvas-sketch-util
+
 declare module "canvas-sketch-util/math" {
   export const lerp: any;
   const main: any;

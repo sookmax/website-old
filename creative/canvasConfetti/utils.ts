@@ -45,6 +45,12 @@ export class Vector2 {
     this.y = y;
   }
 
+  public set(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+    return this;
+  }
+
   public length() {
     return Math.sqrt(this.x ** 2 + this.y ** 2);
   }

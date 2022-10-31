@@ -1,31 +1,41 @@
-import CarnivalNightConfetti from "@/utils/CarnivalNightConfetti";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import CarnivalNightConfetti from "@/creative/canvasConfetti/CarnivalNightConfetti";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const confettiRef = useRef<CarnivalNightConfetti>();
 
   useEffect(() => {
     if (canvasRef.current && canvasRef.current.parentElement) {
-      const confetti = new CarnivalNightConfetti(canvasRef.current, {
-        canvasInlineStyle: {
-          width: `${canvasRef.current.parentElement.clientWidth}px`,
-          height: `${canvasRef.current.parentElement.clientHeight}px`,
-        },
+      confettiRef.current = new CarnivalNightConfetti(canvasRef.current, {
+        animFadeOutStart: 1.2,
         particleSize: 0.04,
         particleCount: 30,
-        animationDuration: 1.2,
         velocityFactor: 8,
+        gravity: 20,
+        autoInterval: 500,
       });
-      confetti.start();
+      confettiRef.current.start();
     }
+
+    return () => {
+      confettiRef.current?.dispose();
+    };
   }, []);
 
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    confettiRef.current?.onManualClick(e.clientX, e.clientY);
+  };
+
   return (
-    <div className="relative flex-grow">
-      <canvas ref={canvasRef} className="h-full w-full"></canvas>
+    <div
+      className="relative flex flex-grow cursor-crosshair flex-col"
+      onPointerDown={onPointerDown}
+    >
+      <canvas ref={canvasRef} className="flex-grow"></canvas>
       <section
         id="main-text"
-        className="absolute top-1/2 left-0 -translate-y-1/2 p-3"
+        className="absolute top-1/2 left-0 -translate-y-1/2 select-none p-3"
       >
         <div className="font-['Oswald'] text-7xl font-extrabold text-gray-700 dark:text-teal-50 sm:text-8xl">
           Hi,
