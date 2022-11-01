@@ -1,4 +1,8 @@
 import createMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
+import remarkMdxCodeMeta from "remark-mdx-code-meta";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -19,8 +23,8 @@ const nextConfig = {
 const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
+    remarkPlugins: [remarkGfm, remarkMdxCodeMeta],
+    rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
     // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react", // default is this anyway
   },
