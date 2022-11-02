@@ -37,7 +37,13 @@ export default function A({ href, children, ...rest }: Props) {
   }
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="break-words"
+      {...rest}
+    >
       {children}
     </a>
   );
