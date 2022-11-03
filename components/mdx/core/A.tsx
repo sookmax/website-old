@@ -9,15 +9,11 @@ type Props = {
 };
 
 // ref: https://github.com/leerob/leerob.io/blob/main/components/MDXComponents.tsx
-export default function A({ href, children, ...rest }: Props) {
+export default function A({ href, ...rest }: Props) {
   if (!href) throw "No 'href' attribute found.";
 
   if (href.startsWith("/")) {
-    return (
-      <Link href={href} {...rest}>
-        {children}
-      </Link>
-    );
+    return <Link href={href} {...rest} />;
   }
 
   // `scroll-behavior: smooth;` doesn't work when wrapped in <Link /> :(
@@ -26,13 +22,13 @@ export default function A({ href, children, ...rest }: Props) {
       <a
         href={href}
         className={classNames(
-          "absolute h-full w-full",
-          "hover:after:ml-2 hover:after:content-['#']",
-          "hover:after:absolute hover:after:left-full",
-          "hover:after:text-pink-500"
+          "h-full w-full no-underline",
+          "hover:after:content-['#']",
+          "hover:after:ml-2",
+          "hover:after:text-yellow-500"
         )}
         {...rest}
-      ></a>
+      />
     );
   }
 
@@ -43,8 +39,6 @@ export default function A({ href, children, ...rest }: Props) {
       rel="noopener noreferrer"
       className="break-words"
       {...rest}
-    >
-      {children}
-    </a>
+    />
   );
 }

@@ -24,7 +24,11 @@ const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
     remarkPlugins: [remarkGfm, remarkMdxCodeMeta],
-    rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+    rehypePlugins: [
+      rehypeSlug,
+      // https://github.com/rehypejs/rehype-autolink-headings#optionsbehavior
+      [rehypeAutolinkHeadings, { behavior: "wrap" }],
+    ],
     // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react", // default is this anyway
   },
