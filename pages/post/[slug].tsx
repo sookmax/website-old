@@ -7,10 +7,10 @@ import remarkGfm from "remark-gfm";
 import remarkMdxCodeMeta from "remark-mdx-code-meta";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { getAllSlugs, getPostData } from "@/server-scripts/post";
+import { getAllSlugs, getPostData, type PostData } from "@/server-scripts/post";
 import Article from "@/components/Article";
 
-interface Props extends Omit<ReturnType<typeof getPostData>, "content"> {
+interface Props extends Omit<PostData, "content"> {
   mdxSource: MDXRemoteSerializeResult;
 }
 

@@ -1,98 +1,68 @@
 ---
 title: Doubling down on web dev
-description: What I should be focusing on
+description: What I should be focusing on.
 date: 2022-10-17
+lastModified: 2022-11-05
 ---
 
-In hindsight, my changing positions from a data analyst to a frontend developer was almost too easy because it was an internal transfer at a small, unorganized company.
+In hindsight, I was able to change my career to frontend developer without much effort at least initially.
 
-As a data analyst, I had been using tools like _RStudio Server_ or _Jupyter Notebook_, and I was always intrigued by the fact that they ran in the browser.
+I was at this one company working as a data analyst, and sort of just switched my position to frontend developer, thanks to flexible internal transfer policy at that time.
 
-- "How is it possible that I type an _R_ command or a _Python_ command in the browser and it evaluates and returns the value in respective languages?"
-- "Is there a Python/R interpreter hidden inside the browser?"
+As a data analyst, I had been using tools like _RStudio Server_ and _Jupyter Notebook_, and I was always intrigued by the fact that they ran in the browser.
+
+- "How is it possible that I type an _R_ command or _Python_ command in the browser and it evaluates and returns the value in respective languages?"
+- "Is there a Python or R interpreter hidden inside the browser?"
 - "I thought browsers only understand JavaScript.."
 
-Questions remained. And more and more I wanted to understand the web.
+Questions remained unresolved. And more and more I wanted to understand how the web worked.
 
-The transition to frontend development was only possible because at the moment, my company was also actively developing a data analytics solution for our corporate clients, and our dev team desperately needed a perspective from a data analyst, the ultimate users of the solution that my company was building.
+The timing of the transfer couldn't have been more appropriate, because my company was actively developing a data analytics solution for our corporate clients, and our dev team desperately needed a perspective from data analysts, the expected users of our solution. And well, I sort of fit into that picture nicely.
 
-And I was just that, the ultimate user's perspective.
+I was both excited and worried to start working as a web developer. Interestingly, nobody in the dev team seemed to care if I were familiar with web technology or if I knew what was expected for the new role.
 
-The internal transfer was as easy as moving my desk to the dev team's office&mdash;nobody seemed to care if I were familiar with web technology or if I knew what was expected for the new role.
-
-It was both blessing and curse, but I was definitely not ready for the job.
+It didn't take long for me to realize how unprepared I was to do the job.
 
 ---
 
-Speaking of how ill-prepared I was, from day one I was looking at a _react_ code base even before I had any understanding of how _html_, _css_ and _javascript_ worked&mdash;I still find it funny whenever I think about how confused I was when I first looked at the _JSX_ syntax.
+From day one, I was looking at a _React.js_ code base even before I had any understanding of how _html_, _css_ and _javascript_ worked&mdash;I still find it funny when I think about how confused I was, looking at _JSX_ syntax all day.
 
-I desperately hoped for a while that if I worked hard enough at my current job, I'd eventually overcome my weak foundations.
+A few weeks in, I was surprised how little the required knowledge was to complete a small task like changing styles of a small UI component. So I was able to get by, only focusing on the narrow context that was relevant to my assignments, treating everything else as a black box.
 
-Only soon did I realize that might not be the case, necessarily.
+But my curious mind felt uneasy not knowing how the black box worked. So every spare moment I got, I would start searching how things _really_ worked.
 
-It seemed to me the demands from the job always exceeded my current capability and my current understanding of the fundamental web technologies, which forced me to rely on other people's solutions, unfamiliar libraries and frameworks, and often resulted in my writing some poor code that I wasn't particularly proud of.
+Well, it turned out that understanding how things really worked was incomparably harder than completing my assignments. All I managed to understand was that what's actually powering our frontend project was these scary-sounding javascript libraries; _Webpack_, _Babel_, _Redux_, _Reselect_, _Sass_, etc. And actually, reading their documentations left me even more confused.
 
-By poor code I probably mean something like the ones that were stripped straight out of _stackoverflow_ answers with little to no attempt to understand how they actually worked, or like the code that were so hard to understand and debug&mdash;even for me who wrote them in the first place&mdash;mainly due to poor code structure and my limited proficiency in _JavaScript_; or in everything.
+I occasionally asked our team lead about how things really worked under the hood, only to receive an answer that was either very hard to understand because he used a lot of other jargons that I was not familiar with, or he didn't know also.
 
-I would, however, still produce those poor quality code from time to time anyway&mdash;at least unwillingly.. does that count?&mdash;to meet the time constraints of a particular task that I was assigned to at the moment, and try to make things work by the deadline.
+One day while my curious mind was searching for answers online, I accidently found [a Github project](https://github.com/erikras/react-redux-universal-hot-example) that looked suspiciously similar to our frontend project&mdash;later I learned our project used this github repo as a boilerplate and grew from there. That was when I started to suspect, _"maybe understanding how things really work is hard for everybody."_ And I was expecting, _"maybe as I gain more experience in web development my understanding of lower level stuff would increase naturally as well."_
 
-This never felt great.
+Well it did, to only a limited extent, but still the actual mechanics of _Webpack_, _Babel_, and _React_ were still largly a mystery. The gap between what I wrote in the IDE and the actual _html_, _css_, and _javascript_ that were running in the browser didn't seem to be getting any closer.
 
-Every time this happened I'd promise to myself to revisit the code later to understand them better and improve them.
+And these uncomfortable thoughts started to emerge in my mind,
 
-Seldom did I keep my promise, as far as I remember.
+_"Maybe I'll never be able to understand these lower-level javascript libraries if I continue working as a web application developer, no matter how many years pass."_
 
-It finally took a toll on me in my most recent job where I was expected to implement 3D-related stuff on the web with _three.js_.
+_"And if things change in the future, and other libraries gain popularity, and the industry expects web developers to know how to use them, I might have to learn them all over again."_
 
-I mean.. I barely understand how 2D works on the web, but now it's 3D?
+_"What I now know about how to use React might not be too helpful for me to learn another popular framework in the future."_
 
----
+_"When we use frameworks, are we really learning core fundamentals of the web? or are we just getting used to a particular way of doing things and a set of particular syntaxes?"_
 
-In fact, I wasn't bad at my job. It's just that I wish I had more knowledge in 3D graphics when I was doing it.
+These questions eventually led me to start thinking,
 
-It had never occurred to me to take a break from work just to improve my skills, because I thought skills would be improved naturally while working&mdash;they did so, however, only to the limited extent.
+_"What differentiates the authors of frameworks and the rest of us, the users of the frameworks?"_
 
-So I started to fancy that idea.
+_"Are they all born geniuses who started programming in their early ages?"_
 
-Then one day I finally decided.
+_"Maybe they all have very solid foundations in computer science, to create something like a javascript framework."_
 
-I made up my mind to ditch my full-time job for about a year, and hone my skills instead&mdash;for what it's worth, I've many times tried to utilize my spare time for skill-improvement, but none of the attempts stuck with me long enough to produce a meaningful outcome.
+That's actually what I have believed for a long time; one needs to have a solid understanding of computer science fundamentals to create something like _React_. So I was going to take a year off of work and study CS fundamentals, following this wonderful website: [teachyourselfcs](https://teachyourselfcs.com/).
 
-Now that my day job is out of the way, what should I study for a year?
+While it's certainly the case for a lot of framework authors to have a strong CS background, and I still think it's invaluable to learn CS fundamentals as someone pursuing career in software engineering, I have also found many counterexamples to my assumptions. People like [Evan You](https://twitter.com/youyuxi) and [Rich Harris](https://twitter.com/Rich_Harris), they don't seem to have a very strong computer science background, and yet they've created some incredible javascript tools and frameworks that people love.
 
----
+As I found more and more counterexamples, I was more and more convinced that focusing soly on web development would be the way to go&mdash;time as a resource was also a huge factor to consider. I can only afford about a year or two without an income, and by the time I get back to job market, I want to be a better web developer.
 
-> If you're a self-taught engineer or bootcamp grad, you owe it to yourself to learn computer science.
->
-> https://teachyourselfcs.com
+So here I am again&mdash;this time with an abundance of free time&mdash;trying to understand how things _really_ work under the hood.
 
-For a long time, this was my plan for the year, to follow the carefully curated materials presented in this wonderful website, [Teach Yourself Computer Science](https://teachyourselfcs.com).
-
-So It really pained me when I recently decided to alter my plan.
-
-But it's not like I'm entirely abandoning the idea. I still think it's important to learn fundamental CS, and I'll make sure to find myself another time to go over the subjects in _teachyourselfcs_ at some point in the future.
-
-Now, I've thought about what I'm about to say, many times.
-
-I haven't achieved financial freedom&mdash;barely&mdash;and so I'd still need a job, after one year of unemployment, to sustain myself.
-
-And at the end of the study, I'm probably going to want to apply for a web-dev position since that's where I have the most experience as a software engineer, and yeah I actually like web development a lot.
-
-But my web-dev skills would still probably be the same as of now&mdash;mediocre at best&mdash;if I spent the whole year focusing on CS subjects.
-And so I might not be as competitive of a candidate for a web-dev position as I think I'd be at the end of the year
-
-Studing CS is great, but it doesn't necessarily make you a better web developer in a short term.
-
-That's my honest take.
-
-So yeah I think it makes more sense to up my web-dev game first, before I dabble in CS stuff, at least for the near future.
-
----
-
-Truth is, I want to be _really_ good at _something_.
-
-And for now, I want to be _really_ good at _web development_.
-
-It's going to be an exciting year.
-
-Because I'm doubling down on web dev.
+It's going to be an exciting year, because I'm doubling down on web dev.

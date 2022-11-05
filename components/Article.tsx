@@ -5,19 +5,23 @@ import { getDateString } from "@/utils/date";
 import Tooltip from "@/components/tooltip";
 import { GlobalContext } from "@/utils/globalState";
 import { classNames } from "@/utils/class-names";
+import { PostData } from "@/server-scripts/post";
 
-type Props = {
-  title: string;
-  date: number;
-  lastModified: number | null;
-  readTime: number;
-  wordsCount: number;
-  wordsPerMinute: number;
+interface Props extends Omit<PostData, "content"> {
   children: React.ReactNode;
-};
+}
 
 const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
-  { title, date, lastModified, readTime, wordsCount, wordsPerMinute, children },
+  {
+    title,
+    description,
+    date,
+    lastModified,
+    readTime,
+    wordsCount,
+    wordsPerMinute,
+    children,
+  },
   ref
 ) {
   const readTimeText =
@@ -33,7 +37,10 @@ const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
         <h1 className="w-full font-mono text-3xl font-semibold sm:text-4xl">
           {title}
         </h1>
-        <p className="flex w-full flex-col justify-between text-xs text-gray-500 dark:text-gray-400 sm:flex-row sm:text-sm">
+        <div className="w-full border-b-2 border-gray-100 pb-3 italic text-gray-400 dark:border-gray-700">
+          {description}
+        </div>
+        <div className="flex w-full flex-row justify-between text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
           <span className="flex items-center space-x-2">
             <Tooltip
               direction={screenWidth && screenWidth < 640 ? "right" : "bottom"}
@@ -51,11 +58,11 @@ const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
           </span>
           {lastModified && (
             <span className="space-x-1">
-              <span>Last modified:</span>
+              <span>Modified:</span>
               <span>{getDateString(lastModified)}</span>
             </span>
           )}
-        </p>
+        </div>
       </header>
       <article className="prose relative dark:prose-invert">{children}</article>
       <Link

@@ -6,6 +6,8 @@ const POST_DIR = path.join(process.cwd(), "mdx", "posts");
 const SLUG_EXCLUDES = /^_.*$/;
 const WORDS_PER_MINUTE = 200;
 
+export type PostData = ReturnType<typeof getPostData>;
+
 export function getPostData(slug: string) {
   const matterResult = getMatterData(slug);
 
