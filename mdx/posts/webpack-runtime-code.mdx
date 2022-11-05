@@ -3,3 +3,163 @@ title: Webpack runtime code
 description: A sneak peek at what's really happening.
 date: 2022-11-05
 ---
+
+One thing I've learned while playing around webpack configuration is that webpack's runtime code is quite small (about 130 lines) and readable&mdash;I, however, had to first get over the usage of [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and the variable names that start with (not only one but two!) underscores.
+
+The runtime usually looks like this:
+
+```js title="dist/runtime.js"
+/******/ (function () {
+  // webpackBootstrap
+  /******/ "use strict";
+  /******/ var __webpack_modules__ = {};
+  /************************************************************/
+  /******/ // The module cache
+  /******/ var __webpack_module_cache__ = {};
+  /******/
+  /******/ // The require function
+  /******/ function __webpack_require__(moduleId) {
+  /******/     // omitting actual code for brevity
+  /******/ }
+  /******/
+})();
+```
+
+The `__webpack_require__` function in particular, simulates the behavior of ES module's `import` statement in our source code at runtime.
+
+It's funny, now that I think of it, that I had trouble understanding the terms like _runtime_, _compile time_, or _build time_ for a long time. I think it's mostly because I was fuzzy on differentiating the code I write in IDE and what actually gets _run_ in the browser eventually.
+
+Anyways, something worth remembering here is that `__webpack_require__` is practically the same as `import` statement in our source code.
+
+So if I have a source that looks like this:
+
+```tsx title="src/index.tsx"
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+Then I'll have my _runtime_ script that looks something like this:
+
+```js title="dist/main.js"
+/*!***********************!*\
+  !*** ./src/index.tsx ***!
+  \***********************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/.pnpm/react@18.2.0/node_modules/react/index.js");
+var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/.pnpm/react-dom@18.2.0_react@18.2.0/node_modules/react-dom/client.js");
+var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
+
+const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(document.getElementById("root"));
+root.render( /*#__PURE__*/(0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxDEV)((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), {
+  children: /*#__PURE__*/(0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxDEV)(_App__WEBPACK_IMPORTED_MODULE_2__["default"], {}, void 0, false, {
+    fileName: _jsxFileName,
+    lineNumber: 8,
+    columnNumber: 5
+  }, undefined)
+}, void 0, false, {
+  fileName: _jsxFileName,
+  lineNumber: 7,
+  columnNumber: 3
+}, undefined));
+
+/***/ })
+```
+
+Can you see the similarity here? 
+
+If you could overcome the long and verbose variable names and focus only on the `__webpack_require__` statements, what you'll essentially find is that it is doing the same job as our original `import` statements.
+
+And this is the version of our code after the compilation process that actually _runs_ in the browser; the runtime code.
+
+Since the runtime code is ultimately what gets executed in the browser, we can utilize the browser's debugger to examine the code more deeply.
+
+<Image
+  src="/utilizing-devtools.gif"
+  alt="utilizing debug function in the browser dev tools"
+  width={1000}
+  height={600}
+  caption="Utilizing the browser debugger"
+/>
+
+Now, I was always curious how `react refresh` worked; react refresh is a mechanism that updates your React components when you save your file while _preserving their states_.
+
+If you think about the part where the states are being preserved while the component itself is getting updated, it doesn't sound possible at first. Because if you edit your React component and save the file, triggering the browser reload&mdash;that is, if you're using some smart dev server (like webpack-dev-server) that detects when a file is saved and auto-refreshes the particular browser tab that's currently running your application&mdash;the states will be reset because browser-reload means your application will be re-executed from the start and will return to its default state, forgetting everything.
+
+So it's reasonable to assume that react refresh is _somehow bypassing_ the full browser-reload. And it turns out react refresh is, in fact, bypassing the full browser-reload by utilizing this webpack feature called [hot module replacement](https://webpack.js.org/concepts/hot-module-replacement/) (or HMR for short).
+
+This hot module replacement notifies the _webpack runtime_ that there is an update of code and it should run this new code instead of the old one. So it was webpack (not the browser) that was updating React components while preserving the states all along!
+
+But what I still didn't get was the fact that to be able to use webpack's HMR feature, the user code itself must contain the logic that's calling some webpack's HMR APIs.
+
+According to [hmr guide](https://webpack.js.org/guides/hot-module-replacement), you have to do something like this:
+```js
+// this is the start of user code
+import _ from 'lodash';
+import printMe from './print.js';
+
+function component() {
+  const element = document.createElement('div');
+  const btn = document.createElement('button');
+
+  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+
+  btn.innerHTML = 'Click me and check the console!';
+  btn.onclick = printMe;
+
+  element.appendChild(btn);
+
+  return element;
+}
+// this is the end of user code
+
+// this is hmr api code --> but we don't write this ourselves, do we?
+if (module.hot) {
+  module.hot.accept('./print.js', function() {
+    console.log('Accepting the updated printMe module!');
+  })
+}
+// this is hmr api code
+```
+
+So again I guess it's reasonable to assume React is inserting these HMR API code on behalf of us. And it really seems that way, in the forms of [babel plugin](https://github.com/facebook/react/blob/main/packages/react-refresh/babel.js) and [webpack plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin).
+
+But merely installing plugins and hooking them up in the configuration do not give us any visual proof that they actually insert anything to our code.
+
+Once again we can inspect the trustworthy runtime code manually to find some evidence.
+
+<Image
+  src="/react-refresh-babel-hmr-insert.png"
+  alt="Exhibit A: code insertion by 'react-refresh/babel'?"
+  width={1000}
+  height={500}
+  caption="Exhibit A: code insertion by 'react-refresh/babel'?"
+/>
+
+I definitely didn't write the code that are circled above. It's hard to make a sense of it just by looking at this part of the script, but judging by the variable names such as _$ReactRefreshModuleId$_, this code should have something to do with react refresh, don't you think?
+
+Here's another one.
+
+<Image
+  src="/react-refresh-webpack-hmr-insert.png"
+  alt="Exhibit B: code insertion by 'react-refresh-webpack-plugin'?"
+  width={1000}
+  height={500}
+  caption="Exhibit B: code insertion by 'react-refresh-webpack-plugin'?"
+/>
+
+So it looks like those react refresh plugins not only insert code in my script but also in webpack's runtime script!
+
+Now I feel like the mystery and magic of _react refresh_ is resolved at least to some extent.
+
+And that's actually the whole point of this article; we can have a sneak peek at what's really going on under the hood by examining our runtime code, which gives us a chance to better understand the libraries and frameworks that power our web applications.

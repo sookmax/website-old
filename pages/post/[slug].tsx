@@ -70,7 +70,10 @@ export const getStaticProps: GetStaticProps<Props, Query> = async ({
   const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [remarkGfm, remarkMdxCodeMeta],
-      rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+      rehypePlugins: [
+        rehypeSlug, // https://github.com/rehypejs/rehype-autolink-headings#optionsbehavior
+        [rehypeAutolinkHeadings, { behavior: "wrap" }],
+      ],
     },
   });
 

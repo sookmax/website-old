@@ -244,7 +244,7 @@ const codeThemeDark: PrismTheme = {
 export default function Pre(theme: GlobalState["theme"]) {
   if (!theme) {
     return function Pre(props: any) {
-      return <pre {...props} />;
+      return <pre>{props.children}</pre>;
     };
   }
 
