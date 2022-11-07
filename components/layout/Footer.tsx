@@ -13,9 +13,10 @@ export default function Footer() {
   return (
     <footer
       className={classNames(
-        "h-[var(--footer-height-m)]",
-        "flex flex-shrink-0 flex-col justify-end text-xs",
-        "sm:h-[var(--footer-height)] sm:space-y-0 sm:text-sm"
+        "h-[var(--footer-height)] p-4",
+        "border-t border-gray-200 dark:border-gray-600",
+        "flex flex-shrink-0 flex-col justify-center text-xs",
+        "sm:space-y-0 sm:text-sm"
       )}
     >
       <span className="flex items-center justify-between">

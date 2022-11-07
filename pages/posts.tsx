@@ -13,7 +13,10 @@ export default function Posts({ postMetaArray }: Props) {
   const [hoveredPost, setHoveredPost] = useState<string | undefined>();
 
   return (
-    <ul className="space-y-5" onMouseLeave={() => setHoveredPost(undefined)}>
+    <ul
+      className="space-y-5 px-4 py-10"
+      onMouseLeave={() => setHoveredPost(undefined)}
+    >
       {postMetaArray.map((mData) => (
         <li key={mData.slug} onMouseOver={() => setHoveredPost(mData.slug)}>
           <Link

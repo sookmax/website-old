@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { GlobalContext } from "@/utils/globalState";
 import { isLinkedInApp } from "@/utils/edge-cases";
 import { classNames } from "@/utils/class-names";
 import ExpandLessIcon from "../icons/ExpandLessIcon";
 
 type Props = {
-  mainEl: React.RefObject<HTMLElement>;
+  overflowContainerEl: React.RefObject<HTMLElement>;
+  overflowEl: React.RefObject<HTMLElement>;
 };
 
-export default function ReadProgressBar({ mainEl }: Props) {
+export default function ReadProgressBar({
+  overflowContainerEl,
+  overflowEl,
+}: Props) {
   const {
     state: { userAgent },
   } = useContext(GlobalContext);
@@ -17,23 +21,30 @@ export default function ReadProgressBar({ mainEl }: Props) {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    if (!mainEl.current) return;
+    if (!overflowContainerEl.current || !overflowEl.current) return;
+
+    const overflowContainer = overflowContainerEl.current;
+    const overflowElement = overflowEl.current;
 
     let frameRequested = false;
-
-    const maxScrollTop = getMaxScrollTop(mainEl.current);
 
     const scrollListener = () => {
       if (!frameRequested) {
         frameRequested = true;
         requestAnimationFrame(() => {
-          const currScrollTop = getScrollTop();
+          const currentScrollTop = overflowContainer.scrollTop;
+          // <NextImage> components seem to keep changing the height of the overflowing element..
+          const maxScrollTop =
+            overflowElement.clientHeight - overflowContainer.clientHeight;
 
-          const progress = (currScrollTop / maxScrollTop) * 100;
+          const progress = Math.min(
+            100,
+            (currentScrollTop / maxScrollTop) * 100
+          );
 
           setProgress(progress);
 
-          if (currScrollTop > 50) {
+          if (currentScrollTop > 50) {
             setShowButton(true);
           } else {
             setShowButton(false);
@@ -50,10 +61,20 @@ export default function ReadProgressBar({ mainEl }: Props) {
       }
     };
 
-    window.addEventListener("scroll", scrollListener);
+    overflowContainer.addEventListener("scroll", scrollListener);
 
-    return () => window.removeEventListener("scroll", scrollListener);
-  }, [mainEl]);
+    return () =>
+      overflowContainer.removeEventListener("scroll", scrollListener);
+  }, [overflowContainerEl, overflowEl]);
+
+  const handleBackToTop = useCallback(() => {
+    if (overflowEl.current) {
+      overflowEl.current.scrollIntoView({
+        block: "start",
+        behavior: "smooth",
+      });
+    }
+  }, [overflowEl]);
 
   const remainingProgress = Math.max(0, 100 - progress);
 
@@ -93,32 +114,4 @@ export default function ReadProgressBar({ mainEl }: Props) {
       )}
     </>
   );
-}
-
-function handleBackToTop() {
-  document.documentElement.scrollIntoView({
-    block: "start",
-    behavior: "smooth",
-  });
-}
-
-function getScrollTop() {
-  return document.body.scrollTop || document.documentElement.scrollTop;
-}
-
-function getMaxScrollTop(el: HTMLElement) {
-  const htmlEl = document.documentElement;
-
-  const { top, height } = el.getBoundingClientRect();
-  const alreadyExposed = htmlEl.clientHeight - top;
-
-  let maxScrollTop: number | undefined;
-
-  if (alreadyExposed > 0) {
-    maxScrollTop = height - (htmlEl.clientHeight - top);
-  } else {
-    maxScrollTop = top + height - htmlEl.clientHeight;
-  }
-
-  return maxScrollTop;
 }

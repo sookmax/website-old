@@ -21,7 +21,8 @@ export default function Layout({ children }: Props) {
   const layoutTitle = getLayoutTitle(router.pathname);
   const articlePath = isArticlePath(router.pathname);
 
-  const mainEl = useRef<HTMLElement>(null);
+  const overflowContainerElRef = useRef<HTMLDivElement>(null);
+  const overflowElRef = useRef<HTMLElement>(null);
 
   const fullUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}${router.asPath}`;
 
@@ -54,17 +55,27 @@ export default function Layout({ children }: Props) {
         <meta name="twitter:url" content={fullUrl} />
         <meta name="twitter:image" content={defaultOGImageUrl} />
       </Head>
-      <div className=" flex min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
+      <div className="flex max-h-full min-h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
         {/* {userAgent ? <div>{userAgent}</div> : null} */}
-        {articlePath && <ReadProgressBar mainEl={mainEl} />}
-        <div className="mb-6 flex w-full max-w-2xl flex-grow flex-col px-5">
+        {articlePath && (
+          <ReadProgressBar
+            overflowContainerEl={overflowContainerElRef}
+            overflowEl={overflowElRef}
+          />
+        )}
+        <div className="flex w-full max-w-2xl flex-grow flex-col overflow-hidden">
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
-          <main ref={mainEl} className="my-6 flex flex-grow flex-col">
-            {children}
-          </main>
-          <Footer />
+          <div
+            className="flex h-full flex-grow flex-col overflow-auto"
+            ref={overflowContainerElRef}
+          >
+            <main ref={overflowElRef} className="flex flex-grow flex-col">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </div>
       </div>
     </>

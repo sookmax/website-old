@@ -17,14 +17,15 @@ export default function Tabs({ currentTabId }: Props) {
               key={tab.id}
               href={href}
               className={classNames(
+                "relative",
                 "font-['Raleway']",
-                "border-b-4 p-1 text-gray-700 dark:text-gray-100",
+                "p-1",
                 tab.id === currentTabId
-                  ? "border-yellow-400"
-                  : "border-transparent  hover:border-gray-200 hover:dark:border-gray-500"
+                  ? "text-gray-800 dark:text-gray-200"
+                  : "text-gray-400 dark:text-gray-500"
               )}
             >
-              {tab.label}
+              <span>{tab.label}</span>
             </Link>
           );
         }

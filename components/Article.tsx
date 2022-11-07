@@ -32,14 +32,12 @@ const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
   } = useContext(GlobalContext);
 
   return (
-    <div ref={ref} className="space-y-12">
+    <div ref={ref} className="px-4 py-10">
       <header className="flex flex-col items-start justify-between space-y-2">
         <h1 className="w-full font-mono text-3xl font-semibold sm:text-4xl">
           {title}
         </h1>
-        <div className="w-full border-b-2 border-gray-100 pb-3 italic text-gray-400 dark:border-gray-700">
-          {description}
-        </div>
+        <div className="w-full italic text-gray-400">{description}</div>
         <div className="flex w-full flex-row justify-between text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
           <span className="flex items-center space-x-2">
             <Tooltip
@@ -64,10 +62,12 @@ const Article = React.forwardRef<HTMLDivElement, Props>(function Article(
           )}
         </div>
       </header>
-      <article className="prose relative dark:prose-invert">{children}</article>
+      <article className="prose relative mt-10 dark:prose-invert">
+        {children}
+      </article>
       <Link
         href={"/posts"}
-        className="inline-flex items-center space-x-1 text-gray-500 dark:text-gray-300"
+        className="mt-8 inline-flex items-center space-x-1 pt-4 text-gray-500 dark:text-gray-300"
       >
         <span className={classNames("h-5 w-5")}>
           <ArrowLeftCircleIcon />
