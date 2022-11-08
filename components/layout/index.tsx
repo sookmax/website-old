@@ -48,9 +48,11 @@ export default function Layout({ pageComponentName, children }: Props) {
 
         const listener = debounce((event: Event) => {
           if (event.target instanceof HTMLElement) {
-            scrollPositionStore[componentName] = event.target.scrollTop;
+            if (event.target.scrollTop > 0) {
+              scrollPositionStore[componentName] = event.target.scrollTop;
+            }
           }
-        }, 100);
+        }, 30);
 
         overflowContainer.addEventListener("scroll", listener);
 
