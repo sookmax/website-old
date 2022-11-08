@@ -1,7 +1,7 @@
 // [ref] https://github.com/facebook/docusaurus/packages/docusaurus-theme-common/src/hooks/useCodeWordWrap.ts
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import ExpandIcon from "../../../icons/ExpandIcon";
 import CompressIcon from "../../../icons/CompressIcon";
 

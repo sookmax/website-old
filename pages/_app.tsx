@@ -25,8 +25,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <MDXProvider components={components}>
       <GlobalContext.Provider value={contextValue}>
-        <Layout>
-          <Component {...pageProps} />
+        <Layout pageComponentName={Component.name}>
+          {(layoutProps) => <Component {...pageProps} {...layoutProps} />}
         </Layout>
       </GlobalContext.Provider>
     </MDXProvider>

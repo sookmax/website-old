@@ -1,16 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import { classNames } from "@/utils/class-names";
 import { getDateString } from "@/utils/date";
 import { getAllPostMeta } from "@/server-scripts/post";
+import { LayoutProps } from "@/components/layout";
 
 type Props = {
   postMetaArray: ReturnType<typeof getAllPostMeta>;
 };
 
-export default function Posts({ postMetaArray }: Props) {
+export default function Posts({
+  postMetaArray,
+  saveScrollPosition,
+}: Props & LayoutProps) {
   const [hoveredPost, setHoveredPost] = useState<string | undefined>();
+
+  useEffect(() => {
+    const unsubscribe = saveScrollPosition(Posts.name);
+    return () => unsubscribe?.();
+  }, [saveScrollPosition]);
 
   return (
     <ul

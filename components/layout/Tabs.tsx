@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { classNames } from "@/utils/class-names";
-import { tabs } from "./constants";
+import { TABS } from "./constants";
 
 type Props = {
   currentTabId: number | undefined;
@@ -10,7 +10,7 @@ type Props = {
 export default function Tabs({ currentTabId }: Props) {
   return (
     <nav className="flex space-x-4">
-      {Object.entries(tabs).map(([href, tab]) => {
+      {Object.entries(TABS).map(([href, tab]) => {
         if (tab) {
           return (
             <Link
