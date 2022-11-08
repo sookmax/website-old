@@ -10,4 +10,5 @@ interface Tabs {
 export const TABS: Tabs = {
   "/": { id: 0, label: "About" },
   "/posts": { id: 1, label: "Writing" },
+  "/survey": { id: 2, label: "Survey" },
 };

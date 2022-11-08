@@ -17,6 +17,7 @@ const scrollPositionStore: ScrollPositionStore = {};
 
 export type LayoutProps = {
   saveScrollPosition: (componentName: string) => (() => void) | undefined;
+  setScrollSmooth: () => (() => void) | undefined;
 };
 
 type Props = {
@@ -41,7 +42,7 @@ export default function Layout({ pageComponentName, children }: Props) {
 
   const layoutProps: LayoutProps = useMemo(
     () => ({
-      saveScrollPosition: (componentName) => {
+      saveScrollPosition(componentName) {
         if (!overflowContainerElRef.current) return;
         const overflowContainer = overflowContainerElRef.current;
 
@@ -54,6 +55,15 @@ export default function Layout({ pageComponentName, children }: Props) {
         overflowContainer.addEventListener("scroll", listener);
 
         return () => overflowContainer.removeEventListener("scroll", listener);
+      },
+      setScrollSmooth() {
+        if (!overflowContainerElRef.current) return;
+        const overflowContainer = overflowContainerElRef.current;
+        overflowContainer.style.scrollBehavior = "smooth";
+
+        return () => {
+          overflowContainer.style.scrollBehavior = "initial";
+        };
       },
     }),
     []

@@ -17,7 +17,7 @@ export default function Document() {
           rel="stylesheet"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=block&text=AboutWriting-AwebdeveloperSukkyu%20Chung%20%C2%A9%202022"
+          href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=block&text=AboutWritingSurvey-AwebdeveloperSukkyu%20Chung%20%C2%A9%202022"
           rel="stylesheet"
         ></link>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
