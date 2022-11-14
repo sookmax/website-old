@@ -4,7 +4,7 @@ import Script from "next/script";
 
 export default function Document() {
   return (
-    <Html className="w-full" lang="en-US">
+    <Html lang="en-US">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -70,7 +70,7 @@ export default function Document() {
           `}
         </Script>
       </Head>
-      <body className="flex flex-col">
+      <body>
         <Main />
         <NextScript />
       </body>

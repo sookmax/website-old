@@ -5,14 +5,11 @@ import { classNames } from "@/utils/class-names";
 import ExpandLessIcon from "../icons/ExpandLessIcon";
 
 type Props = {
-  overflowContainerEl: React.RefObject<HTMLElement>;
-  overflowEl: React.RefObject<HTMLElement>;
+  className?: string;
+  overflowElRef: React.RefObject<HTMLElement>;
 };
 
-export default function ReadProgressBar({
-  overflowContainerEl,
-  overflowEl,
-}: Props) {
+export default function ReadProgressBar({ className, overflowElRef }: Props) {
   const {
     state: { userAgent },
   } = useContext(GlobalContext);
@@ -21,10 +18,9 @@ export default function ReadProgressBar({
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    if (!overflowContainerEl.current || !overflowEl.current) return;
+    if (!overflowElRef.current) return;
 
-    const overflowContainer = overflowContainerEl.current;
-    const overflowElement = overflowEl.current;
+    const overflowElement = overflowElRef.current;
 
     let frameRequested = false;
 
@@ -32,10 +28,11 @@ export default function ReadProgressBar({
       if (!frameRequested) {
         frameRequested = true;
         requestAnimationFrame(() => {
-          const currentScrollTop = overflowContainer.scrollTop;
+          const currentScrollTop = document.documentElement.scrollTop;
           // <NextImage> components seem to keep changing the height of the overflowing element..
           const maxScrollTop =
-            overflowElement.clientHeight - overflowContainer.clientHeight;
+            overflowElement.clientHeight -
+            document.documentElement.clientHeight;
 
           const progress = Math.min(
             100,
@@ -61,20 +58,14 @@ export default function ReadProgressBar({
       }
     };
 
-    overflowContainer.addEventListener("scroll", scrollListener);
+    document.addEventListener("scroll", scrollListener);
 
-    return () =>
-      overflowContainer.removeEventListener("scroll", scrollListener);
-  }, [overflowContainerEl, overflowEl]);
+    return () => document.removeEventListener("scroll", scrollListener);
+  }, [overflowElRef]);
 
   const handleBackToTop = useCallback(() => {
-    if (overflowEl.current) {
-      overflowEl.current.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
-    }
-  }, [overflowEl]);
+    document.documentElement.scrollTop = 0;
+  }, []);
 
   const remainingProgress = Math.max(0, 100 - progress);
 
@@ -84,9 +75,10 @@ export default function ReadProgressBar({
         <div
           id="read-progress-bar"
           className={classNames(
-            "sticky left-0 top-0 z-10 flex h-1 w-full justify-end bg-gradient-to-r",
+            "flex h-1 w-full justify-end bg-gradient-to-r",
             "from-yellow-400 via-emerald-400 to-teal-400",
-            "dark:from-yellow-500 dark:via-emerald-400 dark:to-teal-500"
+            "dark:from-yellow-500 dark:via-emerald-400 dark:to-teal-500",
+            className
           )}
         >
           <div

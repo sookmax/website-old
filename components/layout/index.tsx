@@ -8,6 +8,7 @@ import Header from "./Header";
 import ReadProgressBar from "./ReadProgressBar";
 import { TABS } from "./constants";
 import { useMemo } from "react";
+import { classNames } from "@/utils/class-names";
 
 type ScrollPositionStore = {
   [index: string]: number;
@@ -35,7 +36,6 @@ export default function Layout({ pageComponentName, children }: Props) {
   const layoutTitle = getLayoutTitle(router.pathname);
   const articlePath = isArticlePath(router.pathname);
 
-  const overflowContainerElRef = useRef<HTMLDivElement>(null);
   const overflowElRef = useRef<HTMLElement>(null);
 
   const fullUrl = `${process.env.NEXT_PUBLIC_DOMAIN_NAME}${router.asPath}`;
@@ -43,28 +43,20 @@ export default function Layout({ pageComponentName, children }: Props) {
   const layoutProps: LayoutProps = useMemo(
     () => ({
       saveScrollPosition(componentName) {
-        if (!overflowContainerElRef.current) return;
-        const overflowContainer = overflowContainerElRef.current;
+        const listener = debounce((_event: Event) => {
+          scrollPositionStore[componentName] =
+            document.documentElement.scrollTop;
+        }, 0);
 
-        const listener = debounce((event: Event) => {
-          if (event.target instanceof HTMLElement) {
-            if (event.target.scrollTop > 0) {
-              scrollPositionStore[componentName] = event.target.scrollTop;
-            }
-          }
-        }, 30);
+        document.addEventListener("scroll", listener);
 
-        overflowContainer.addEventListener("scroll", listener);
-
-        return () => overflowContainer.removeEventListener("scroll", listener);
+        return () => document.removeEventListener("scroll", listener);
       },
       setScrollSmooth() {
-        if (!overflowContainerElRef.current) return;
-        const overflowContainer = overflowContainerElRef.current;
-        overflowContainer.style.scrollBehavior = "smooth";
+        document.documentElement.style.scrollBehavior = "smooth";
 
         return () => {
-          overflowContainer.style.scrollBehavior = "initial";
+          document.documentElement.style.scrollBehavior = "initial";
         };
       },
     }),
@@ -72,14 +64,11 @@ export default function Layout({ pageComponentName, children }: Props) {
   );
 
   useEffect(() => {
-    if (!overflowContainerElRef.current) return;
-
-    const overflowContainer = overflowContainerElRef.current;
-
     if (scrollPositionStore[pageComponentName] !== undefined) {
-      overflowContainer.scrollTop = scrollPositionStore[pageComponentName];
+      document.documentElement.scrollTop =
+        scrollPositionStore[pageComponentName];
     } else {
-      overflowContainer.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     }
   }, [pageComponentName]);
 
@@ -112,27 +101,27 @@ export default function Layout({ pageComponentName, children }: Props) {
         <meta name="twitter:url" content={fullUrl} />
         <meta name="twitter:image" content={defaultOGImageUrl} />
       </Head>
-      <div className="flex h-full w-full flex-col items-center dark:bg-slate-800 dark:text-gray-100">
-        {/* {userAgent ? <div>{userAgent}</div> : null} */}
-        {articlePath && (
-          <ReadProgressBar
-            overflowContainerEl={overflowContainerElRef}
-            overflowEl={overflowElRef}
-          />
+      {articlePath && (
+        <ReadProgressBar
+          className="fixed top-0 left-0 z-50"
+          overflowElRef={overflowElRef}
+        />
+      )}
+      <div
+        className={classNames(
+          "flex justify-center",
+          "min-h-full",
+          "bg-white dark:bg-slate-800 dark:text-gray-100"
         )}
-        <div className="flex w-full max-w-2xl flex-grow flex-col overflow-hidden">
+      >
+        <div className={classNames("flex flex-col", "w-full max-w-2xl")}>
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
-          <div
-            className="flex h-full flex-grow flex-col overflow-auto"
-            ref={overflowContainerElRef}
-          >
-            <main ref={overflowElRef} className="flex flex-grow flex-col">
-              {children(layoutProps)}
-            </main>
-            <Footer />
-          </div>
+          <main ref={overflowElRef} className="flex flex-grow flex-col">
+            {children(layoutProps)}
+          </main>
+          <Footer />
         </div>
       </div>
     </>
