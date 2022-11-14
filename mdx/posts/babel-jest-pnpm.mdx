@@ -1,0 +1,137 @@
+---
+title: Jest. Babel. PNPM.
+description: Wrapping my head around node_modules.
+date: 2022-11-13
+---
+
+Setting up a testing environment and writing tests are something I've always wanted to learn and do well, but they were something I always put aside in favor of other things.
+
+Every time I was reminded about testing, I would quickly search the internet for how to go about it and be discouraged by the amount of information and knowledge required for it. And `Jest` was one of those things that always intimidated me whenever I tried to read their documentation&mdash;manual integration looked basically impossible with my limited knowledge of JavaScript tooling.
+
+But now that I'm playing with `Webpack` to set up a minimal development environment, I thought It'd be cool to add `Jest` into the mix.
+
+It may sound stupid, but It actually took me some time to understand that running `Jest` had nothing to do with running `Webpack`&mdash;at first, I thought I needed to somehow integrate `Jest` in the middle of `Webpack`'s process since `Webpack` was the one handling the module resolution and code transformations. It turned out `Jest` and `Webpack` were just completely separate processes.
+
+`Jest` being a completely independent process means that it _also_ needs to handle my _import/export_ statements, JSX from my React components, and TypeScript's type annotations in the test scripts. `Jest` supports all these transformations through `Babel`.
+
+The good news was I was already using `Babel` with my `Webpack` setup in the form of `babel-loader`, so the configuration for all the code transformations were already there. But the bad news was I needed to extract that babel configuration out of my `babel-loader` to a proper location, now that the babel configuration was being shared between `Webpack` and `Jest`. After trying many ways to achieve this shareable config file, I settled with [a local babel preset](https://github.com/sookmax/react-typescript-boilerplate/blob/ceb1bb20dd17af665c8ac71a7d3b3a4f22593089/babel.preset.js), while making a heavy reference to [create-react-app's](https://github.com/facebook/create-react-app/blob/main/packages/babel-preset-react-app/create.js).
+
+So now the proper babel configuration is ready to be consumed by `Jest`.
+
+But I got curious about _how_ `Jest` read my test scripts and _when_ it actually used `Babel` to transform the content of my test files. So I did some digging around using the node.js debugger to better understand how `Jest` processed my test files. It was actually way more complicated of a process than I thought, but along the way I realized `Jest` was already using `Babel` internally to process JavaScript files (through something called `babel-jest`). 
+
+So technically `Jest` would still read my babel configuration with its internal `@babel/core` even if I didn't explicitly install `@babel/core` in my project&mdash;but if you use presets or plugins in your babel configuration then they need to be installed explicitly.
+
+Now my next question was, "if I installed `@babel/core` in my project explicitly, would `Jest` use my `@babel/core` instead of its?"
+
+I was almost certain that this was the case because it made sense. I just needed a quick verification.
+
+But strangely, `Jest` kept using its internal `@babel/core` instead of my `@babel/core`. For example, if I have `@babel/core@7.19.6` installed, but `Jest` is using `@babel/core@7.20.2` internally, it would still load `7.20.2` version every time.
+
+I was so confused. What supposed to be a quick verification, left me hanging for a great while.
+
+It wasn't until I paid attention to the structure of my `node_modules` folder that I started to ask the right questions. At the moment, I was using `pnpm` to install my node modules&mdash;I recently started using `pnpm` instead of `npm` as a package manager&mdash;and I noticed the structure of `node_modules` created by `pnpm` was very different in that my dependencies' dependencies were nested inside `node_modules/.pnpm/`.
+
+So when `Jest` is calling `require(@babel/core)` in runtime, we are in a module called `babel-jest` whose surrounding directory structure is something like this:
+
+* node_modules/
+  * @babel/core/ (**my @babel/core**)
+  * .pnpm/babel-jest@29.2.2_@babel+core@7.20.2/
+    * node_modules/
+      * @babel/core/ (**Jest's internal @babel/core**)
+      * babel-jest/
+        * build/
+          * index.js (**we are here**)
+
+And since **Jest's internal @babel/core** is closer to the currently executing script, `require()` will grab it instead of **my @babel/core** every time.
+
+This is because, according to [`node.js` documentation](https://nodejs.org/api/modules.html#loading-from-node_modules-folders),
+
+* "If the module identifier passed to `require()` is not a core module, and does not begin with '/', '../', or './', then Node.js starts at the directory of the current module, and adds /node_modules, and attempts to load the module from that location."
+
+* "If it is not found there, then it moves to the parent directory, and so on, until the root of the file system is reached."
+
+Now, compare this to the structure of `node_modules` when installed with `npm`:
+
+* node_modules/
+  * @babel/core/ (**my @babel/core**)
+  * babel-jest/
+    * build/
+      * index.js (**we are here**)
+
+So in this case, `require()` will grab **my @babel/core**.
+
+But I don't want to give up on `pnpm` for this rather minor issue&mdash;a library shouldn't break anything even if I _unknowningly_ use `7.20.2` instead of _intended_ `7.19.6` as long as the author respects [semantic version](https://semver.org/) well.
+
+Still, it just doesn't feel right. What if I'm in a situation where I _have to_ use a specific version of a library for some reasons?
+
+Fortunately I found a rather simple solution, thanks to `jest.config.js`.
+
+`Jest` allows its users to define their own code _transformer_ in `jestConfig.transform` property, default of which is `{"\\.[jt]sx?$": "babel-jest"}`; _"babel-jest"_ being a path to the transformer.
+
+Now `jest.config.js` can be located at the root of the project (the same level as the project's `node_modules`). So if I `require()` anything in `jest.config.js` then it will resolve to the modules in the top-level `node_modules`, and that's exactly what I want in order to use my own `@babel/core`.
+
+So by adding `jest.config.ts` like this at the project root:
+
+```ts title="jest.config.ts"
+import type { Config } from "jest";
+
+const config: Config = {
+  // `jest-environment-jsdom` package is required.
+  testEnvironment: "jsdom",
+  // https://github.com/jsdom/jsdom/issues/1724
+  setupFiles: ["<rootDir>/jest.setup.js"],
+  transform: {
+    // this looks redundant since it's the same as default, but
+    // it's important to include here when using `pnpm` as your package manager.
+    //
+    // Say, if you already have been using `babel` in your project, and you want to
+    // make sure that version of babel is used when `babel-jest` runs.
+    // The structure of `node_modules` when using `pnpm` is not 'flat' but rather 'nested' so
+    // even if you have your 'own' babel as a dependency in your `package.json`, `jest` is not
+    // able to load that version of `babel` because when `jest` calls `require.resolve("babel-jest")`
+    // internally, it's resolved to the `babel-jest` in the nearest `node_modules` which is not the
+    // top level `node_modules`.
+    // So, by resolving `babel-jest` here, where the first `node_modules` `require` will find is
+    // the top `node_modules`, we can correctly tell `jest` to use our own `babel-jest` and `babel`
+    // instead of internal `babel-jest` and `babel` when processing the files.
+    //
+    // This problem does not occur when using `npm` because its `node_modules` is flat.
+    "\\.[jt]sx?$": require.resolve("babel-jest"),
+  },
+};
+
+export default config;
+```
+
+`Jest` will now use my `7.19.6` babel instead of its internal `7.20.2`.
+
+And more importantly, I get to keep using `pnpm`.
+
+---
+
+While I was writing this article I realized the above `node_modules` structure produced by `npm` is only possible if the version of `@babel/core` that's explicitly specified in my `package.json` matches the [semantic version](https://semver.org/) of `Jest`'s internal `@babel/core` (e.g., `^7.19.6` vs `^7.20.2` will produce the above structure, whereas `^6.0.0-bridge.1` vs `^7.20.2` wouldn't produce above flat structure).
+
+Well.. this has just gotten even weirder.. 
+
+While doing an experiment where I lowered my `@babel/core` version from `7.19.6` to `6.0.0-bridge.1` to produce a different structure of `node_modules` (using `npm`), I did the following steps:
+
+1. verified the different directory tree was now produced
+2. bumped up the version back to `7.19.6` in `package.json`
+3. deleted `node_modules` and re-installed everything with `npm i`
+
+At this point I expected `node_modules` folder would become flat again.
+
+But it _didn't_. 
+
+It maintained the old structure when I was using `6.0.0-bridge.1` version of babel, and therefore `Jest` was still picking up its internal `7.20.2` babel even though I had explicitly specified to use `7.19.6` in my `package.json`.
+
+It turned out I had to remove `package-lock.json` as well after manually updating the version from `6.0.0-bridge.1` back to `7.19.6` (3rd step above) to regenerate the flatten structure. (I'm not sure if this is intended or a bug.)
+
+By the same token, I became suspicious about `pnpm-lock.yaml` so I deleted it, and reinstalled everything using `pnpm i` while having the fixed version of babel in my package.json (`7.19.6`).
+
+And now `Jest` started to pick up my `7.19.6` babel instead of its internal `7.20.2`.
+
+To me, all these different behaviors are very counter-intuitive and hard to wrap my head around. I guess I should make a habit of suspecting those _lock_ files when installing packages produces unexpected results.
+
+(And this post became a mess.)
