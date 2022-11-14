@@ -114,7 +114,7 @@ export default function Layout({ pageComponentName, children }: Props) {
           "bg-white dark:bg-slate-800 dark:text-gray-100"
         )}
       >
-        <div className={classNames("flex flex-col", "w-full max-w-2xl")}>
+        <div className={classNames("flex flex-col", "w-full max-w-3xl")}>
           <Header>
             <Tabs currentTabId={currentTabId} />
           </Header>
