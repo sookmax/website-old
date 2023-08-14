@@ -1,5 +1,4 @@
-This project is a `Next.js` app hosted here: [sook.dev](https://sook.dev)
-
+This project is a `Next.js` app hosted here: https://website-sook-old.vercel.app/
 ## Getting Started
 
 ```bash
